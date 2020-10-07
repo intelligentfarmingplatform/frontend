@@ -48,7 +48,6 @@ export default {
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
     "@nuxtjs/axios",
-    "@nuxtjs/auth", 
     'bootstrap-vue/nuxt'
   ],
   /*
@@ -56,29 +55,6 @@ export default {
    */
   axios: {
     // See https://github.com/nuxt-community/axios-module#options
-    baseURL: 'https://agri-cmtc.herokuapp.com/api'
-  },
-  auth: {
-    redirect: {
-      login: "/auth/login"
-    },
-    strategies: {
-      local: {
-        endpoints: {
-          login: {
-            url: "login",
-            method: "post",
-            propertyName: "data.token"
-          },
-          logout: false,
-          user: {
-            url: "me",
-            method: "get",
-            propertyName: "data"
-          }
-        }
-      }
-    }
   },
 
   /*

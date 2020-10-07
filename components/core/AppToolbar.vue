@@ -91,7 +91,7 @@
         <nuxt-link
           v-ripple
           class="toolbar-items"
-          to="/admin"
+          to="/"
           title="Logout"
           @click.native="logout"
         >
@@ -150,8 +150,9 @@
         }
       },
       async logout() {
-        await this.$auth.logout();
-    }
+        await this.setUsername(null);
+        this.$router.push({ path: '/' });
+      }
     },
     mounted () {
       this.onResponsiveInverted()

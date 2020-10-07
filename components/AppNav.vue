@@ -15,7 +15,9 @@
 
       <!-- Right aligned nav items -->
       <b-navbar-nav class="ml-auto">
-        <b-nav-item to="/main/cart">Cart</b-nav-item>
+        <b-nav-item to="/main/cart">
+        Cart <b-badge variant="light" v-if="cartCount > 0">{{ cartCount }}</b-badge>
+        </b-nav-item>
         <b-nav-item to="/Auth/login">Login</b-nav-item>
         <b-nav-item-dropdown right>
           <!-- Using 'button-content' slot -->
