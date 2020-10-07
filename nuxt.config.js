@@ -1,80 +1,95 @@
-import VuetifyLoaderPlugin from 'vuetify-loader/lib/plugin'
-import pkg from './package'
+import VuetifyLoaderPlugin from "vuetify-loader/lib/plugin";
+import pkg from "./package";
 
 export default {
-  mode: 'universal',
+  mode: "universal",
 
   /*
-  ** Headers of the page
-  */
+   ** Headers of the page
+   */
   head: {
     title: "Intelligent Farming Platform",
     meta: [
-      { charset: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: pkg.description }
+      { charset: "utf-8" },
+      { name: "viewport", content: "width=device-width, initial-scale=1" },
+      { hid: "description", name: "description", content: pkg.description }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
       {
-        rel: 'stylesheet',
+        rel: "stylesheet",
         href:
-          'https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons'
+          "https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons"
       },
       {
-        rel: 'stylesheet',
-        href:
-          'https://fonts.googleapis.com/css2?family=Prompt'
+        rel: "stylesheet",
+        href: "https://fonts.googleapis.com/css2?family=Prompt"
       }
     ]
   },
 
   /*
-  ** Customize the progress-bar color
-  */
-  loading: { color: '#fff' },
+   ** Customize the progress-bar color
+   */
+  loading: { color: "#fff" },
 
   /*
-  ** Global CSS
-  */
-  css: [
-    '~/assets/style/index.scss'
-  ],
+   ** Global CSS
+   */
+  css: ["~/assets/style/index.scss"],
 
   /*
-  ** Plugins to load before mounting the App
-  */
-  plugins: [
-    '~/plugins/vuetify',
-    { src: '~/plugins/chartist', mode: 'client' }
-  ],
+   ** Plugins to load before mounting the App
+   */
+  plugins: ["~/plugins/vuetify", { src: "~/plugins/chartist", mode: "client" }],
   /*
-  ** Nuxt.js modules
-  */
+   ** Nuxt.js modules
+   */
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
-    '@nuxtjs/axios',
+    "@nuxtjs/axios",
+    "@nuxtjs/auth"
   ],
   /*
-  ** Axios module configuration
-  */
+   ** Axios module configuration
+   */
   axios: {
     // See https://github.com/nuxt-community/axios-module#options
+    baseURL: 'https://agri-cmtc.herokuapp.com/api'
+  },
+  auth: {
+    redirect: {
+      login: "/auth/login"
+    },
+    strategies: {
+      local: {
+        endpoints: {
+          login: {
+            url: "login",
+            method: "post",
+            propertyName: "data.token"
+          },
+          logout: false,
+          user: {
+            url: "me",
+            method: "get",
+            propertyName: "data"
+          }
+        }
+      }
+    }
   },
 
   /*
-  ** Build configuration
-  */
+   ** Build configuration
+   */
   build: {
-    transpile: ['vuetify/lib'],
+    transpile: ["vuetify/lib"],
     plugins: [new VuetifyLoaderPlugin()],
-    loaders: {
-
-    },
+    loaders: {},
     /*
-    ** You can extend webpack config here
-    */
-    extend(config, ctx) {
-    }
+     ** You can extend webpack config here
+     */
+    extend(config, ctx) {}
   }
-}
+};

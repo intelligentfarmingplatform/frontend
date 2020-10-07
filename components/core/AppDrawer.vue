@@ -19,7 +19,7 @@
         column
       >
         <v-list>
-          <v-list-tile avatar to="/dashboard">
+          <v-list-tile avatar to="/admin/dashboard">
             <v-list-tile-title class="title">
                           <v-img class="logo-img"
                 :src="logo"
@@ -72,37 +72,37 @@
         logo: '/engine.png',
         links: [
           {
-            to: '/dashboard',
+            to: '/admin/dashboard',
             icon: 'mdi-view-dashboard',
             text: 'Dashboard'
           },
           {
-            to: '/user-profile',
+            to: '/admin/user-profile',
             icon: 'mdi-account',
             text: 'User Profile'
           },
           {
-            to: '/table-list',
+            to: '/admin/table-list',
             icon: 'mdi-clipboard-outline',
             text: 'Table List'
           },
           {
-            to: '/typography',
+            to: '/admin/typography',
             icon: 'mdi-format-font',
             text: 'Typography'
           },
           {
-            to: '/icons',
+            to: '/admin/icons',
             icon: 'mdi-chart-bubble',
             text: 'Icons'
           },
           {
-            to: '/maps',
+            to: '/admin/maps',
             icon: 'mdi-map-marker',
             text: 'Maps'
           },
           {
-            to: '/notifications',
+            to: '/admin/notifications',
             icon: 'mdi-bell',
             text: 'Notifications'
           }

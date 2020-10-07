@@ -39,7 +39,7 @@
         <nuxt-link
           v-ripple
           class="toolbar-items"
-          to="/"
+          to="/admin/dashboard"
           title="Dashboard"
         >
           <v-icon color="tertiary">mdi-view-dashboard</v-icon>
@@ -54,7 +54,7 @@
             v-ripple
             slot="activator"
             class="toolbar-items"
-            to="/notifications"
+            to="/admin/notifications"
           >
             <v-badge
               color="error"
@@ -83,7 +83,7 @@
         <nuxt-link
           v-ripple
           class="toolbar-items"
-          to="/user-profile"
+          to="/admin/user-profile"
           title="User profile"
         >
           <v-icon color="tertiary">mdi-account</v-icon>
@@ -91,7 +91,7 @@
         <nuxt-link
           v-ripple
           class="toolbar-items"
-          to="/"
+          to="/admin"
           title="Logout"
           @click.native="logout"
         >
@@ -150,9 +150,8 @@
         }
       },
       async logout() {
-        await this.setUsername(null);
-        this.$router.push({ path: '/' });
-      }
+        await this.$auth.logout();
+    }
     },
     mounted () {
       this.onResponsiveInverted()
