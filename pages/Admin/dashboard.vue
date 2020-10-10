@@ -208,6 +208,7 @@
 
   export default {
     layout: 'dashboard',
+    name:'dashboard',
 middleware: 'auth',
     components: {
       materialCard,

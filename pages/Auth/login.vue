@@ -10,8 +10,8 @@
           >
             <v-card-text>
               <v-form>
-                <v-text-field type="email" v-model="email" prepend-icon="person" name="email" label="Login"></v-text-field>
-                <v-text-field type="password" v-model="password" prepend-icon="lock" name="password" label="Password"></v-text-field>
+                <v-text-field type="email" v-model="email" prepend-icon="mdi-account" name="email" label="Login"></v-text-field>
+                <v-text-field type="password" v-model="password" prepend-icon="mdi-lock" name="password" label="Password"></v-text-field>
               </v-form>
             </v-card-text>
             <v-card-actions>
@@ -27,10 +27,13 @@
 </template>
 
 <script>
-  import { mapActions } from 'vuex'
+ import { mapGetters } from 'vuex'
   import materialCard  from '~/components/material/AppCard'
 
   export default {
+      computed: {
+    ...mapGetters(['isAuthenticated', 'loggedInUser'])
+  },
     layout:'auth',
     components: {
       materialCard
@@ -49,7 +52,7 @@
         })
         console.log(response)
         if (response.data.success) {
-          this.$router.replace({ name: 'admin/dashboard' })
+          this.$router.push({ path: '/admin/dashboard' })
         }
       } catch (err) {
         console.log(err)

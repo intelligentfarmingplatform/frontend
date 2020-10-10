@@ -9,6 +9,14 @@ export const state = () => ({
 })
 
 export const getters = {
+  //check loggedin status
+  isAuthenticated(state) {
+    return state.auth.loggedIn
+  },
+
+  loggedInUser(state) {
+    return state.auth.user
+  },
   featuredProducts: (state) => state.storedata.slice(0, 3),
   cartCount: (state) => {
     if (!state.cart.length) return 0

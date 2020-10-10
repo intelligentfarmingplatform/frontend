@@ -44,6 +44,9 @@ export default {
     'bootstrap-vue/nuxt',
     '@nuxtjs/auth'
   ],
+  bootstrapVue: {
+    icons: false
+},
 
     buildModules: [
       // Simple usage
@@ -84,11 +87,33 @@ export default {
     }
   },
   build: {
-    transpile: ['vuetify/lib'],
-    plugins: [new VuetifyLoaderPlugin()],
-    loaders: {
-
-    },
+		extractCSS: true,
+		optimization: {
+			splitChunks: {
+				cacheGroups: {
+					styles: {
+						name: 'styles',
+						test: /\.(css|vue)$/,
+						chunks: 'all',
+						enforce: true,
+					},
+				},
+			},
+		},
+		extend(config, ctx) {
+			// Run ESLint on save
+			if (ctx.isDev && ctx.isClient) {
+				config.module.rules.push({
+					enforce: 'pre',
+					exclude: /(node_modules)/,
+				});
+			}
+			if (ctx.isClient) {
+				config.devtool = 'source-map';
+			}
+		},
+    transpile: [/^vuetify/],
+    babel: { compact: true }
   },
   performance: {
     hints: false,
