@@ -3,13 +3,13 @@ import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.min.css'
 import '@mdi/font/css/materialdesignicons.css'
 //import colors from "vuetify/es5/util/colors";
-import '~/assets/style/vars.scss'
+//import '~/assets/style/vars.scss'
 Vue.use(Vuetify)
 
 export default ctx => {
   const vuetify = new Vuetify({
     treeShake: true,
-    customVariables: ['~/assets/variables.scss'],
+    //customVariables: ['~/assets/variables.scss'],
     defaultAssets:false,
     theme: {
       dark: false,

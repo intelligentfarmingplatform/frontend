@@ -34,7 +34,7 @@ export default {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: ["~/plugins/vuetify", { src: "~/plugins/chartist", mode: "client" }],
+  plugins: ['~/plugins/vuetify'],
   /*
    ** Nuxt.js modules
    */
