@@ -9,31 +9,32 @@
     "build": "nuxt build",
     "start": "nuxt start",
     "heroku-postbuild": "npm run build",
-    "generate": "nuxt generate"
+    "generate": "nuxt generate",
+    "lint": "eslint --ext .js,.vue,.ts --ignore-path .gitignore ."
   },
   "dependencies": {
-    "@mdi/font": "^3.9.97",
+    "@mdi/font": "^5.6.55",
     "@nuxtjs/auth": "^4.9.1",
     "@nuxtjs/axios": "^5.12.2",
     "bootstrap-vue": "^2.17.3",
     "core-js": "^3.6.5",
-    "cross-env": "^5.2.1",
     "gsap": "",
     "nuxt": "^2.14.6",
     "vue-chartist": "^2.3.1",
     "vue-star-rating": "",
     "vue-stripe-elements-plus": "",
-    "vuetify": "^1.5.24",
     "vuetify-loader": "^1.6.0"
   },
   "devDependencies": {
     "@nuxtjs/vuetify": "^1.11.2",
+    "deepmerge": "^4.2.2",
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-prettier": "^3.1.4",
-    "prettier": "^2.1.1",
-    "node-sass": "^4.14.1",
+    "eslint-plugin-vuetify": "^1.0.0-beta.7",
     "nodemon": "^1.19.4",
-    "sass-loader": "^7.3.1",
+    "prettier": "^2.1.1",
+    "sass": "^1.27.0",
+    "sass-loader": "^10.0.2",
     "stylus": "^0.54.8",
     "stylus-loader": "^3.0.2"
   }

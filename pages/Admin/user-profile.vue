@@ -134,7 +134,7 @@
             <blockquote class="blockquote">{{ user.citation }}</blockquote>
             <v-btn
               color="success"
-              round
+              rounded
               class="font-weight-light"
             >Follow</v-btn>
           </v-card-text>

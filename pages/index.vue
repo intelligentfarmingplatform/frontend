@@ -1,11 +1,9 @@
 <template>
   <div>
     <div class="center grid">
-      <b-row>
-      <b-col>
+
         <AppTextlockup />
-      </b-col>
-      </b-row>
+
     </div>
     <AppSalesBoxes />
     <AppTextlockup>
@@ -47,15 +45,7 @@ export default {
 
 .title {
   font-family:
-    'Quicksand',
-    'Source Sans Pro',
-    -apple-system,
-    BlinkMacSystemFont,
-    'Segoe UI',
-    Roboto,
-    'Helvetica Neue',
-    Arial,
-    sans-serif;
+    'Prompt';
   display: block;
   font-weight: 300;
   font-size: 55px;
@@ -99,14 +89,7 @@ export default {
 
 .h3 {
   font-family:
-    'Quicksand',
-    'Source Sans Pro',
-    -apple-system,
-    BlinkMacSystemFont,
-    'Segoe UI',
-    Roboto,
-    'Helvetica Neue',
-    Arial,
+    'Prompt',
     sans-serif;
   font-weight: 400;
   margin: 10px;

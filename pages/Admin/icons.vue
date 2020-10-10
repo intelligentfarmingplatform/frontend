@@ -8,7 +8,7 @@
       <div
         slot="header"
       >
-        <div class="title font-weight-light mb-2">Material Design Icons</div>
+        <div class="title font-weight-light mb-2 white--text">Material Design Icons</div>
         <div class="category font-weight-thin">
           See all available
           <a
@@ -34,9 +34,13 @@
           <v-tooltip
             top
             content-class="top">
-            <v-icon slot="activator">
+            <template v-slot:activator="{ attrs, on }">
+            <v-icon
+          v-bind="attrs"
+          v-on="on">
               {{ icon }}
             </v-icon>
+            </template>
             <span>{{ icon }}</span>
           </v-tooltip>
         </v-flex>
@@ -50,7 +54,7 @@
         color="success"
         href="https://materialdesignicons.com/"
         target="_blank"
-        round
+        rounded
       >
         <v-icon left>mdi-material-design</v-icon>
         <span>See all icons</span>

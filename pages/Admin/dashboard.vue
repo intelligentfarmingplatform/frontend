@@ -181,14 +181,14 @@
             </template>
             <template
               slot="items"
-              slot-scope="{ index, item }"
+              slot-scope="{ item }"
             >
-              <td>{{ index + 1 }}</td>
+
               <td>{{ item.id }}</td>
-              <td>{{ item.userName }}</td>
+              <td class="text-center">{{ item.userName }}</td>
               <td>{{ item.password }}</td>
-              <td>{{ item.email }}</td>
-              <td class="text-xs-center">{{ item.status_level }}</td>
+              <td class="text-center">{{ item.email }}</td>
+              <td>{{ item.status_level }}</td>
             </template>
           </v-data-table>
         </material-card>
@@ -208,7 +208,7 @@
 
   export default {
     layout: 'dashboard',
-    middleware: 'authentication',
+middleware: 'auth',
     components: {
       materialCard,
       materialChartCard,
@@ -285,8 +285,7 @@
           ]
         },
         headers: [
-            {text: 'ลำดับ' , value: 'index' ,width:'10% '},
-            {text: 'รห้ส' , value: 'id' ,width:'10% '},
+            {text: 'รห้ส' , value: 'id' ,width:10},
             { text: 'ชื่อผู้ใช้' ,value: 'userName'},
             { text: 'รห้ส' , value: 'password' },
             { text: 'อีเมล์' , value: 'email' },

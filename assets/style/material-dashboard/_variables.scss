@@ -25,11 +25,11 @@ $icon-width: $line-height;
 
 // Sidebar List Items
 $padding-small: 10px !default;
-$padding-general: 15px !default;
+$padding-general: 10px !default;
 $margin-general: $padding-general;
 $margin-small: $padding-small;
-$font-size-general: 14px !default;
-$list-item-hover: rgba(200, 200, 200, 0.2) !default;
+$font-size-general: 12px !default;
+$list-item-hover: rgb(245, 238, 238) !important;
 $list-item-icon-opacity: 0.8 !default;
 $list-item-height: 48px !default;
 $badge-border: 1px solid $white !default;
@@ -123,8 +123,8 @@ $card-stats-icons-dim: 56px !default;
 $card-profile-avatar-pos: -50px !default;
 
 // Typography
-$font-family-sans-serif: 'Prompt', sans-serif !default;
-$font-family-serif: 'Prompt', sans-serif !default;
+$font-family-sans-serif:Prompt !important;
+$font-family-serif: Prompt !important;
 
 // Tooltips
 $tooltip-min-width: 130px !default;

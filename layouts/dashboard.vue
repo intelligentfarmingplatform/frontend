@@ -14,6 +14,7 @@ import coreDrawer from "~/components/core/AppDrawer";
 import coreView from "~/components/core/AppView";
 
 export default {
+  name: 'dashboard',
   components: {
     coreToolbar,
     coreDrawer,
@@ -22,9 +23,3 @@ export default {
 };
 </script>
 
-<style lang="scss">
-/* Remove in 1.2 */
-.v-datatable thead th.column.sortable i {
-  vertical-align: unset;
-}
-</style>

@@ -1,5 +1,5 @@
 <template>
-  <v-content>
+  <v-main>
     <v-container fluid fill-height>
       <v-layout align-center justify-center>
         <v-flex xs12 sm8 md4>
@@ -10,20 +10,20 @@
           >
             <v-card-text>
               <v-form>
-                <v-text-field type="text" v-model="username" prepend-icon="person" name="username" label="Login" :placeholder="defaultUserPassword"></v-text-field>
-                <v-text-field type="password" v-model="password" prepend-icon="lock" name="password" label="Password" :placeholder="defaultUserPassword"></v-text-field>
+                <v-text-field type="email" v-model="email" prepend-icon="person" name="email" label="Login"></v-text-field>
+                <v-text-field type="password" v-model="password" prepend-icon="lock" name="password" label="Password"></v-text-field>
               </v-form>
             </v-card-text>
             <v-card-actions>
               <v-layout justify-center align-center>
-                <v-btn color="success" :disabled="isDisabled" @click.prevent="authenticate">Login</v-btn>
+                <v-btn color="success" @click="handleLoginClicked">Login</v-btn>
               </v-layout>
             </v-card-actions>
           </material-card>
         </v-flex>
       </v-layout>
     </v-container>
-  </v-content>
+  </v-main>
 </template>
 
 <script>
@@ -36,28 +36,26 @@
       materialCard
     },
     data() {
-      return {
-        username: 'admin',
-        password: 'admin',
-        defaultUserPassword: 'admin'
-      }
-    },
-    computed: {
-      isDisabled() {
-        return this.username !== this.defaultUserPassword || this.password !== this.defaultUserPassword;
-      }
-    },
-    methods: {
-      ...mapActions({
-        setUsername: 'user/setUsername'
-      }),
-
-      async authenticate() {
-        if (!this.isDisabled) {
-          await this.setUsername(this.defaultUserPassword);
-          this.$router.push({ path: '../admin/dashboard' });
+    return {
+      email: '',
+      password: ''
+    }
+  },
+  methods: {
+    async handleLoginClicked() {
+      try {
+        const response = await this.$auth.loginWith('local', {
+          data: { email: this.email, password: this.password  }
+        })
+        console.log(response)
+        if (response.data.success) {
+          this.$router.replace({ name: 'admin/dashboard' })
         }
+      } catch (err) {
+        console.log(err)
       }
     }
   }
+  }
 </script>
+

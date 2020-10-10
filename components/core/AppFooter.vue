@@ -19,7 +19,7 @@
       &copy;
       {{ (new Date()).getFullYear() }}
       <a
-        href="https://www.creative-tim.com/"
+        href="#"
         target="_blank">Creative Tim</a>, made with
       <v-icon
         color="tertiary"

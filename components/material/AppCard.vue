@@ -23,7 +23,6 @@
         />
         <span v-else>
           <h4
-            class="title font-weight-light mb-2"
             v-text="title"
           />
           <p

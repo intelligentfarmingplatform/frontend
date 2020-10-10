@@ -1,17 +1,21 @@
 import Vue from 'vue'
-import Vuetify from 'vuetify/lib'
-import theme from '~/plugins/theme'
+import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.min.css'
 import '@mdi/font/css/materialdesignicons.css'
+//import colors from "vuetify/es5/util/colors";
+import '~/assets/style/vars.scss'
+Vue.use(Vuetify)
 
-Vue.use(Vuetify, {
-  treeShake: true,
-  defaultAssets: {
-    font: {
-      family: 'Prompt'
-    }},
-  icons: {
-    iconfont: 'mdi',
-  },
-  theme,
-});
+export default ctx => {
+  const vuetify = new Vuetify({
+    treeShake: true,
+    customVariables: ['~/assets/variables.scss'],
+    defaultAssets:false,
+    theme: {
+      dark: false,
+      },
+  })
+
+  ctx.app.vuetify = vuetify
+  ctx.$vuetify = vuetify.framework
+}
