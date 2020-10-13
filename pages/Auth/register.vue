@@ -109,7 +109,7 @@ export default {
     },
     async handleRegisterClicked() {
       try {
-        const response = await this.$axios.post('http://127.0.0.1:4000/api/user/register', {
+        const response = await this.$axios.post('https://it-ifp-auth.herokuapp.com/api/user/register', {
           username: this.username,
           email: this.email,
           password: this.password,

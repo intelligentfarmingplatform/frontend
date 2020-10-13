@@ -21,13 +21,14 @@
               cartCount
             }}</b-badge>
           </b-nav-item>
-          <b-nav-item to="/Auth/login" v-if="!this.$auth.loggedIn"
+          <b-nav-item to="/Auth/login" v-if="!$auth.loggedIn"
             >Login</b-nav-item
           >
-                    <b-nav-item to="/Auth/register" v-if="!this.$auth.loggedIn"
+                    <b-nav-item to="/Auth/register" v-if="!$auth.loggedIn"
             >Register</b-nav-item
           >
-          <b-nav-item-dropdown right v-if="this.$auth.loggedIn">
+          <b-nav-item-dropdown right v-if="$auth.loggedIn">
+            {{$auth.user.email}}
             <!-- Using 'button-content' slot -->
             <template v-slot:button-content>
               <em>User</em>
