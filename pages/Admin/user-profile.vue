@@ -166,7 +166,7 @@ provincesData: String
       Axios.defaults.headers.common['Authorization'] = this.$auth.getToken(
         this.$auth.strategy.name
       )
-      Axios.get('http://127.0.0.1:4000/api/amphures/' + this.provincesid.id)
+      Axios.get('https://it-ifp-auth.herokuapp.com/api/amphures/' + this.provincesid.id)
         .then((response) => {
           this.getamphuresData(response.data.amphures)
 
@@ -179,7 +179,7 @@ provincesData: String
     },
         handleAmphures() {
 
-      Axios.get('http://127.0.0.1:4000/api/districts/' + this.amphuresid.id)
+      Axios.get('https://it-ifp-auth.herokuapp.com/api/districts/' + this.amphuresid.id)
         .then((response) => {
           this.getdistrictsData(response.data.districts)
 
@@ -224,7 +224,7 @@ provincesData: String
       this.$auth.strategy.name
     )
     console.log('send header com complete')
-    await Axios.get('http://127.0.0.1:4000/api/provinces')
+    await Axios.get('https://it-ifp-auth.herokuapp.com/api/provinces')
       .then((response) => {
         this.getprovincesData(response.data.provinces)
 
