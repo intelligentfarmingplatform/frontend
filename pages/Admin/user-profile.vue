@@ -136,6 +136,7 @@ import materialCard from '~/components/material/AppCard'
 import Axios from 'axios'
 
 export default {
+  middleware: 'auth',
   prop:{
 provincesData: String
   },

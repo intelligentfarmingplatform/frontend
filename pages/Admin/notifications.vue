@@ -237,6 +237,7 @@
 
   export default {
     layout: 'dashboard',
+    middleware: 'auth',
     components: {
       materialCard,
       materialNotification
