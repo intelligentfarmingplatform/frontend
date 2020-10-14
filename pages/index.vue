@@ -1,9 +1,7 @@
 <template>
   <div>
-    <div class="center grid">
-
-        <AppTextlockup />
-
+    <div class="index">
+      <AppTextlockup />
     </div>
     <AppSalesBoxes />
     <AppTextlockup>
@@ -20,23 +18,23 @@
 </template>
 
 <script>
-import AppTextlockup from "~/components/AppTextlockup.vue";
-import AppSalesBoxes from "~/components/AppSalesBoxes.vue";
-import AppFeaturedProducts from "~/components/AppFeaturedProducts.vue";
+//import {gsap} from 'gsap'
+import AppTextlockup from '~/components/AppTextlockup.vue'
+import AppSalesBoxes from '~/components/AppSalesBoxes.vue'
+import AppFeaturedProducts from '~/components/AppFeaturedProducts.vue'
 export default {
-  layout:'default',
+  layout: 'default',
   components: {
     AppTextlockup,
     AppSalesBoxes,
-    AppFeaturedProducts
-  }
+    AppFeaturedProducts,
+  },
 }
 </script>
 
 <style>
-.container {
-  margin: 0 auto;
-  min-height: 100vh;
+.index {
+  margin-top: 60px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -44,8 +42,7 @@ export default {
 }
 
 .title {
-  font-family:
-    'Prompt';
+  font-family: 'Prompt';
   display: block;
   font-weight: 300;
   font-size: 55px;
@@ -88,9 +85,7 @@ export default {
 }
 
 .h3 {
-  font-family:
-    'Prompt',
-    sans-serif;
+  font-family: 'Prompt', sans-serif;
   font-weight: 400;
   margin: 10px;
 }

@@ -1,57 +1,57 @@
 <template>
   <div
-    class="dropdown-menu p-2"
-    style="min-width:320px; right:0; left:auto"
+    style="width: 320px; right: 0; left: auto"
     aria-labelledby="triggerId"
   >
-    <div v-for="item in cart" :key="item.id">
-      <div class="px-2 d-flex justify-content-between">
-        <div>
-          <strong>{{ item.name }}</strong>
-          <br />
-          {{ item.quantity }} x ${{ item.price }}
+    <section v-if="cartCount > 0">
+      <div v-for="item in cart" :key="item.id">
+        <div class="px-2 d-flex justify-content-between">
+          <div>
+            <strong>{{ item.name }}</strong>
+            <br />
+            {{ item.quantity }} x {{ item.price }}
+          </div>
+          <div>
+            <a
+              href="#"
+              class="badge badge-secondary"
+              @click.prevent="removeOneFromCart(item)"
+              >remove</a
+            >
+          </div>
         </div>
-        <div>
-          <a
-            href="#"
-            class="badge badge-secondary"
-            @click.prevent="removeOneFromCart(item)"
-          >remove</a>
-        </div>
+        <hr />
       </div>
-      <hr />
-    </div>
 
-    <div class="d-flex justify-content-between">
-      <span>Total: ${{ cartTotal }}</span>
-      <a href="#" @click.prevent="removeAllFromCart(item)">Clear Cart</a>
-    </div>
+      <div class="d-flex justify-content-between">
+        <span>Total: ${{ cartTotal }}</span>
+        <a href="#" @click.prevent="clearCart(item)">Clear Cart</a>
+      </div>
+    </section>
+    <section v-else class="center">Your cart is empty, fill it up!</section>
   </div>
 </template>
 
 <script>
-import { mapState, mapGetters, mapActions } from "vuex";
+import { mapState, mapGetters, mapMutations } from 'vuex'
 
 export default {
   computed: {
-    ...mapState("cart", ["cart"]),
+    ...mapState(['cart']),
 
-    ...mapGetters("cart", ["cartTotal"])
-  },
-  mounted() {
-    this.getCartItems();
+    ...mapGetters(['cartCount', 'cartTotal']),
   },
 
   methods: {
     // Example 1: mapActions
-    ...mapActions("cart", [
-      "removeOneFromCart",
-      "removeAllFromCart",
-      "getCartItems"
-    ])
-    
-  }
-};
+    removeOneFromCart(item) {
+      this.$store.commit('removeOneFromCart', item)
+    },
+    clearCart(item) {
+      this.$store.commit('clearCart', item)
+    },
+  },
+}
 </script>
 
 <style>

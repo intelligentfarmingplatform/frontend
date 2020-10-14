@@ -1,35 +1,41 @@
 <template>
   <div class="storegrid">
-        <b-container>
-          <b-row>
-            <b-col sm="4"  v-for="item in filteredprice" :key="item.id">
-            <b-card
-              title="Card Title"
-              img-top
-              tag="article"
-              style="max-width: 20rem;"
-              class="mb-2"
-            >
-            <NuxtLink :to="`product/${item.id}`">
-            <img :src="`/products/${item.img}`" height="200" />
-            </NuxtLink>
-            <star-rating
-              :rating="item.starrating"
-              active-color="#000"
-              :star-size="15"
-              :show-rating="false"
-              style="margin: 5px 0"
-            ></star-rating>
-            <h3>{{ item.name }}</h3>
-            <h4 class="price">{{ item.price }} บาท</h4>
-            <nuxt-link :to="`product/${item.id}`">
-              <b-button variant="outline-primary">ดูสินค้า ></b-button>
-            </nuxt-link>
-            </b-card>
-            </b-col>
-          </b-row>
-        </b-container>
-    
+    <div class="container" style="margin-top: 60px">
+      <vs-row>
+        <vs-col
+          vs-justify="center"
+          vs-align="center"
+          w="4"
+          v-for="item in filteredprice"
+          :key="item.id"
+        >
+          <vs-card>
+            <template #title>
+              <h3>{{ item.name }}</h3>
+            </template>
+            <template #img>
+              <img :src="`/products/${item.img}`" height="350" />
+            </template>
+            <template #text>
+              <h4 class="price">{{ item.price }} บาท</h4>
+              <nuxt-link :to="`product/${item.id}`">
+                <vs-button border> ดูสินค้า </vs-button>
+              </nuxt-link>
+            </template>
+            <template #interactions>
+              <vs-button danger icon>
+                <i class="bx bx-heart"></i>
+              </vs-button>
+              <vs-button class="btn-chat" shadow primary>
+                <i class="bx bx-chat"></i>
+                <span class="span"> 54 </span>
+              </vs-button>
+            </template>
+          </vs-card>
+        </vs-col>
+      </vs-row>
+    </div>
+
     <aside>
       <h3>Filter by Price:</h3>
       <p style="margin-top: 5px">
@@ -52,29 +58,31 @@
 </template>
 
 <script>
-import StarRating from "vue-star-rating/src/star-rating.vue";
-
 export default {
-  name:'AppStoreGrid',
+  name: 'AppStoreGrid',
   props: {
     data: {
-      required: true
-    }
+      required: true,
+    },
   },
   data() {
     return {
       min: 0,
       max: 200,
-      pricerange: 200
-    };
+      pricerange: 200,
+    }
   },
   computed: {
     filteredprice() {
-      return this.data.filter(el => el.price < this.pricerange);
-    }
+      return this.data.filter((el) => el.price < this.pricerange)
+    },
   },
-  components: {
-    StarRating
-  }
-};
+  components: {},
+}
 </script>
+
+<style lang="scss" scoped>
+.container {
+  margin-top: 0;
+}
+</style>

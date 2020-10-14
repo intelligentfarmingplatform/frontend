@@ -56,6 +56,7 @@
                     item-value="id"
                     v-model="provincesid"
                     label="จังหวัด"
+                    :disabled="provincesDisabled"
                     v-on:change="handleProvinces"
                     return-object
                     prepend-icon="mdi-flag"
@@ -69,19 +70,22 @@
                     item-value="id"
                     v-model="amphuresid"
                     label="อำเภอ"
+                    :disabled="amphuresDisabled"
                     v-on:change="handleAmphures"
                     return-object
                     prepend-icon="mdi-flag"
                     outlined
                   ></v-select>
                 </v-flex>
-                  <v-flex xs12 md6>
+                <v-flex xs12 md6>
                   <v-select
                     :items="districtsData"
                     item-text="name_th"
                     item-value="id"
                     label="ตำบล"
+                    :disabled="districtsDisabled"
                     v-model="districtsid"
+                    v-on:change="handleDistricts"
                     prepend-icon="mdi-flag"
                     return-object
                     outlined
@@ -137,29 +141,29 @@ import Axios from 'axios'
 
 export default {
   middleware: 'auth',
-  prop:{
-provincesData: String
-  },
   layout: 'dashboard',
   components: {
     materialCard,
   },
   data() {
     return {
+
       testdata: [],
       username: '555',
-
+provincesDisabled:false,
+amphuresDisabled:true,
+districtsDisabled:true,
       email: '333',
       f_name: '',
       l_name: '',
       address: [],
       item2: null,
-      provincesData: '',
-      provincesid: '',
-      amphuresid: 'เลือกอำเภอ',
-      districtsid:'เลือกตำบล',
-      amphuresData: '',
-      districtsData:''
+      provincesData: [],
+      provincesid: { id: '', name_th: '' },
+      amphuresid: { id: '', name_th: '' },
+      districtsid: { id: '', name_th: '' },
+      amphuresData: [],
+      districtsData: [],
     }
   },
   methods: {
@@ -167,7 +171,9 @@ provincesData: String
       Axios.defaults.headers.common['Authorization'] = this.$auth.getToken(
         this.$auth.strategy.name
       )
-      Axios.get('https://it-ifp-auth.herokuapp.com/api/amphures/' + this.provincesid.id)
+      Axios.get(
+        'https://it-ifp-auth.herokuapp.com/api/amphures/' + this.provincesid.id
+      )
         .then((response) => {
           this.getamphuresData(response.data.amphures)
 
@@ -178,9 +184,10 @@ provincesData: String
         })
       console.log(this.provincesid.id)
     },
-        handleAmphures() {
-
-      Axios.get('https://it-ifp-auth.herokuapp.com/api/districts/' + this.amphuresid.id)
+    handleAmphures() {
+      Axios.get(
+        'https://it-ifp-auth.herokuapp.com/api/districts/' + this.amphuresid.id
+      )
         .then((response) => {
           this.getdistrictsData(response.data.districts)
 
@@ -191,27 +198,39 @@ provincesData: String
         })
       console.log(this.amphuresid.id)
     },
+    handleDistricts() {
+      console.log(this.districtsid.id)
+    },
     getprovincesData(item) {
       this.provincesData = item
+      //console.log('ITEM',item)
+
       //console.log('this is country',item[0].id)
     },
 
     getamphuresData(item) {
       this.amphuresData = item
+      this.testdata = true
+      this.amphuresDisabled= false
+      if (this.testdata) {
+      this.districtsid = 'ตำบล'
+      this.districtsData = ''}
+      else this.amphuresDisabled=true
+      this.districtsDisabled=true
     },
-    getdistrictsData(item){
-      if(!this.amphuresData || !this.provincesData){
-        this.districtsData= ''
-      } else
+    getdistrictsData(item) {
+      this.districtsDisabled=false
+      this.testdata=true
+      console.log('testdata', this.testdata)
       this.districtsData = item
-    }
+    },
   },
   async fetch() {
     // Set config defaults when creating the instance
 
     if (this.$auth.loggedIn) {
       this.$auth.getToken(this.$auth.strategy.name)
-      this.$auth.fetchUser()
+      //this.$auth.fetchUser()
       this.$axios.setHeader(
         'Authorization',
         this.$auth.getToken(this.$auth.strategy.name)

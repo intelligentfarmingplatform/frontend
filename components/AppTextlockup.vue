@@ -34,7 +34,6 @@ export default {};
     grid-area: 1 / 1 / 6 / 4;
     img {
       width: 100%;
-      backdrop-filter: 10px;
     }
   }
 }

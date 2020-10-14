@@ -9,7 +9,7 @@
         <h3>{{ product.name }}</h3>
         <h4>{{ product.price }} บาท</h4>
         <nuxt-link :to="`/main/product/${product.id}`">
-          <b-button variant="outline-primary">ดูสินค้า ></b-button>
+          <vs-button border>ดูสินค้า ></vs-button>
         </nuxt-link>
       </div>
     </div>
@@ -20,10 +20,10 @@
 export default {
   computed: {
     featuredProducts() {
-      return this.$store.getters.featuredProducts;
-    }
-  }
-};
+      return this.$store.getters.featuredProducts
+    },
+  },
+}
 </script>
 
 <style lang="scss" scoped>
@@ -62,7 +62,7 @@ h2 span {
 }
 h2 span:after,
 h2 span:before {
-  content: " ";
+  content: ' ';
   display: block;
   height: 1px;
   width: 1000px;
@@ -86,7 +86,6 @@ h2 span:after {
       margin-bottom: 10px;
     }
   }
-
 }
 
 @media screen and (min-width: 700px) {
@@ -100,6 +99,5 @@ h2 span:after {
       padding: 40px 50px;
     }
   }
-
 }
 </style>

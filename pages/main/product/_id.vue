@@ -18,22 +18,36 @@
         <p>ทดสอบๆ</p>
         <div class="product-options">
           <div class="quantity">
-            <b-button class="update-num" @click="quantity > 0 ? quantity-- : quantity = 0">-</b-button>
+            <vs-button
+              class="update-num"
+              @click="quantity > 0 ? quantity-- : (quantity = 0)"
+              >-</vs-button
+            >
             <input type="number" v-model="quantity" />
-            <b-button class="update-num" @click="quantity++">+</b-button>
+            <vs-button class="update-num" @click="quantity++">+</vs-button>
           </div>
           <div v-if="product.sizes" class="size">
-            <select v-model="size" class="size-picker" @change="showSizeRequiredMessage = false">
+            <select
+              v-model="size"
+              class="size-picker"
+              @change="showSizeRequiredMessage = false"
+            >
               <option :value="null" disabled hidden>Size</option>
-              <option v-for="(size, key) in product.sizes" :key="key" :value="size">{{ size }}</option>
+              <option
+                v-for="(size, key) in product.sizes"
+                :key="key"
+                :value="size"
+              >
+                {{ size }}
+              </option>
             </select>
           </div>
         </div>
+        <p>Available :</p>
         <p>
-          Available : 
-        </p>
-        <p>
-          <b-button variant="outline-primary" class="button purchase" @click="cartAdd">หยิบใส่ตะกร้า</b-button>
+          <vs-button border class="button purchase" @click="cartAdd"
+            >หยิบใส่ตะกร้า</vs-button
+          >
         </p>
       </section>
     </section>
@@ -56,14 +70,14 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
-import StarRating from "vue-star-rating/src/star-rating.vue";
-import AppFeaturedProducts from "~/components/AppFeaturedProducts.vue";
+import { mapState } from 'vuex'
+import StarRating from 'vue-star-rating/src/star-rating.vue'
+import AppFeaturedProducts from '~/components/AppFeaturedProducts.vue'
 
 export default {
   components: {
     StarRating,
-    AppFeaturedProducts
+    AppFeaturedProducts,
   },
   data() {
     return {
@@ -71,33 +85,33 @@ export default {
       quantity: 1,
       size: null,
       showSizeRequiredMessage: false,
-      tempcart: [] // this object should be the same as the json store object, with additional params, quantity and size
-    };
+      tempcart: [], // this object should be the same as the json store object, with additional params, quantity and size
+    }
   },
   computed: {
-    ...mapState(["storedata"]),
+    ...mapState(['storedata']),
     product() {
-      return this.storedata.find(el => el.id === this.id);
-    }
+      return this.storedata.find((el) => el.id === this.id)
+    },
   },
   methods: {
     cartAdd() {
       if (this.product.sizes && !this.size) {
-        this.showSizeRequiredMessage = true;
-        return;
+        this.showSizeRequiredMessage = true
+        return
       }
 
-      let item = this.product;
-      item = { 
-        ...item, 
-        quantity: this.quantity, 
-        size: this.size 
-      };
-      this.tempcart.push(item);
-      this.$store.commit("addToCart", {...item});
-    }
-  }
-};
+      let item = this.product
+      item = {
+        ...item,
+        quantity: this.quantity,
+        size: this.size,
+      }
+      this.tempcart.push(item)
+      this.$store.commit('addToCart', { ...item })
+    },
+  },
+}
 </script>
 
 <style lang="scss" scoped>
