@@ -9,7 +9,7 @@
     </section>
 
     <section v-else-if="cartUIStatus === 'loading'" class="loader">
-      <AppLoader />
+
     </section>
 
     <section v-else-if="cartUIStatus === 'success'" class="success">
@@ -30,7 +30,6 @@
 </template>
 
 <script>
-import AppLoader from "~/components/AppLoader.vue";
 import AppCartSteps from "~/components/AppCartSteps.vue";
 import AppSalesBoxes from "~/components/AppSalesBoxes.vue";
 import AppCartDisplay from "~/components/AppCartDisplay.vue";
@@ -41,7 +40,6 @@ export default {
     AppCartDisplay,
     AppSalesBoxes,
     AppCartSteps,
-    AppLoader
   },
   computed: {
     ...mapState(["cartUIStatus"])
