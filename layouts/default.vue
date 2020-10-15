@@ -1,6 +1,5 @@
 <template>
   <div>
-
     <AppNav />
     <Nuxt />
     <AppFooter />
@@ -8,13 +7,13 @@
 </template>
 
 <script>
-import AppNav from "~/components/AppNav";
-import AppFooter from "~/components/AppFooter";
+import AppNav from '~/components/AppNav'
+import AppFooter from '~/components/AppFooter'
 
-  export default {
-    components: {
+export default {
+  components: {
     AppNav,
-    AppFooter
-    }
-  }
+    AppFooter,
+  },
+}
 </script>

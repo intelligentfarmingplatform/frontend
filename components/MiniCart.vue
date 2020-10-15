@@ -1,6 +1,6 @@
 <template>
   <div
-    style="width: 320px; right: 0; left: auto"
+    style="width: 180px; right: 0; left: auto"
     aria-labelledby="triggerId"
   >
     <section v-if="cartCount > 0">

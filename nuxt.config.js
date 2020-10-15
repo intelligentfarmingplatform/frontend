@@ -40,7 +40,8 @@ export default {
    */
   plugins: [
     '~/plugins/vuetify',
-    { src: '~plugins/vue-scrollmagic.js', ssr: false },
+    '~/plugins/vuesax',
+    // { src: '~plugins/vue-scrollmagic.js', ssr: false },
   ],
 
   /*
