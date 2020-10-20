@@ -2,10 +2,26 @@
   <div class="storegrid">
     <div class="container" style="margin-top: 60px">
       <vs-row>
+        <vs-col w="9"
+          vs-justify="left"
+          vs-align="left"
+        >
+          สินค้าทั้งหมด
+        </vs-col>
+
+        <vs-col w="3"
+          vs-justify="right"
+          vs-align="right"
+        >
+          <vs-input v-model="search" border placeholder="Search" />
+        </vs-col>
+      </vs-row>
+
+      <vs-row>
         <vs-col
           vs-justify="center"
           vs-align="center"
-          w="4"
+          w="2"
           v-for="item in filteredprice"
           :key="item.id"
         >
@@ -14,7 +30,7 @@
               <h3>{{ item.name }}</h3>
             </template>
             <template #img>
-              <img :src="`/products/${item.img}`" height="350" />
+              <img :src="`/products/${item.img}`" height="150" />
             </template>
             <template #text>
               <h4 class="price">{{ item.price }} บาท</h4>
@@ -67,6 +83,7 @@ export default {
   },
   data() {
     return {
+      search: '',
       min: 0,
       max: 200,
       pricerange: 200,

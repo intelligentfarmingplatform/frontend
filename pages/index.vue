@@ -1,37 +1,36 @@
 <template>
   <div>
-    <div class="index">
-      <AppTextlockup />
+    <div class="banner">
+      <AppBanner />
     </div>
     <AppSalesBoxes />
-
-    <AppTextlockup>
-      <template v-slot:img>
-        <img src="/web-bg.jpg" alt="bag" />
-      </template>
-    </AppTextlockup>
+    <AppStoreGrid :data="storedata" />
     <AppFeaturedProducts />
   </div>
 </template>
 
 <script>
-import AppTextlockup from '~/components/AppTextlockup.vue'
-import AppSalesBoxes from '~/components/AppSalesBoxes.vue'
+import AppBanner from '~/components/AppBanner.vue'
+import { mapState } from 'vuex'
+import AppStoreGrid from '~/components/AppStoreGrid.vue'
 import AppFeaturedProducts from '~/components/AppFeaturedProducts.vue'
+
 export default {
   layout: 'default',
   components: {
-    AppTextlockup,
-    AppSalesBoxes,
+    AppBanner,
+    AppStoreGrid,
     AppFeaturedProducts,
+  },
+  computed: {
+    ...mapState(['storedata']),
   },
 }
 </script>
 
 <style>
-.index {
-  margin-top: 60px;
-  display: flex;
+.banner {
+  margin-top: 70px;
   justify-content: center;
   align-items: center;
   text-align: center;

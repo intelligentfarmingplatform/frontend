@@ -1,6 +1,7 @@
 <template>
   <v-card id="create">
     <v-speed-dial
+      class="fixed"
       v-model="fab"
       :top="top"
       :bottom="bottom"
@@ -104,5 +105,11 @@
 
   #create .v-btn--floating {
     position: relative;
+  }
+
+  #create .fixed {
+    position: fixed;
+    right: 15px;
+    bottom: 15px;
   }
 </style>

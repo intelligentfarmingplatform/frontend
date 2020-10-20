@@ -14,29 +14,29 @@ export default {
     return {
       boxes: [
         {
-          icon: "/icon-package.svg",
-          heading: "Free Shipping Globally",
-          details: "Delivery in 4 Days"
+          icon: '/icon-package.svg',
+          heading: 'Free Shipping Globally',
+          details: 'Delivery in 4 Days',
         },
         {
-          icon: "/icon-cal.svg",
-          heading: "24/7 Customer Service",
-          details: "Call us any time"
+          icon: '/icon-cal.svg',
+          heading: '24/7 Customer Service',
+          details: 'Call us any time',
         },
         {
-          icon: "/icon-service.svg",
-          heading: "Easy Online Returns",
-          details: "Send Within 30 Days"
-        }
-      ]
-    };
-  }
-};
+          icon: '/icon-service.svg',
+          heading: 'Easy Online Returns',
+          details: 'Send Within 30 Days',
+        },
+      ],
+    }
+  },
+}
 </script>
 
 <style lang="scss" scoped>
 .boxes {
-  margin: 70px 0;
+  margin: 30px 0;
   div {
     border: 1px solid #ddd;
     min-height: 150px;

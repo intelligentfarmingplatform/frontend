@@ -260,9 +260,6 @@ export default {
     phone: '',
     message: '',
   }),
-  created(){
-    console.log(this.passwordRegister)
-  },
   methods: {
     async logoutHandle() {
       await this.$auth.logout()
