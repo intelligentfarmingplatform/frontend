@@ -39,7 +39,7 @@ section {
   margin: 20px auto 0;
   margin-top: 50px;
   div {
-    display: flex;
+    display: grid;
     flex-direction: column;
     align-items: center;
   }

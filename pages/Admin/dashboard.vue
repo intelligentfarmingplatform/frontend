@@ -1,17 +1,7 @@
 <template>
-  <v-container
-    fill-height
-    fluid
-    grid-list-xl
-  >
+  <v-container fill-height fluid grid-list-xl>
     <v-layout wrap>
-
-      <v-flex
-        sm6
-        xs12
-        md6
-        lg3
-      >
+      <v-flex sm6 xs12 md6 lg3>
         <material-stats-card
           color="green"
           icon="mdi-store"
@@ -21,12 +11,7 @@
           sub-text="Last 24 Hours"
         />
       </v-flex>
-      <v-flex
-        sm6
-        xs12
-        md6
-        lg3
-      >
+      <v-flex sm6 xs12 md6 lg3>
         <material-stats-card
           color="orange"
           icon="mdi-content-copy"
@@ -39,12 +24,7 @@
           sub-text-color="text-primary"
         />
       </v-flex>
-      <v-flex
-        sm6
-        xs12
-        md6
-        lg3
-      >
+      <v-flex sm6 xs12 md6 lg3>
         <material-stats-card
           color="red"
           icon="mdi-information-outline"
@@ -54,12 +34,7 @@
           sub-text="Tracked from Github"
         />
       </v-flex>
-      <v-flex
-        sm6
-        xs12
-        md6
-        lg3
-      >
+      <v-flex sm6 xs12 md6 lg3>
         <material-stats-card
           color="info"
           icon="mdi-twitter"
@@ -69,164 +44,66 @@
           sub-text="Just Updated"
         />
       </v-flex>
-      <v-flex
-        md12
-        lg12
-      >
-        <material-card
-          color="orange"
-          title="Employee Stats"
-          text="New employees on 15th September, 2016"
-        >
-          <v-data-table
-            :headers="headers"
-            :items="listusers"
-              :loading="loading"
-              loader-height="2px"
-              loading-text="Loading... Please wait"
-
+      <template>
+        <v-card class="mt-4 mx-auto" max-width="400">
+          <v-sheet
+            class="v-sheet--offset mx-auto"
+            color="cyan"
+            elevation="12"
+            max-width="calc(100% - 32px)"
           >
-            <template
-              slot="headerCell"
-              slot-scope="{ header }"
+            <v-sparkline
+              :labels="labels"
+              :value="value"
+              color="white"
+              line-width="2"
+              padding="16"
+            ></v-sparkline>
+          </v-sheet>
+
+          <v-card-text class="pt-0">
+            <div class="title font-weight-light mb-2">User Registrations</div>
+            <div class="subheading font-weight-light grey--text">
+              Last Campaign Performance
+            </div>
+            <v-divider class="my-2"></v-divider>
+            <v-icon class="mr-2" small> mdi-clock </v-icon>
+            <span class="caption grey--text font-weight-light"
+              >last registration 26 minutes ago</span
             >
-              <span
-                class="font-weight-light text-warning text--darken-3"
-                v-text="header.text"
-              />
-            </template>
-            <template
-              slot="items"
-              slot-scope="{ item }"
-            >
-
-              <td>{{ item.id }}</td>
-              <td class="text-center">{{ item.userName }}</td>
-              <td>{{ item.password }}</td>
-              <td class="text-center">{{ item.email }}</td>
-              <td>{{ item.status_level }}</td>
-            </template>
-          </v-data-table>
-        </material-card>
-      </v-flex>
-
-
+          </v-card-text>
+        </v-card>
+      </template>
     </v-layout>
   </v-container>
 </template>
 
 <script>
-  import materialCard from '~/components/material/AppCard'
-  import materialChartCard from '~/components/material/AppChartCard'
-  import materialStatsCard from '~/components/material/AppStatsCard'
-  import Axios from 'axios'
+import materialCard from '~/components/material/AppCard'
+import materialChartCard from '~/components/material/AppChartCard'
+import materialStatsCard from '~/components/material/AppStatsCard'
+import Axios from 'axios'
 
-
-  export default {
-    layout: 'dashboard',
-    name:'dashboard',
-middleware: 'auth',
-    components: {
-      materialCard,
-      materialChartCard,
-      materialStatsCard
-    },
-    data() {
-      return {
-        loading: true,
-        dailySalesChart: {
-          data: {
-            labels: ['M', 'T', 'W', 'T', 'F', 'S', 'S'],
-            series: [
-              [12, 17, 7, 17, 23, 18, 38]
-            ]
-          },
-          options: {
-            low: 0,
-            high: 50, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
-            chartPadding: {
-              top: 0,
-              right: 0,
-              bottom: 0,
-              left: 0
-            }
-          }
-        },
-        dataCompletedTasksChart: {
-          data: {
-            labels: ['12am', '3pm', '6pm', '9pm', '12pm', '3am', '6am', '9am'],
-            series: [
-              [230, 750, 450, 300, 280, 240, 200, 190]
-            ]
-          },
-          options: {
-            low: 0,
-            high: 1000, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
-            chartPadding: {
-              top: 0,
-              right: 0,
-              bottom: 0,
-              left: 0
-            }
-          }
-        },
-        emailsSubscriptionChart: {
-          data: {
-            labels: ['Ja', 'Fe', 'Ma', 'Ap', 'Mai', 'Ju', 'Jul', 'Au', 'Se', 'Oc', 'No', 'De'],
-            series: [
-              [542, 443, 320, 780, 553, 453, 326, 434, 568, 610, 756, 895]
-            ]
-          },
-          options: {
-            axisX: {
-              showGrid: false
-            },
-            low: 0,
-            high: 1000,
-            chartPadding: {
-              top: 0,
-              right: 5,
-              bottom: 0,
-              left: 0
-            }
-          }
-        },
-        headers: [
-            {text: 'รห้ส' , value: 'id' ,width:10},
-            { text: 'ชื่อผู้ใช้' ,value: 'userName'},
-            { text: 'รห้ส' , value: 'password' },
-            { text: 'อีเมล์' , value: 'email' },
-            {
-                text: 'สถานะ',
-                align: 'center',
-                sortable: false,
-                value: 'status_level',
-                width:'15%'
-            }
-        ],
-        listusers: [],
-        tabs: 0,
-        list: {
-          0: false,
-          1: false,
-          2: false
-        }
-      }
-    },
-       async fetch() {
-       await Axios.get("https://intelligentfarmingplatform.herokuapp.com/api/user")
-        .then(response => {
-            this.listusers = response.data.data;
-            console.log('Dataload',this.listusers[0])
-            this.loading = false;
-        }).catch((err) => {
-        console.log(err);
-        })
-    },
-    methods: {
-      complete (index) {
-        this.list[index] = !this.list[index]
-      }
-    },
-  }
+export default {
+  layout: 'dashboard',
+  name: 'dashboard',
+  middleware: 'auth',
+  components: {
+    materialCard,
+    materialChartCard,
+    materialStatsCard,
+  },
+  data: () => ({
+    labels: ['12am', '3am', '6am', '9am', '12pm', '3pm', '6pm', '9pm'],
+    value: [200, 675, 410, 390, 310, 460, 250, 240],
+  }),
+  methods: {},
+}
 </script>
+
+<style scoped>
+  .v-sheet--offset {
+    top: -24px;
+    position: relative;
+  }
+</style>

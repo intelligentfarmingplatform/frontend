@@ -36,7 +36,7 @@ export default {
 
 <style lang="scss" scoped>
 .boxes {
-  margin: 30px 0;
+  margin: 70px 0;
   div {
     border: 1px solid #ddd;
     min-height: 150px;

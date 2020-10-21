@@ -1,5 +1,5 @@
 <template>
-  <div class="center examplex">
+  <div class="Nav">
     <vs-navbar color="#32CD32" text-white center-collapsed v-model="active">
       <template #left>
         <h3>Intelligent Farming</h3>
@@ -111,8 +111,7 @@
       </template>
 
       <div class="con-form">
-
-                <vs-input v-model="usernameRegister" placeholder="Username">
+        <vs-input v-model="usernameRegister" placeholder="Username">
           <template #icon> @ </template>
         </vs-input>
         <vs-input v-model="emailRegister" placeholder="Email">
@@ -128,7 +127,6 @@
           icon-after
           @click-icon="hasVisiblePasswordRegister = !hasVisiblePasswordRegister"
         >
-
           <template #icon>
             <i v-if="!hasVisiblePasswordRegister" class="bx bx-show-alt"></i>
             <i v-else class="bx bx-hide"></i>
@@ -149,34 +147,34 @@
             รหัสผ่านมีความปลอดภัยต่ำ
           </template>
         </vs-input>
-                <vs-input
+        <vs-input
           type="password"
           v-model="passwordRegisterConfirm"
           placeholder="Password Confirm"
           :visiblePassword="hasVisiblePasswordRegisterConfirm"
           icon-after
-          @click-icon="hasVisiblePasswordRegisterConfirm = !hasVisiblePasswordRegisterConfirm"
+          @click-icon="
+            hasVisiblePasswordRegisterConfirm = !hasVisiblePasswordRegisterConfirm
+          "
         >
-
           <template #icon>
             <i v-if="!hasVisiblePasswordRegister" class="bx bx-show-alt"></i>
             <i v-else class="bx bx-hide"></i>
           </template>
-                    <template v-if="!passwordRegister" #message-danger>
+          <template v-if="!passwordRegister" #message-danger>
             รหัสผ่านไม่ตรงกัน
           </template>
-            <template v-else-if="passwordRegister" #message-success>
+          <template v-else-if="passwordRegister" #message-success>
             รหัสผ่านตรงกัน
           </template>
-          </vs-input>
-                      <vs-input
-        v-model="id_cardRegister"
-        placeholder="รหัสบัตรประจำตัว 13 หลัก"
-      >
-        <template #icon> @ </template>
-      </vs-input>
+        </vs-input>
+        <vs-input
+          v-model="id_cardRegister"
+          placeholder="รหัสบัตรประจำตัว 13 หลัก"
+        >
+          <template #icon> @ </template>
+        </vs-input>
       </div>
-
 
       <template #footer>
         <div class="footer-dialog">
@@ -237,12 +235,12 @@ export default {
   data: () => ({
     emailRegister: '',
     passwordRegister: '',
-    passwordRegisterConfirm:'',
+    passwordRegisterConfirm: '',
     usernameRegister: '',
     id_cardRegister: '',
     hasVisiblePassword: false,
     hasVisiblePasswordRegister: false,
-    hasVisiblePasswordRegisterConfirm:false,
+    hasVisiblePasswordRegisterConfirm: false,
     active: 'primary',
     loginActive: false,
     registerActive: false,

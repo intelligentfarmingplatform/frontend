@@ -1,14 +1,27 @@
 import axios from 'axios'
-import data from '~/static/storedata.json'
+import productProvider from '~/resources/provider'
+const userService = new productProvider()
+//import data from '~/static/storedata.json'
+
+//
+
+// const data = axios.get(
+//   'https://it-ifp-auth.herokuapp.com/api/myproducts').then(resp => {
+
+//     console.log(resp.data.products);
+// })
+
 
 export const state = () => ({
   cartUIStatus: 'idle',
-  storedata: data,
+  storedata:'',
   cart: [],
   clientSecret: '', // Required to initiate the payment from the client
 })
 
 export const getters = {
+  products: state =>state.storedata,
+  
   //check loggedin status
   isAuthenticated(state) {
     return state.auth.loggedIn
@@ -17,7 +30,7 @@ export const getters = {
   loggedInUser(state) {
     return state.auth.user
   },
-  featuredProducts: (state) => state.storedata.slice(0, 3),
+  //featuredProducts: (state) => state.storedata.slice(0, 3),
   cartCount: (state) => {
     if (!state.cart.length) return 0
     return state.cart.reduce((ac, next) => ac + next.quantity, 0)
@@ -39,6 +52,13 @@ export const getters = {
 }
 
 export const mutations = {
+  SET_PRODUCT (state, products) {
+    state.storedata = products.products
+  },
+  SET_PRODUCT_BYID (state, products) {
+    state.storedata = products.products
+  },
+  
   updateCartUI: (state, payload) => {
     state.cartUIStatus = payload
   },
@@ -71,6 +91,16 @@ export const mutations = {
 }
 
 export const actions = {
+  async getProduct ({commit}) {
+    const products = await userService.getProduct()
+    commit('SET_PRODUCT', products)
+    return products
+  },
+  async getProductByid ({commit}) {
+    const products = await userService.getProduct()
+    commit('SET_PRODUCT_BYID', products)
+    return products.id[$route.params.id]
+  },
   async createPaymentIntent({ getters, commit }) {
     try {
       // Create a PaymentIntent with the information about the order

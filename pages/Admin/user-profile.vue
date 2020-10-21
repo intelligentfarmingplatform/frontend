@@ -147,12 +147,11 @@ export default {
   },
   data() {
     return {
-
       testdata: [],
       username: '555',
-provincesDisabled:false,
-amphuresDisabled:true,
-districtsDisabled:true,
+      provincesDisabled: false,
+      amphuresDisabled: true,
+      districtsDisabled: true,
       email: '333',
       f_name: '',
       l_name: '',
@@ -211,16 +210,16 @@ districtsDisabled:true,
     getamphuresData(item) {
       this.amphuresData = item
       this.testdata = true
-      this.amphuresDisabled= false
+      this.amphuresDisabled = false
       if (this.testdata) {
-      this.districtsid = 'ตำบล'
-      this.districtsData = ''}
-      else this.amphuresDisabled=true
-      this.districtsDisabled=true
+        this.districtsid = 'ตำบล'
+        this.districtsData = ''
+      } else this.amphuresDisabled = true
+      this.districtsDisabled = true
     },
     getdistrictsData(item) {
-      this.districtsDisabled=false
-      this.testdata=true
+      this.districtsDisabled = false
+      this.testdata = true
       console.log('testdata', this.testdata)
       this.districtsData = item
     },

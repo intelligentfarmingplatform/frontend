@@ -1,106 +1,94 @@
 <template>
   <div>
-    <section class="item-contain">
-      <section class="img">
-        <img :src="`/products/${product.img}`" height="500" />
-      </section>
-      <section class="product-info">
-        <h1>{{ product.name }}</h1>
-        <star-rating
-          :rating="product.starrating"
-          :star-size="15"
-          :show-rating="false"
-          active-color="#000"
-          style="margin: 5px 0"
-        ></star-rating>
-        <h4 class="price">{{ product.price }} บาท</h4>
-        <p>{{ product.description }}</p>
-        <p>ทดสอบๆ</p>
-        <div class="product-options">
-          <div class="quantity">
-            <vs-button
-              class="update-num"
-              @click="quantity > 0 ? quantity-- : (quantity = 0)"
-              >-</vs-button
-            >
-            <input type="number" v-model="quantity" />
-            <vs-button class="update-num" @click="quantity++">+</vs-button>
-          </div>
-          <div v-if="product.sizes" class="size">
-            <select
-              v-model="size"
-              class="size-picker"
-              @change="showSizeRequiredMessage = false"
-            >
-              <option :value="null" disabled hidden>Size</option>
-              <option
-                v-for="(size, key) in product.sizes"
-                :key="key"
-                :value="size"
+    <vs-col>
+      <section class="item-contain" v-for="product in product" :key="product.id">
+        <section class="img">
+          <img :src="`/products/${product.img}`" height="500" />
+        </section>
+        <section class="product-info">
+          <h1>{{ product }}</h1>
+          <h4 class="price">{{ product.price }} บาท</h4>
+          <p>{{ product.description }}</p>
+          <p>ทดสอบๆ</p>
+          <div class="product-options">
+            <div class="quantity">
+              <vs-button
+                class="update-num"
+                @click="quantity > 0 ? quantity-- : (quantity = 0)"
+                >-</vs-button
               >
-                {{ size }}
-              </option>
-            </select>
+              <input type="number" v-model="quantity" />
+              <vs-button class="update-num" @click="quantity++">+</vs-button>
+            </div>
+            <div v-if="product.sizes" class="size">
+              <select
+                v-model="size"
+                class="size-picker"
+                @change="showSizeRequiredMessage = false"
+              >
+                <option :value="null" disabled hidden>Size</option>
+                <option
+                  v-for="(size, key) in product.sizes"
+                  :key="key"
+                  :value="size"
+                >
+                  {{ size }}
+                </option>
+              </select>
+            </div>
           </div>
-        </div>
-        <p>Available :</p>
-        <p>
-          <vs-button border class="button purchase" @click="cartAdd"
-            >หยิบใส่ตะกร้า</vs-button
-          >
-        </p>
+          <p>Available :</p>
+          <p>
+            <vs-button border class="button purchase" @click="cartAdd"
+              >หยิบใส่ตะกร้า</vs-button
+            >
+          </p>
+        </section>
       </section>
-    </section>
-    <hr />
-    <div class="review">
-      <h2>Reviews</h2>
-      <!-- maybe an image of a person? -->
-      <star-rating
-        :rating="product.starrating"
-        active-color="#000"
-        :star-size="15"
-        :show-rating="false"
-        style="margin: 5px 0"
-      ></star-rating>
-      <p>{{ product.review }}</p>
-      <p>ทดสอบๆ</p>
-    </div>
+
+      <hr />
+      <div class="review">
+        <h2>Reviews</h2>
+        <!-- maybe an image of a person? -->
+        <p>{{ product.review }}</p>
+        <p>ทดสอบๆ</p>
+      </div>
+    </vs-col>
     <app-featured-products />
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex'
-import StarRating from 'vue-star-rating/src/star-rating.vue'
+import axios from 'axios'
+import { mapActions, mapGetters, mapState } from 'vuex'
 import AppFeaturedProducts from '~/components/AppFeaturedProducts.vue'
 
 export default {
   components: {
-    StarRating,
     AppFeaturedProducts,
   },
   data() {
     return {
       id: this.$route.params.id,
+
       quantity: 1,
-      size: null,
       showSizeRequiredMessage: false,
       tempcart: [], // this object should be the same as the json store object, with additional params, quantity and size
     }
   },
+  mounted() {
+    this.getProductByid()
+ console.log(this.getProductByid())
+  },
   computed: {
     ...mapState(['storedata']),
-    product() {
-      return this.storedata.find((el) => el.id === this.id)
-    },
+    product: (state) => state.storedata,
   },
   methods: {
+    ...mapActions({
+      getProductByid: 'getProductByid',
+    }),
     cartAdd() {
-      if (this.product.sizes && !this.size) {
-        this.showSizeRequiredMessage = true
-        return
-      }
-
       let item = this.product
       item = {
         ...item,
@@ -125,7 +113,7 @@ export default {
 }
 
 .product-options {
-  display: flex;
+  display: grid;
 }
 
 input,

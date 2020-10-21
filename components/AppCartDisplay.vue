@@ -11,7 +11,11 @@
         </tr>
         <tr v-for="item in cart" :key="item.id">
           <td>
-            <img :src="`/products/${item.img}`" :alt="item.name" class="product-img" />
+            <img
+              :src="`/products/${item.img}`"
+              :alt="item.name"
+              class="product-img"
+            />
             <h3 class="product-name">{{ item.name }}</h3>
             <h5 v-if="item.size" class="product-size">Size: {{ item.size }}</h5>
           </td>
@@ -25,7 +29,7 @@
             <strong> {{ item.quantity }}</strong>
             <button @click="addToCart(item)" class="quantity-adjust">+</button>
           </td>
-          <td>{{ (item.quantity * item.price) }}</td>
+          <td>{{ item.quantity * item.price }}</td>
           <td>
             <button @click="removeAllFromCart(item)" class="delete-product">
               x
@@ -65,29 +69,29 @@
 </template>
 
 <script>
-import AppPayment from "~/components/AppPayment.vue";
-import { mapState, mapGetters } from "vuex";
+import AppPayment from '~/components/AppPayment.vue'
+import { mapState, mapGetters } from 'vuex'
 
 export default {
   components: {
-    AppPayment
+    AppPayment,
   },
   computed: {
-    ...mapState(["cart"]),
-    ...mapGetters(["cartCount", "cartTotal"])
+    ...mapState(['cart']),
+    ...mapGetters(['cartCount', 'cartTotal']),
   },
   methods: {
     addToCart(item) {
-      this.$store.commit("addOneToCart", item);
+      this.$store.commit('addOneToCart', item)
     },
     removeOneFromCart(item) {
-      this.$store.commit("removeOneFromCart", item);
+      this.$store.commit('removeOneFromCart', item)
     },
     removeAllFromCart(item) {
-      this.$store.commit("removeAllFromCart", item);
-    }
-  }
-};
+      this.$store.commit('removeAllFromCart', item)
+    },
+  },
+}
 </script>
 
 <style lang="scss" scoped>

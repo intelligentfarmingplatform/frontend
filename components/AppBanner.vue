@@ -1,54 +1,57 @@
 <template>
   <v-app class="banner">
     <vs-row>
-      <vs-col w="6">
+      <vs-col w="7">
         <v-carousel
           class="banner1"
-          height="400"
+          height="300"
           cycle
           hide-delimiter-background
           show-arrows-on-hover
         >
-          <v-carousel-item v-for="(slide, i) in slides" :key="i">
-            <v-sheet :color="colors[i]" height="100%">
-              <v-row class="fill-height" align="center" justify="center">
-                <div class="display-3">{{ slide }} Slide</div>
-              </v-row>
-            </v-sheet>
+          <v-carousel-item
+            v-for="(item, i) in item1"
+            :key="i"
+            :src="item.src"
+            reverse-transition="fade-transition"
+            transition="fade-transition"
+          >
           </v-carousel-item>
         </v-carousel>
       </vs-col>
 
-      <vs-col w="6">
+      <vs-col w="5">
         <v-carousel
           class="banner2"
-          height="195"
+          height="147.5"
           cycle
           hide-delimiter-background
           show-arrows-on-hover
         >
-          <v-carousel-item v-for="(slide, i) in slides" :key="i">
-            <v-sheet :color="colors[i]" height="100%">
-              <v-row class="fill-height" align="center" justify="center">
-                <div class="display-3">{{ slide }} Slide</div>
-              </v-row>
-            </v-sheet>
+          <v-carousel-item
+            v-for="(item, i) in item2"
+            :key="i"
+            :src="item.src"
+            reverse-transition="fade-transition"
+            transition="fade-transition"
+          >
           </v-carousel-item>
         </v-carousel>
 
         <v-carousel
           class="banner3"
-          height="195"
+          height="147.5"
           cycle
           hide-delimiter-background
           show-arrows-on-hover
         >
-          <v-carousel-item v-for="(slide, i) in slides" :key="i">
-            <v-sheet :color="colors[i]" height="100%">
-              <v-row class="fill-height" align="center" justify="center">
-                <div class="display-3">{{ slide }} Slide</div>
-              </v-row>
-            </v-sheet>
+          <v-carousel-item
+            v-for="(item, i) in item3"
+            :key="i"
+            :src="item.src"
+            reverse-transition="fade-transition"
+            transition="fade-transition"
+          >
           </v-carousel-item>
         </v-carousel>
       </vs-col>
@@ -65,12 +68,47 @@ export default {
   },
   data() {
     return {
-      colors: [
-        'indigo',
-        'warning',
-        'pink darken-2',
-        'red lighten-1',
-        'deep-purple accent-4',
+      item1: [
+        {
+          src: 'https://cdn.vuetifyjs.com/images/carousel/squirrel.jpg',
+        },
+        {
+          src: 'https://cdn.vuetifyjs.com/images/carousel/sky.jpg',
+        },
+        {
+          src: 'https://cdn.vuetifyjs.com/images/carousel/bird.jpg',
+        },
+        {
+          src: 'https://cdn.vuetifyjs.com/images/carousel/planet.jpg',
+        },
+      ],
+      item2: [
+        {
+          src: 'https://cdn.vuetifyjs.com/images/carousel/squirrel.jpg',
+        },
+        {
+          src: 'https://cdn.vuetifyjs.com/images/carousel/sky.jpg',
+        },
+        {
+          src: 'https://cdn.vuetifyjs.com/images/carousel/bird.jpg',
+        },
+        {
+          src: 'https://cdn.vuetifyjs.com/images/carousel/planet.jpg',
+        },
+      ],
+      item3: [
+        {
+          src: 'https://cdn.vuetifyjs.com/images/carousel/squirrel.jpg',
+        },
+        {
+          src: 'https://cdn.vuetifyjs.com/images/carousel/sky.jpg',
+        },
+        {
+          src: 'https://cdn.vuetifyjs.com/images/carousel/bird.jpg',
+        },
+        {
+          src: 'https://cdn.vuetifyjs.com/images/carousel/planet.jpg',
+        },
       ],
       slides: ['First', 'Second', 'Third', 'Fourth', 'Fifth'],
     }
@@ -93,14 +131,13 @@ export default {
     color: #efefef;
   }
   .banner3 {
-    margin-top: 10px;
+    margin-top: 5px;
     max-width: 97.5%;
     font-size: 3.5vmin;
     color: #efefef;
   }
   .img {
     max-width: 100%;
-    grid-area: 1 / 1 / 6 / 4;
     img {
       width: 100%;
     }

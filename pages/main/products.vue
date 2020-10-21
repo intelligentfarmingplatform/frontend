@@ -1,16 +1,16 @@
 <template>
   <div>
-    <app-store-grid :data="storedata" />
+    <AppProduct :data="storedata" />
   </div>
 </template>
 
 <script>
 import { mapState } from "vuex";
-import AppStoreGrid from "~/components/AppStoreGrid.vue";
+import AppProduct from "~/components/AppProduct.vue";
 
 export default {
   components: {
-    AppStoreGrid
+    AppProduct
   },
   computed: {
     ...mapState(["storedata"])

@@ -4,25 +4,39 @@
       <span>Featured Products</span>
     </h2>
     <div class="featureditems">
-      <div class="item" v-for="product in featuredProducts" :key="product.id">
-        <img :src="`/products/${product.img}`" height="200" />
-        <h3>{{ product.name }}</h3>
-        <h4>{{ product.price }} บาท</h4>
-        <nuxt-link :to="`/main/product/${product.id}`">
-          <vs-button border>ดูสินค้า ></vs-button>
-        </nuxt-link>
-      </div>
+      <vs-row>
+        <div class="item" v-for="product in featuredProducts" :key="product.id">
+          <img :src="`/products/${product.img}`" height="200" />
+          <h3>{{ product.name }}</h3>
+          <h4>{{ product.price }} บาท</h4>
+          <nuxt-link :to="`/main/product/${product.id}`">
+            <vs-button border>ดูสินค้า ></vs-button>
+          </nuxt-link>
+        </div>
+      </vs-row>
     </div>
   </section>
 </template>
 
 <script>
+import axios from 'axios'
 export default {
-  computed: {
-    featuredProducts() {
-      return this.$store.getters.featuredProducts
-    },
+  data: () => {
+    return {
+      featuredProducts: [],
+    }
   },
+  async fetch() {
+    await axios
+      .get('https://it-ifp-auth.herokuapp.com/api/myproducts/featured/all')
+      .then((response) => {
+        this.featuredProducts = response.data.products
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  },
+  computed: {},
 }
 </script>
 
@@ -38,7 +52,7 @@ section {
     border: 1px solid #eee2dc;
     box-shadow: 0 3px 10px 0px #eee;
     border-radius: 40px;
-    padding: 10px 20px 30px;
+    padding: 15px;
     min-height: 150px;
     justify-self: center;
     align-self: center;
@@ -75,29 +89,5 @@ h2 span:before {
 }
 h2 span:after {
   right: -1010px;
-}
-
-@media screen and (max-width: 699px) {
-  .featureditems {
-    width: 83vw;
-    margin-left: 5vw;
-    div {
-      padding: 10px 20px;
-      margin-bottom: 10px;
-    }
-  }
-}
-
-@media screen and (min-width: 700px) {
-  .featureditems {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: 1fr;
-    grid-column-gap: 20px;
-    grid-row-gap: 0px;
-    div {
-      padding: 40px 50px;
-    }
-  }
 }
 </style>

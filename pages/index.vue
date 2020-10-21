@@ -3,7 +3,6 @@
     <div class="banner">
       <AppBanner />
     </div>
-    <AppSalesBoxes />
     <AppStoreGrid :data="storedata" />
     <AppFeaturedProducts />
   </div>
@@ -11,14 +10,17 @@
 
 <script>
 import AppBanner from '~/components/AppBanner.vue'
+import AppSalesBoxes from '~/components/AppSalesBoxes.vue'
 import { mapState } from 'vuex'
 import AppStoreGrid from '~/components/AppStoreGrid.vue'
 import AppFeaturedProducts from '~/components/AppFeaturedProducts.vue'
+
 
 export default {
   layout: 'default',
   components: {
     AppBanner,
+    AppSalesBoxes,
     AppStoreGrid,
     AppFeaturedProducts,
   },
@@ -28,12 +30,9 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .banner {
   margin-top: 70px;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
 }
 
 .title {

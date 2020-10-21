@@ -70,14 +70,14 @@ export default {
           text: 'User Profile',
         },
         {
-          to: '/admin/table-list',
+          to: '/admin/memberManagement',
           icon: 'mdi-clipboard-outline',
-          text: 'Table List',
+          text: 'Member Management',
         },
         {
-          to: '/admin/typography',
+          to: '/admin/productManagement',
           icon: 'mdi-format-font',
-          text: 'Typography',
+          text: 'Product Management',
         },
         {
           to: '/admin/icons',
@@ -133,7 +133,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 #app-drawer {
   &.v-navigation-drawer .v-list {
     background: rgb(0, 179, 202);
