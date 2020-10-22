@@ -3,7 +3,7 @@
     <div class="banner">
       <AppBanner />
     </div>
-    <AppStoreGrid :data="storedata" />
+    <AppStoreGrid/>
     <AppFeaturedProducts />
   </div>
 </template>
@@ -11,7 +11,6 @@
 <script>
 import AppBanner from '~/components/AppBanner.vue'
 import AppSalesBoxes from '~/components/AppSalesBoxes.vue'
-import { mapState } from 'vuex'
 import AppStoreGrid from '~/components/AppStoreGrid.vue'
 import AppFeaturedProducts from '~/components/AppFeaturedProducts.vue'
 
@@ -23,9 +22,6 @@ export default {
     AppSalesBoxes,
     AppStoreGrid,
     AppFeaturedProducts,
-  },
-  computed: {
-    ...mapState(['storedata']),
   },
 }
 </script>

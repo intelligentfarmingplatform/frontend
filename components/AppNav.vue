@@ -22,9 +22,9 @@
         >
           About
         </vs-navbar-item>
-        <vs-navbar-item @click="contactActive = !contactActive">
+        <!-- <vs-navbar-item @click="contactActive = !contactActive">
           Contact Us
-        </vs-navbar-item>
+        </vs-navbar-item> -->
       </template>
 
       <template #right>

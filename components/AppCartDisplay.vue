@@ -70,7 +70,7 @@
 
 <script>
 import AppPayment from '~/components/AppPayment.vue'
-import { mapState, mapGetters } from 'vuex'
+import { mapActions, mapGetters, mapState } from 'vuex'
 
 export default {
   components: {
@@ -79,6 +79,8 @@ export default {
   computed: {
     ...mapState(['cart']),
     ...mapGetters(['cartCount', 'cartTotal']),
+    ...mapState(['storedata']),
+    product: (state) => state.storedata,
   },
   methods: {
     addToCart(item) {

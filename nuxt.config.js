@@ -41,6 +41,7 @@ export default {
   plugins: [
     '~/plugins/vuetify',
     '~/plugins/vuesax',
+    {src:"~/plugins/localStorageCart.js",ssr:false}
     // { src: '~plugins/vue-scrollmagic.js', ssr: false },
   ],
 
@@ -69,7 +70,7 @@ export default {
   },
   auth: {
     redirect: {
-      login: '/Auth/login',
+      login: '/',
     },
     strategies: {
       local: {

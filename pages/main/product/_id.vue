@@ -1,14 +1,14 @@
 <template>
   <div>
     <vs-col>
-      <section class="item-contain" v-for="product in product" :key="product.id">
+      <section class="item-contain">
         <section class="img">
-          <img :src="`/products/${product.img}`" height="500" />
+          <img :src="`/products/${this.product[this.$route.params.id-1].img}`" height="500" />
         </section>
         <section class="product-info">
-          <h1>{{ product }}</h1>
-          <h4 class="price">{{ product.price }} บาท</h4>
-          <p>{{ product.description }}</p>
+          <h1>{{ this.product[this.$route.params.id-1].name }}</h1>
+          <h4 class="price">{{ this.product[this.$route.params.id-1].price }} บาท</h4>
+          <p>{{ this.product[this.$route.params.id-1].description }}</p>
           <p>ทดสอบๆ</p>
           <div class="product-options">
             <div class="quantity">
@@ -77,19 +77,16 @@ export default {
     }
   },
   mounted() {
-    this.getProductByid()
- console.log(this.getProductByid())
+    //this.getProductByid()
   },
   computed: {
     ...mapState(['storedata']),
     product: (state) => state.storedata,
   },
   methods: {
-    ...mapActions({
-      getProductByid: 'getProductByid',
-    }),
+
     cartAdd() {
-      let item = this.product
+      let item = this.product[this.$route.params.id-1]
       item = {
         ...item,
         quantity: this.quantity,

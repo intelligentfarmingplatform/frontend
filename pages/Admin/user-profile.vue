@@ -140,7 +140,6 @@ import materialCard from '~/components/material/AppCard'
 import Axios from 'axios'
 
 export default {
-  middleware: 'auth',
   layout: 'dashboard',
   components: {
     materialCard,
@@ -157,101 +156,7 @@ export default {
       l_name: '',
       address: [],
       item2: null,
-      provincesData: [],
-      provincesid: { id: '', name_th: '' },
-      amphuresid: { id: '', name_th: '' },
-      districtsid: { id: '', name_th: '' },
-      amphuresData: [],
-      districtsData: [],
     }
-  },
-  methods: {
-    handleProvinces() {
-      Axios.defaults.headers.common['Authorization'] = this.$auth.getToken(
-        this.$auth.strategy.name
-      )
-      Axios.get(
-        'https://it-ifp-auth.herokuapp.com/api/amphures/' + this.provincesid.id
-      )
-        .then((response) => {
-          this.getamphuresData(response.data.amphures)
-
-          //this.loading = false;
-        })
-        .catch((err) => {
-          console.log(err)
-        })
-      console.log(this.provincesid.id)
-    },
-    handleAmphures() {
-      Axios.get(
-        'https://it-ifp-auth.herokuapp.com/api/districts/' + this.amphuresid.id
-      )
-        .then((response) => {
-          this.getdistrictsData(response.data.districts)
-
-          //this.loading = false;
-        })
-        .catch((err) => {
-          console.log(err)
-        })
-      console.log(this.amphuresid.id)
-    },
-    handleDistricts() {
-      console.log(this.districtsid.id)
-    },
-    getprovincesData(item) {
-      this.provincesData = item
-      //console.log('ITEM',item)
-
-      //console.log('this is country',item[0].id)
-    },
-
-    getamphuresData(item) {
-      this.amphuresData = item
-      this.testdata = true
-      this.amphuresDisabled = false
-      if (this.testdata) {
-        this.districtsid = 'ตำบล'
-        this.districtsData = ''
-      } else this.amphuresDisabled = true
-      this.districtsDisabled = true
-    },
-    getdistrictsData(item) {
-      this.districtsDisabled = false
-      this.testdata = true
-      console.log('testdata', this.testdata)
-      this.districtsData = item
-    },
-  },
-  async fetch() {
-    // Set config defaults when creating the instance
-
-    if (this.$auth.loggedIn) {
-      this.$auth.getToken(this.$auth.strategy.name)
-      //this.$auth.fetchUser()
-      this.$axios.setHeader(
-        'Authorization',
-        this.$auth.getToken(this.$auth.strategy.name)
-      )
-      console.log(
-        'fetch success',
-        this.$auth.getToken(this.$auth.strategy.name)
-      )
-    }
-    Axios.defaults.headers.common['Authorization'] = this.$auth.getToken(
-      this.$auth.strategy.name
-    )
-    console.log('send header com complete')
-    await Axios.get('https://it-ifp-auth.herokuapp.com/api/provinces')
-      .then((response) => {
-        this.getprovincesData(response.data.provinces)
-
-        //this.loading = false;
-      })
-      .catch((err) => {
-        console.log(err)
-      })
   },
   computed: {
     ...mapGetters({

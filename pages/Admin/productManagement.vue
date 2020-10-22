@@ -7,7 +7,7 @@
           title="Product Management"
           text="Edit"
         >
-          
+
         </material-card>
       </v-flex>
     </v-layout>
@@ -19,12 +19,11 @@ import materialCard from '~/components/material/AppCard'
 
 export default {
   layout: 'dashboard',
-  middleware: 'auth',
   components: {
     materialCard,
   },
   data() {
-    
+
   },
 }
 </script>

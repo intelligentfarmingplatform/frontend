@@ -80,16 +80,6 @@ export default {
           text: 'Product Management',
         },
         {
-          to: '/admin/icons',
-          icon: 'mdi-chart-bubble',
-          text: 'Icons',
-        },
-        {
-          to: '/admin/maps',
-          icon: 'mdi-map-marker',
-          text: 'Maps',
-        },
-        {
           to: '/admin/notifications',
           icon: 'mdi-bell',
           text: 'Notifications',

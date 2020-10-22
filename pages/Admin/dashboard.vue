@@ -87,7 +87,6 @@ import Axios from 'axios'
 export default {
   layout: 'dashboard',
   name: 'dashboard',
-  middleware: 'auth',
   components: {
     materialCard,
     materialChartCard,

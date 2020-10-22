@@ -21,7 +21,7 @@ export const state = () => ({
 
 export const getters = {
   products: state =>state.storedata,
-  
+
   //check loggedin status
   isAuthenticated(state) {
     return state.auth.loggedIn
@@ -58,7 +58,7 @@ export const mutations = {
   SET_PRODUCT_BYID (state, products) {
     state.storedata = products.products
   },
-  
+
   updateCartUI: (state, payload) => {
     state.cartUIStatus = payload
   },
@@ -99,7 +99,7 @@ export const actions = {
   async getProductByid ({commit}) {
     const products = await userService.getProduct()
     commit('SET_PRODUCT_BYID', products)
-    return products.id[$route.params.id]
+    return products
   },
   async createPaymentIntent({ getters, commit }) {
     try {

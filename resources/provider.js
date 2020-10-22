@@ -13,7 +13,7 @@ class UserProvider extends HttpRequest {
   }
   async getProductByid () {
     // example path https://api.myjson.com/bins/17k39m/
-    const {data} = await this.get('/:id'+params.id)
+    const {data} = await this.get('/')
     return data
   }
 }

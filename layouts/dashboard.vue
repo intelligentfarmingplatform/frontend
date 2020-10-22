@@ -15,6 +15,7 @@ import coreView from "~/components/core/AppView";
 
 export default {
   name: 'dashboard',
+    middleware: 'auth',
   components: {
     coreToolbar,
     coreDrawer,

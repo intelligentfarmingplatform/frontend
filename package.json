@@ -29,6 +29,7 @@
     "vuesax": "^4.0.1-alpha.25",
     "vuetify": "^2.3.13",
     "vuetify-loader": "^1.6.0",
+    "vuex-persistedstate": "^4.0.0-beta.1",
     "websocket-stream": "^5.5.2"
   },
   "devDependencies": {

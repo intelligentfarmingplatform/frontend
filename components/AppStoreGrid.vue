@@ -48,11 +48,7 @@ import axios from 'axios'
 import { mapActions, mapGetters, mapState } from 'vuex'
 export default {
   name: 'AppStoreGrid',
-  props: {
-    data: {
-      required: true,
-    },
-  },
+
   data() {
     return {
       search: '',
@@ -62,15 +58,15 @@ export default {
   methods: {
     ...mapActions({
       getProduct: 'getProduct',
-      
+
     }),
-    
+
   },
 
   computed: {
     ...mapState({
       product: (state) => state.storedata,
-      
+
     }),
   },
   components: {},
