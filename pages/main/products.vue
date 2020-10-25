@@ -1,19 +1,19 @@
 <template>
   <div>
-    <AppProduct :data="storedata" />
+    <AppProduct />
   </div>
 </template>
 
 <script>
-import { mapState } from "vuex";
-import AppProduct from "~/components/AppProduct.vue";
+import { mapState } from 'vuex'
+import AppProduct from '~/components/AppProduct.vue'
 
 export default {
   components: {
-    AppProduct
+    AppProduct,
   },
-  computed: {
-    ...mapState(["storedata"])
-  }
-};
+  async fetch({ store }) {
+    await store.dispatch('loadAllProducts')
+  },
+}
 </script>

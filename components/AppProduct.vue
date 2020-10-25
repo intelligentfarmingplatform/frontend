@@ -22,7 +22,7 @@
             vs-justify="center"
             vs-align="center"
             w="2"
-            v-for="item in searchResult"
+            v-for="item in products"
             :key="item.id"
           >
             <vs-card>
@@ -56,50 +56,20 @@
 </template>
 
 <script>
-import axios from 'axios'
+import { mapActions, mapGetters, mapState } from 'vuex'
 export default {
   name: 'AppProduct',
-
-  props: {
-    data: {
-      required: true,
-    },
-  },
   data() {
     return {
       searchResult: '',
       item: '',
-      products: [],
       search: '',
     }
   },
-  async fetch() {
-    await axios
-      .get('https://it-ifp-auth.herokuapp.com/api/myproducts')
-      .then((response) => {
-        this.products = response.data.products
-      })
-      .catch((err) => {
-        console.log(err)
-      })
-  },
-  computed: {
-    searchfilter: function () {
-      axios
-        .get('https://it-ifp-auth.herokuapp.com/api/myproducts')
-        .then((response) => {
-          this.searchResult = response.data.products
-          console.log(this.searchResult)
-          return this.searchResult.filter((item) => {
-            return item.name.match(this.search)
-          })
-        })
-        .catch((err) => {
-          console.log(err)
-        })
-    },
-  },
   components: {},
+  computed: {
+    ...mapState(['products']),
+  },
 }
 </script>
 

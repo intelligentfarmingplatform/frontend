@@ -3,12 +3,12 @@
     <vs-col>
       <section class="item-contain">
         <section class="img">
-          <img :src="`/products/${this.product[this.$route.params.id-1].img}`" height="500" />
+          <img :src="`/products/${product.img}`" height="500" />
         </section>
         <section class="product-info">
-          <h1>{{ this.product[this.$route.params.id-1].name }}</h1>
-          <h4 class="price">{{ this.product[this.$route.params.id-1].price }} บาท</h4>
-          <p>{{ this.product[this.$route.params.id-1].description }}</p>
+          <h1>{{ product.name }}</h1>
+          <h4 class="price">{{ product.price }} บาท</h4>
+          <p>{{ product.description }}</p>
           <p>ทดสอบๆ</p>
           <div class="product-options">
             <div class="quantity">
@@ -19,22 +19,6 @@
               >
               <input type="number" v-model="quantity" />
               <vs-button class="update-num" @click="quantity++">+</vs-button>
-            </div>
-            <div v-if="product.sizes" class="size">
-              <select
-                v-model="size"
-                class="size-picker"
-                @change="showSizeRequiredMessage = false"
-              >
-                <option :value="null" disabled hidden>Size</option>
-                <option
-                  v-for="(size, key) in product.sizes"
-                  :key="key"
-                  :value="size"
-                >
-                  {{ size }}
-                </option>
-              </select>
             </div>
           </div>
           <p>Available :</p>
@@ -59,7 +43,6 @@
 </template>
 
 <script>
-import axios from 'axios'
 import { mapActions, mapGetters, mapState } from 'vuex'
 import AppFeaturedProducts from '~/components/AppFeaturedProducts.vue'
 
@@ -76,17 +59,24 @@ export default {
       tempcart: [], // this object should be the same as the json store object, with additional params, quantity and size
     }
   },
-  mounted() {
-    //this.getProductByid()
+  async fetch({ store, params }) {
+    //return this.getProduct()
+    await store.dispatch('loadAllProducts', { productId: params.id });
   },
   computed: {
-    ...mapState(['storedata']),
-    product: (state) => state.storedata,
+    ...mapState(['products']),
+    product() {
+     return this.products.find((p) => p.id == this.$route.params.id)
+    },
+    //storedata: (state) => state.storedata,
   },
   methods: {
+    // ...mapActions({
+    //   getProduct: 'getProduct',
 
+    // }),
     cartAdd() {
-      let item = this.product[this.$route.params.id-1]
+      let item = this.product
       item = {
         ...item,
         quantity: this.quantity,

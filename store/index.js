@@ -11,17 +11,14 @@ const userService = new productProvider()
 //     console.log(resp.data.products);
 // })
 
-
 export const state = () => ({
   cartUIStatus: 'idle',
-  storedata:'',
+  products: [],
   cart: [],
   clientSecret: '', // Required to initiate the payment from the client
 })
 
 export const getters = {
-  products: state =>state.storedata,
-
   //check loggedin status
   isAuthenticated(state) {
     return state.auth.loggedIn
@@ -52,13 +49,12 @@ export const getters = {
 }
 
 export const mutations = {
-  SET_PRODUCT (state, products) {
-    state.storedata = products.products
+  SET_PRODUCTS(state, products) {
+    return (state.products = products)
   },
-  SET_PRODUCT_BYID (state, products) {
-    state.storedata = products.products
+  SET_ALLPRODUCTS(state, products) {
+    return (state.products = products)
   },
-
   updateCartUI: (state, payload) => {
     state.cartUIStatus = payload
   },
@@ -91,14 +87,27 @@ export const mutations = {
 }
 
 export const actions = {
-  async getProduct ({commit}) {
+  async getOneProduct({ commit }, { productId }) {
+    await axios
+      .get(`https://it-ifp-auth.herokuapp.com/api/myproducts/${productId}`)
+      .then((response) => {
+        console.log(response.data)
+        let products = response.data.products
+        commit('SET_PRODUCTS', products)
+      })
+  },
+
+  async loadAllProducts({ commit }) {
+    await axios
+      .get('https://it-ifp-auth.herokuapp.com/api/myproducts')
+      .then((res) => {
+        let products = res.data.products
+        commit('SET_PRODUCTS', products)
+      })
+  },
+  async getProduct({ commit }) {
     const products = await userService.getProduct()
     commit('SET_PRODUCT', products)
-    return products
-  },
-  async getProductByid ({commit}) {
-    const products = await userService.getProduct()
-    commit('SET_PRODUCT_BYID', products)
     return products
   },
   async createPaymentIntent({ getters, commit }) {

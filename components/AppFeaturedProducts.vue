@@ -26,6 +26,7 @@ export default {
       featuredProducts: [],
     }
   },
+
   async fetch() {
     await axios
       .get('https://it-ifp-auth.herokuapp.com/api/myproducts/featured/all')
@@ -35,7 +36,7 @@ export default {
       .catch((err) => {
         console.log(err)
       })
-  },
+   },
   computed: {},
 }
 </script>

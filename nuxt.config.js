@@ -41,7 +41,7 @@ export default {
   plugins: [
     '~/plugins/vuetify',
     '~/plugins/vuesax',
-    {src:"~/plugins/localStorageCart.js",ssr:false}
+    { src: '~/plugins/vuex-persist', ssr: false }
     // { src: '~plugins/vue-scrollmagic.js', ssr: false },
   ],
 
@@ -52,6 +52,7 @@ export default {
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
     '@nuxtjs/auth',
+
   ],
   bootstrapVue: {
     icons: false,
@@ -80,10 +81,7 @@ export default {
             method: 'post',
             propertyName: 'auth-token',
           },
-          logout: {
-            url: 'https://it-ifp-auth.herokuapp.com/api/users/logout',
-            method: 'delete',
-          },
+          logout: false,
           user: {
             url: 'https://it-ifp-auth.herokuapp.com/api/me',
             method: 'get',

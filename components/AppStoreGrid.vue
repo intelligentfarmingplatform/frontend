@@ -11,7 +11,7 @@
           vs-justify="center"
           vs-align="center"
           w="2"
-          v-for="item in product"
+          v-for="item in products"
           :key="item.id"
         >
           <vs-card>
@@ -44,32 +44,17 @@
 </template>
 
 <script>
-import axios from 'axios'
-import { mapActions, mapGetters, mapState } from 'vuex'
+import { mapState } from 'vuex'
 export default {
   name: 'AppStoreGrid',
-
   data() {
     return {
       search: '',
     }
   },
- created(){ this.getProduct()},
-  methods: {
-    ...mapActions({
-      getProduct: 'getProduct',
-
-    }),
-
-  },
-
   computed: {
-    ...mapState({
-      product: (state) => state.storedata,
-
-    }),
+    ...mapState(['products']),
   },
-  components: {},
 }
 </script>
 

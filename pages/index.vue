@@ -3,7 +3,7 @@
     <div class="banner">
       <AppBanner />
     </div>
-    <AppStoreGrid/>
+    <AppStoreGrid />
     <AppFeaturedProducts />
   </div>
 </template>
@@ -14,7 +14,6 @@ import AppSalesBoxes from '~/components/AppSalesBoxes.vue'
 import AppStoreGrid from '~/components/AppStoreGrid.vue'
 import AppFeaturedProducts from '~/components/AppFeaturedProducts.vue'
 
-
 export default {
   layout: 'default',
   components: {
@@ -22,6 +21,9 @@ export default {
     AppSalesBoxes,
     AppStoreGrid,
     AppFeaturedProducts,
+  },
+  async fetch({ store }) {
+    await store.dispatch('loadAllProducts')
   },
 }
 </script>

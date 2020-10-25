@@ -25,7 +25,7 @@
 
       <div class="d-flex justify-content-between">
         <span>Total: ${{ cartTotal }}</span>
-        <a href="#" @click.prevent="clearCart(item)">Clear Cart</a>
+        <a href="#" @click="clearCart(item)">Clear Cart</a>
       </div>
     </section>
     <section v-else class="center">Your cart is empty, fill it up!</section>

@@ -42,10 +42,10 @@
           </template>
         </vs-navbar-group>
         <vs-button @click="loginActive = !loginActive" v-if="!$auth.loggedIn"
-          >Login</vs-button
+          >Login / Register</vs-button
         >
-        <vs-button @click="openNotification('top-center', '#7d33ff')"
-          >User</vs-button
+        <vs-button v-if="$auth.loggedIn"
+          >Welcome </vs-button
         >
         <vs-button @click="logoutHandle" v-if="$auth.loggedIn"
           >Logout</vs-button
@@ -224,11 +224,6 @@ import { mapActions, mapGetters } from 'vuex'
 import MiniCart from '~/components/MiniCart'
 import materialCard from '~/components/material/AppCard'
 import Notification from '~/components/Notification'
-import Vue from 'vue'
-import Vuesax from 'vuesax'
-
-import 'vuesax/dist/vuesax.css'
-Vue.use(Vuesax, {})
 
 export default {
   components: { materialCard, Notification, MiniCart },
@@ -265,7 +260,6 @@ export default {
         position: 'top-center',
         width: '100%',
         color: 'warn',
-        loading: true,
         title: '<center>ออกจากระบบสำเร็จ</center>',
         text: `<center>กำลังนำคุณไปสู่หน้าหลัก...</center>`,
       })

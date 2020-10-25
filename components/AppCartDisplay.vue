@@ -79,8 +79,6 @@ export default {
   computed: {
     ...mapState(['cart']),
     ...mapGetters(['cartCount', 'cartTotal']),
-    ...mapState(['storedata']),
-    product: (state) => state.storedata,
   },
   methods: {
     addToCart(item) {
