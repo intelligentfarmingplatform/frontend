@@ -38,7 +38,7 @@
             </template>
           </vs-avatar>
           <template #items>
-            <MiniCart />
+            <!-- <MiniCart /> -->
           </template>
         </vs-navbar-group>
         <vs-button @click="loginActive = !loginActive" v-if="!$auth.loggedIn"
@@ -352,7 +352,7 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="stylus" scoped>
 getColor(vsColor, alpha = 1) {
   unquote('rgba(var(--vs-' + vsColor + '), ' + alpha + ')');
 }

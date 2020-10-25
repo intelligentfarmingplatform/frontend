@@ -1,25 +1,16 @@
 <template>
   <div class="storegrid">
-    <div class="container">
-      <vs-row>
-        <vs-col offset="2" w="6">
-          <vs-input v-model="search" border placeholder="สินค้าทั้งหมด" />
-        </vs-col>
-      </vs-row>
-      <vs-row>
-        <vs-col
-          vs-justify="center"
-          vs-align="center"
-          w="2"
-          v-for="item in products"
-          :key="item.id"
-        >
+    <vs-input v-model="search" border placeholder="สินค้าทั้งหมด" />
+
+    <vs-row justify="center">
+      <div v-for="item in products" :key="item.id">
+        <vs-col>
           <vs-card>
             <template #title>
               <h3>{{ item.name }}</h3>
             </template>
             <template #img>
-              <img :src="`/products/${item.img}`" height="200" />
+              <img :src="`/products/${item.img}`"  />
             </template>
             <template #text>
               <h4 class="price">{{ item.price }} บาท</h4>
@@ -38,8 +29,8 @@
             </template>
           </vs-card>
         </vs-col>
-      </vs-row>
-    </div>
+      </div>
+    </vs-row>
   </div>
 </template>
 
@@ -64,5 +55,9 @@ export default {
   justify-self: center;
   align-self: center;
   text-align: center;
+}
+.card-row {
+  display: flex;
+  flex-direction: row;
 }
 </style>

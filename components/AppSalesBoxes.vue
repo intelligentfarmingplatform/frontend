@@ -36,7 +36,7 @@ export default {
 
 <style lang="scss" scoped>
 .boxes {
-  margin: 70px 0;
+  margin: 70px;
   div {
     border: 1px solid #ddd;
     min-height: 150px;
@@ -77,7 +77,9 @@ h4 {
 @media screen and (max-width: 699px) {
   .boxes {
     width: 83vw;
-    margin-left: 5vw;
+        justify-self: center;
+    align-self: center;
+    text-align: center;
     div {
       padding: 10px 20px;
       margin-bottom: 10px;

@@ -4,7 +4,7 @@
       <span>Featured Products</span>
     </h2>
     <div class="featureditems">
-      <vs-row>
+      <vs-row justify="center">
         <div class="item" v-for="product in featuredProducts" :key="product.id">
           <img :src="`/products/${product.img}`" height="200" />
           <h3>{{ product.name }}</h3>

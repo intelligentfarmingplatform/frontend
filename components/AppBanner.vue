@@ -1,5 +1,5 @@
 <template>
-  <v-app class="banner">
+  <div class="banner">
     <vs-row>
       <vs-col w="7">
         <v-carousel
@@ -26,15 +26,15 @@
         <img class="banner3" src="/banner/banner3.jpg" height="147.5"/>
       </vs-col>
     </vs-row>
-    <AppSalesBoxes />
-  </v-app>
+
+  </div>
 </template>
 
 <script>
-import AppSalesBoxes from '~/components/AppSalesBoxes.vue'
+
 export default {
   components: {
-    AppSalesBoxes,
+
   },
   data() {
     return {

@@ -1,26 +1,26 @@
 <template>
-  <div>
+  <v-app>
     <div class="banner">
       <AppBanner />
     </div>
+    <AppSalesBoxes />
     <AppStoreGrid />
     <AppFeaturedProducts />
-  </div>
+  </v-app>
 </template>
 
 <script>
 import AppBanner from '~/components/AppBanner.vue'
-import AppSalesBoxes from '~/components/AppSalesBoxes.vue'
 import AppStoreGrid from '~/components/AppStoreGrid.vue'
 import AppFeaturedProducts from '~/components/AppFeaturedProducts.vue'
-
+import AppSalesBoxes from '~/components/AppSalesBoxes.vue'
 export default {
   layout: 'default',
   components: {
     AppBanner,
-    AppSalesBoxes,
     AppStoreGrid,
     AppFeaturedProducts,
+    AppSalesBoxes,
   },
   async fetch({ store }) {
     await store.dispatch('loadAllProducts')
@@ -30,7 +30,7 @@ export default {
 
 <style scoped>
 .banner {
-  margin-top: 70px;
+  margin-top: 35px;
 }
 
 .title {
