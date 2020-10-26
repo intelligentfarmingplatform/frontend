@@ -4,6 +4,7 @@
       <AppBanner />
     </div>
     <AppSalesBoxes />
+
     <AppStoreGrid />
     <AppFeaturedProducts />
   </v-app>
@@ -22,6 +23,9 @@ export default {
     AppFeaturedProducts,
     AppSalesBoxes,
   },
+  data(){
+    return{
+  }},
   async fetch({ store }) {
     await store.dispatch('loadAllProducts')
   },

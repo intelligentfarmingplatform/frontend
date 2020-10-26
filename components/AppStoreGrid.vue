@@ -1,16 +1,23 @@
 <template>
   <div class="storegrid">
-    <vs-input v-model="search" border placeholder="สินค้าทั้งหมด" />
-
+    <vs-row>
+      <vs-col offset="2" w="6">
+        <vs-input v-model="search" border placeholder="สินค้าทั้งหมด" />
+      </vs-col>
+    </vs-row>
     <vs-row justify="center">
-      <div v-for="item in products" :key="item.id">
+      <div
+        :key="i"
+        v-for="(item, i) in $vs.getSearch(products, search)"
+        :data="item"
+      >
         <vs-col>
           <vs-card>
             <template #title>
               <h3>{{ item.name }}</h3>
             </template>
             <template #img>
-              <img :src="`/products/${item.img}`"  />
+              <img :src="`/products/${item.img}`" />
             </template>
             <template #text>
               <h4 class="price">{{ item.price }} บาท</h4>
@@ -55,9 +62,5 @@ export default {
   justify-self: center;
   align-self: center;
   text-align: center;
-}
-.card-row {
-  display: flex;
-  flex-direction: row;
 }
 </style>

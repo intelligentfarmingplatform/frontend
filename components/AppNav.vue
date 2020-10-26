@@ -44,9 +44,7 @@
         <vs-button @click="loginActive = !loginActive" v-if="!$auth.loggedIn"
           >Login / Register</vs-button
         >
-        <vs-button v-if="$auth.loggedIn"
-          >Welcome </vs-button
-        >
+        <vs-button v-if="$auth.loggedIn">Welcome {{$auth.$state.user[0].email}}</vs-button>
         <vs-button @click="logoutHandle" v-if="$auth.loggedIn"
           >Logout</vs-button
         >
@@ -55,7 +53,7 @@
     <vs-dialog prevent-close blur v-model="loginActive">
       <template #header>
         <h4 class="not-margin">
-          <b>เช้าสู่ระบบ</b>
+          <b>เข้าสู่ระบบ</b>
         </h4>
       </template>
 
@@ -161,11 +159,18 @@
             <i v-if="!hasVisiblePasswordRegister" class="bx bx-show-alt"></i>
             <i v-else class="bx bx-hide"></i>
           </template>
-          <template v-if="!passwordRegister" #message-danger>
-            รหัสผ่านไม่ตรงกัน
-          </template>
-          <template v-else-if="passwordRegister" #message-success>
+
+          <template
+            v-if="
+              passwordRegister == passwordRegisterConfirm && passwordRegister
+            "
+            #message-success
+          >
             รหัสผ่านตรงกัน
+          </template>
+
+          <template v-else-if="!passwordRegister" #message-danger>
+            รหัสผ่านไม่ตรงกัน
           </template>
         </vs-input>
         <vs-input
@@ -178,7 +183,9 @@
 
       <template #footer>
         <div class="footer-dialog">
-          <vs-button block> สมัครสมาชิก </vs-button>
+          <vs-button block @click="handleRegisterClicked">
+            สมัครสมาชิก
+          </vs-button>
         </div>
       </template>
     </vs-dialog>
@@ -221,12 +228,12 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
-import MiniCart from '~/components/MiniCart'
+//import MiniCart from '~/components/MiniCart'
 import materialCard from '~/components/material/AppCard'
 import Notification from '~/components/Notification'
 
 export default {
-  components: { materialCard, Notification, MiniCart },
+  components: { materialCard, Notification },
   data: () => ({
     emailRegister: '',
     passwordRegister: '',
@@ -254,8 +261,49 @@ export default {
     message: '',
   }),
   methods: {
+    async handleRegisterClicked() {
+      try {
+        const response = await this.$axios.post(
+          'https://it-ifp-auth.herokuapp.com/api/user/register',
+          {
+            username: this.usernameRegister,
+            email: this.emailRegister,
+            password: this.passwordRegister,
+            id_card: this.id_cardRegister,
+          }
+        )
+        //console.log(response)
+        await this.$auth.loginWith('local', {
+          data: { email: this.email, password: this.password },
+        })
+        const noti = this.$vs.notification({
+          position: 'top-center',
+          icon: `<i class='bx bx-bell' ></i>`,
+          color: 'success',
+          width: '100%',
+          title: '<center>สมัครสมาชิกสำเร็จ</center>',
+          text: `<center>กำลังนำคุณไปสู่หน้าหลัก...</center>`,
+        })
+      } catch (err) {
+        this.registersuccess = err
+        if ((this.error = err.response.data.success === false)) {
+          this.error = err.response.data.message
+        } else {
+          this.error = err.response.data
+        }
+        //console.log(err.response.data.success)
+      }
+    },
     async logoutHandle() {
       await this.$auth.logout()
+    if (process.client) {
+      localStorage.removeItem('refresh');
+      localStorage.removeItem('auth-token');
+      localStorage.removeItem("tokenExpiration");
+      localStorage.removeItem("userData");
+    if (!localStorage.getItem('auth-token')) {
+      $nuxt.$router.push('/');
+    }}
       const noti = this.$vs.notification({
         position: 'top-center',
         width: '100%',
@@ -352,7 +400,7 @@ export default {
 }
 </script>
 
-<style lang="stylus" scoped>
+<style lang="stylus">
 getColor(vsColor, alpha = 1) {
   unquote('rgba(var(--vs-' + vsColor + '), ' + alpha + ')');
 }

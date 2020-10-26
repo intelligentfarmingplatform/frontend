@@ -1,7 +1,8 @@
 <template>
-  <div>
-    <vs-row>
-      <vs-col offset="2" w="8">
+  <div class="cartMain">
+      <vs-row>
+      <vs-col vs-type="flex" vs-justify="center" vs-align="center" w="12">
+
         <AppCartSteps />
         <hr />
         <h1 class="center">Your Cart</h1>
@@ -33,23 +34,43 @@
             again.
           </p>
         </section>
+
       </vs-col>
     </vs-row>
-    <AppSalesBoxes />
+  <v-container class="grey lighten-5">
+    <v-row no-gutters>
+      <v-col
+      align='center'
+        cols="12"
+        sm="4"
+      >
+        <v-card
+          class="pa-2"
+          outlined
+          tile
+        >
+         <Payment/>
+        </v-card>
+      </v-col>
+    </v-row>
+  </v-container>
+
+
+
   </div>
 </template>
 
 <script>
 import AppCartSteps from '~/components/AppCartSteps.vue'
-import AppSalesBoxes from '~/components/AppSalesBoxes.vue'
 import AppCartDisplay from '~/components/AppCartDisplay.vue'
+import Payment from '~/components/payment.vue'
 import { mapState } from 'vuex'
 
 export default {
   components: {
     AppCartDisplay,
-    AppSalesBoxes,
     AppCartSteps,
+    Payment
   },
   computed: {
     ...mapState(['cartUIStatus']),
@@ -65,5 +86,26 @@ export default {
 
 .success {
   text-align: center;
+}
+@media screen and (min-width: 700px) {
+  // .cartMain {
+  //   width: 95vw;
+  //   justify-self: center;
+  //   align-self: center;
+  //   text-align: center;
+
+
+  // }
+}
+
+@media screen and (max-width: 699px) {
+  .cartMain {
+    width: 95vw;
+    justify-self: center;
+    align-self: center;
+    text-align: center;
+
+  justify-content: center;
+  }
 }
 </style>

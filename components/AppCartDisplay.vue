@@ -1,62 +1,45 @@
 <template>
-  <div>
-    <vs-table>
-      <template #thead>
-        <vs-tr>
-          <vs-th> Product </vs-th>
-          <vs-th> Price </vs-th>
-          <vs-th> Quantity </vs-th>
-          <vs-th> Total </vs-th>
-        </vs-tr>
-      </template>
-      <template #tbody>
-        <vs-tr v-for="item in cart" :key="item.id">
-          <vs-td>
-            <vs-avatar>
-              <img
-                :src="`/products/${item.img}`"
-                alt=""
-                @click="detailsActive = !detailsActive"
-              />
-            </vs-avatar>
-            {{ item.name }}
-          </vs-td>
-          <vs-td>
-            {{ item.price }}
-          </vs-td>
-          <vs-td>
-            <button @click="removeOneFromCart(item)" class="quantity-adjust">
-              -
-            </button>
-            {{ item.quantity }}
-            <button @click="addToCart(item)" class="quantity-adjust">+</button>
-          </vs-td>
-          <vs-td>
-            {{ item.quantity * item.price }}
-          </vs-td>
-          <vs-button border danger @click="removeAllFromCart(item)">
-            x
-          </vs-button>
-          <vs-dialog v-model="detailsActive">
-            <template #header>
-              <h3>
-                {{ item.name }}
-              </h3>
+  <div class="cartDisplay">
+    <v-container class="grey lighten-5">
+      <v-row no-gutters>
+        <v-col>
+          <v-simple-table>
+            <template v-slot:default>
+              <thead>
+                <tr>
+                  <th>สินค้า</th>
+                  <th>ราคา</th>
+                  <th>จำนวน</th>
+                  <th>รวม</th>
+                  <th>ลบสินค้า</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="item in detailsWithSubTotal" :key="item.id">
+                  <td>{{ item.name }}</td>
+                  <td>{{ item.price }}</td>
+                  <td>
+                    <button
+                      @click="removeOneFromCart(item)"
+                      class="quantity-adjust"
+                    >
+                      -</button
+                    > {{ item.quantity }}
+                    <button @click="addToCart(item)" class="quantity-adjust">
+                      +
+                    </button>
+                  </td>
+                  <td>{{item.subtotal}}</td>
+                  <td>            <vs-button @click="removeAllFromCart(item)" class="delete-product">
+              ลบ
+            </vs-button></td>
+                </tr>
+              </tbody>
             </template>
-               <hr>
-            <div class="con-content">
-              <vs-avatar class="modal-img">
-                <img :src="`/products/${item.img}`" alt="" />
-              </vs-avatar>
-              <br />
-              <p class="modal-price">ราคา :  {{ item.price }} บาท</p>
-
-              <p class="modal-description">รายละเอียดสินค้า :  {{ item.description }} </p>
-            </div>
-          </vs-dialog>
-        </vs-tr>
-      </template>
-    </vs-table>
+          </v-simple-table>
+        </v-col>
+      </v-row>
+    </v-container>
   </div>
 </template>
 
@@ -73,6 +56,13 @@ export default {
   },
   computed: {
     ...mapState(['cart']),
+    detailsWithSubTotal() {
+      return this.cart.map((detail) => ({
+        ...detail,
+        subtotal: detail.quantity * detail.price,
+        source: detail
+      }))
+    },
     ...mapGetters(['cartCount', 'cartTotal']),
   },
   methods: {

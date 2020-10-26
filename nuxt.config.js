@@ -41,7 +41,7 @@ export default {
   plugins: [
     '~/plugins/vuetify',
     '~/plugins/vuesax',
-    { src: '~/plugins/vuex-persist', ssr: false }
+    { src: '~/plugins/vuex-persist', ssr: false },
     // { src: '~plugins/vue-scrollmagic.js', ssr: false },
   ],
 
@@ -52,7 +52,9 @@ export default {
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
     '@nuxtjs/auth',
-
+    ['nuxt-stripe-module', {
+      publishableKey: 'pk_test_51Hg9lmAFMKlS8CSVt1AbCsoCYIz3CFIrcV0tddZirj0H7rnBHxqwv8eOIYDBoygBUTlCdg4axOMnZsLSD6tmXlro009D4jrTF4',
+    }],
   ],
   bootstrapVue: {
     icons: false,
@@ -85,7 +87,7 @@ export default {
           user: {
             url: 'https://it-ifp-auth.herokuapp.com/api/me',
             method: 'get',
-            propertyName: '',
+            propertyName: 'users',
           },
         },
         tokenType: '',

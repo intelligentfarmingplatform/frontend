@@ -109,12 +109,15 @@ export default {
     },
     async handleRegisterClicked() {
       try {
-        const response = await this.$axios.post('https://it-ifp-auth.herokuapp.com/api/user/register', {
-          username: this.username,
-          email: this.email,
-          password: this.password,
-          id_card: this.id_card,
-        })
+        const response = await this.$axios.post(
+          'https://it-ifp-auth.herokuapp.com/api/user/register',
+          {
+            username: this.username,
+            email: this.email,
+            password: this.password,
+            id_card: this.id_card,
+          }
+        )
         //console.log(response)
         await this.$auth.loginWith('local', {
           data: { email: this.email, password: this.password },

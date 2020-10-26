@@ -22,6 +22,7 @@
     "core-js": "^3.6.5",
     "http": "0.0.1-security",
     "nuxt": "^2.14.6",
+    "nuxt-stripe-module": "^2.1.0",
     "vue-chartist": "^2.3.1",
     "vue-scrollmagic": "^1.2.0",
     "vue-star-rating": "",
