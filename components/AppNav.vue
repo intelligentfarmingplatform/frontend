@@ -44,10 +44,42 @@
         <vs-button @click="loginActive = !loginActive" v-if="!$auth.loggedIn"
           >Login / Register</vs-button
         >
-        <vs-button v-if="$auth.loggedIn">Welcome {{$auth.$state.user[0].email}}</vs-button>
-        <vs-button @click="logoutHandle" v-if="$auth.loggedIn"
-          >Logout</vs-button
-        >
+
+        <vs-tooltip v-if="$auth.loggedIn" bottom shadow interactivity>
+          <vs-avatar>
+            <img src="/products/2.jpg" alt="" />
+          </vs-avatar>
+          <template #tooltip>
+            <div class="content-tooltip">
+              <div class="body">
+                <div class="text">
+                  Welcome
+                  <span>
+                    {{ $auth.$state.user.email }}
+                  </span>
+                </div>
+                <vs-avatar
+                  circle
+                  size="50"
+                  @click="activeTooltipProfile = !activeTooltipProfile"
+                >
+                  <img src="/products/2.jpg" alt="" />
+                </vs-avatar>
+                <div class="text">ติดตามสถานะการจัดส่ง</div>
+              </div>
+              <footer>
+                <vs-button circle icon border>
+                  <i class="bx bxs-share-alt"></i>
+                </vs-button>
+                <vs-button circle> Edit Profile </vs-button>
+                <vs-button @click="logoutHandle" v-if="$auth.loggedIn"
+                  >Logout</vs-button
+                >
+              </footer>
+            </div>
+          </template>
+        </vs-tooltip>
+        <!-- <vs-button v-if="$auth.loggedIn">Welcome {{$auth.$state.user.email}}</vs-button> -->
       </template>
     </vs-navbar>
     <vs-dialog prevent-close blur v-model="loginActive">
@@ -235,6 +267,7 @@ import Notification from '~/components/Notification'
 export default {
   components: { materialCard, Notification },
   data: () => ({
+    activeTooltipProfile: false,
     emailRegister: '',
     passwordRegister: '',
     passwordRegisterConfirm: '',
@@ -296,14 +329,15 @@ export default {
     },
     async logoutHandle() {
       await this.$auth.logout()
-    if (process.client) {
-      localStorage.removeItem('refresh');
-      localStorage.removeItem('auth-token');
-      localStorage.removeItem("tokenExpiration");
-      localStorage.removeItem("userData");
-    if (!localStorage.getItem('auth-token')) {
-      $nuxt.$router.push('/');
-    }}
+      if (process.client) {
+        localStorage.removeItem('refresh')
+        localStorage.removeItem('auth-token')
+        localStorage.removeItem('tokenExpiration')
+        localStorage.removeItem('userData')
+        if (!localStorage.getItem('auth-token')) {
+          $nuxt.$router.push('/')
+        }
+      }
       const noti = this.$vs.notification({
         position: 'top-center',
         width: '100%',
@@ -320,8 +354,14 @@ export default {
         })
         console.log(response.data.success)
         if (response.data.success) {
-          this.loginsuccess = response.data.success
-          this.loginActive = false
+          ;(this.activeTooltipProfile = false),
+            (this.loginActive = false),
+            this.$auth.setToken('local', response.data.auth_token)
+          this.$axios.setHeader('Authorization', response.data.auth_token)
+          this.$auth.ctx.app.$axios.setHeader(
+            'Authorization',
+            response.data.auth_token
+          )
           const noti = this.$vs.notification({
             position: 'top-center',
             icon: `<i class='bx bx-bell' ></i>`,

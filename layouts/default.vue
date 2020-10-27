@@ -1,9 +1,12 @@
 <template>
-  <div>
+      <div class="flex justify-center">
+        <div class="max-w-screen-lg flex flex-col min-h-screen w-full">
     <AppNav />
     <Nuxt />
     <AppFooter />
-  </div>
+          </div>
+
+    </div>
 </template>
 
 <script>
@@ -17,3 +20,9 @@ import AppFooter from "~/components/AppFooter";
     }
   }
 </script>
+
+<style>
+html {
+  font-family:'prompt'
+}
+  </style>

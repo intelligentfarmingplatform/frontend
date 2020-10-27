@@ -5,7 +5,7 @@
 
         <AppCartSteps />
         <hr />
-        <h1 class="center">Your Cart</h1>
+        <h2 class="center">Your Cart</h2>
 
         <section v-if="cartUIStatus === 'idle'">
           <AppCartDisplay />
@@ -87,19 +87,24 @@ export default {
 .success {
   text-align: center;
 }
+.center{
+  text-align: center;
+}
+
 @media screen and (min-width: 700px) {
-  // .cartMain {
-  //   width: 95vw;
-  //   justify-self: center;
-  //   align-self: center;
-  //   text-align: center;
+  .cartMain {
+  margin-top: 45px;
+     justify-self: center;
+     align-self: center;
+     text-align: center;
 
 
-  // }
+   }
 }
 
 @media screen and (max-width: 699px) {
   .cartMain {
+    margin-top: 45px;
     width: 95vw;
     justify-self: center;
     align-self: center;
@@ -107,5 +112,8 @@ export default {
 
   justify-content: center;
   }
+  .cardstep {
+  margin-top: 50px;
+}
 }
 </style>

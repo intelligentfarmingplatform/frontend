@@ -69,9 +69,14 @@ export default {
    ** Axios module configuration
    */
   axios: {
-    // See https://github.com/nuxt-community/axios-module#options
+    credentials: true
   },
   auth: {
+    localStorage: false,
+    cookie: {
+      options: {
+        expires: 7
+      }},
     redirect: {
       login: '/',
     },
