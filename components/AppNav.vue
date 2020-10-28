@@ -44,41 +44,8 @@
         <vs-button @click="loginActive = !loginActive" v-if="!$auth.loggedIn"
           >Login / Register</vs-button
         >
-
-        <vs-tooltip v-if="$auth.loggedIn" bottom shadow interactivity>
-          <vs-avatar>
-            <img src="/products/2.jpg" alt="" />
-          </vs-avatar>
-          <template #tooltip>
-            <div class="content-tooltip">
-              <div class="body">
-                <div class="text">
-                  Welcome
-                  <span>
-                    {{ $auth.$state.user.email }}
-                  </span>
-                </div>
-                <vs-avatar
-                  circle
-                  size="50"
-                  @click="activeTooltipProfile = !activeTooltipProfile"
-                >
-                  <img src="/products/2.jpg" alt="" />
-                </vs-avatar>
-                <div class="text">ติดตามสถานะการจัดส่ง</div>
-              </div>
-              <footer>
-                <vs-button circle icon border>
-                  <i class="bx bxs-share-alt"></i>
-                </vs-button>
-                <vs-button circle> Edit Profile </vs-button>
-                <vs-button @click="logoutHandle" v-if="$auth.loggedIn"
-                  >Logout</vs-button
-                >
-              </footer>
-            </div>
-          </template>
-        </vs-tooltip>
+        <div v-if="$auth.loggedIn">{{ $auth.$state.user.email }}</div>
+ <vs-button @click="logoutHandle" v-if="$auth.loggedIn">Logout</vs-button>
         <!-- <vs-button v-if="$auth.loggedIn">Welcome {{$auth.$state.user.email}}</vs-button> -->
       </template>
     </vs-navbar>
@@ -354,14 +321,7 @@ export default {
         })
         console.log(response.data.success)
         if (response.data.success) {
-          ;(this.activeTooltipProfile = false),
-            (this.loginActive = false),
-            this.$auth.setToken('local', response.data.auth_token)
-          this.$axios.setHeader('Authorization', response.data.auth_token)
-          this.$auth.ctx.app.$axios.setHeader(
-            'Authorization',
-            response.data.auth_token
-          )
+          this.loginActive = false
           const noti = this.$vs.notification({
             position: 'top-center',
             icon: `<i class='bx bx-bell' ></i>`,
