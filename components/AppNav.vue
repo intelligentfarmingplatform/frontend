@@ -45,7 +45,9 @@
           >Login / Register</vs-button
         >
         <div v-if="$auth.loggedIn">{{ $auth.$state.user.email }}</div>
- <vs-button @click="logoutHandle" v-if="$auth.loggedIn">Logout</vs-button>
+        <vs-button @click="logoutHandle" v-if="$auth.loggedIn"
+          >Logout</vs-button
+        >
         <!-- <vs-button v-if="$auth.loggedIn">Welcome {{$auth.$state.user.email}}</vs-button> -->
       </template>
     </vs-navbar>
@@ -93,7 +95,7 @@
 
           <div class="new">
             ยังไม่มีบัญชีผู้ใช้งาน?
-            <a href="#" @click="registerActive = !registerActive"
+            <a href="#" @click="registerActive = !registerActive , loginActive=!loginActive"
               >สร้างบัญชีผู้ใช้งานใหม่</a
             >
           </div>
@@ -168,7 +170,10 @@
             รหัสผ่านตรงกัน
           </template>
 
-          <template v-else-if="!passwordRegister" #message-danger>
+          <template
+            v-else-if="passwordRegisterConfirm != passwordRegister"
+            #message-danger
+          >
             รหัสผ่านไม่ตรงกัน
           </template>
         </vs-input>
@@ -274,8 +279,9 @@ export default {
         )
         //console.log(response)
         await this.$auth.loginWith('local', {
-          data: { email: this.email, password: this.password },
+          data: { email: this.emailRegister, password: this.passwordRegister },
         })
+        // this.registerActive=false
         const noti = this.$vs.notification({
           position: 'top-center',
           icon: `<i class='bx bx-bell' ></i>`,
