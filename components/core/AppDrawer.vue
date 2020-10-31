@@ -98,17 +98,17 @@ export default {
         {
           text: 'Bank/Card',
           icon: 'mdi-credit-card',
-          to: '/dashboard/user-profile',
+          to: '/dashboard/bank-card',
         },
         {
           text: 'Address',
           icon: 'mdi-truck',
-          to: '/dashboard/user-profile',
+          to: '/dashboard/user-address',
         },
         {
           text: 'Password Settings',
           icon: 'mdi-cog-outline',
-          to: '/dashboard/user-profile',
+          to: '/dashboard/passwordSet',
         },
       ],
       links: [

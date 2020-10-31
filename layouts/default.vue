@@ -1,28 +1,30 @@
 <template>
-      <div class="flex justify-center">
-        <div class="max-w-screen-lg flex flex-col min-h-screen w-full">
-    <AppNav />
-    <Nuxt />
-    <AppFooter />
-          </div>
-
+  <div class="flex justify-center">
+    <div class="max-w-screen-lg flex flex-col min-h-screen w-full">
+      <AppNav />
+      <Nuxt />
+      <AppSpeedDial />
     </div>
+    <AppFooter />
+  </div>
 </template>
 
 <script>
-import AppNav from "~/components/AppNav";
-import AppFooter from "~/components/AppFooter";
+import AppNav from '~/components/AppNav'
+import AppSpeedDial from '~/components/AppSpeedDial'
+import AppFooter from '~/components/AppFooter'
 
-  export default {
-    components: {
+export default {
+  components: {
     AppNav,
-    AppFooter
-    }
-  }
+    AppSpeedDial,
+    AppFooter,
+  },
+}
 </script>
 
 <style>
 html {
-  font-family:'prompt'
+  font-family: 'prompt';
 }
-  </style>
+</style>

@@ -9,7 +9,7 @@
           <img :src="`/products/${product.img}`" height="200" />
           <h3>{{ product.name }}</h3>
           <h4>{{ product.price }} บาท</h4>
-          <nuxt-link :to="`/main/product/${product.id}`">
+          <nuxt-link :to="`/product/${product.id}`">
             <vs-button border>ดูสินค้า ></vs-button>
           </nuxt-link>
         </div>

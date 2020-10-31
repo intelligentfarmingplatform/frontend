@@ -21,7 +21,7 @@
             </template>
             <template #text>
               <h4 class="price">{{ item.price }} บาท</h4>
-              <nuxt-link :to="`main/product/${item.id}`">
+              <nuxt-link :to="`product/${item.id}`">
                 <vs-button border> ดูสินค้า </vs-button>
               </nuxt-link>
             </template>

@@ -11,14 +11,14 @@
         <vs-navbar-item
           :active="active == 'success'"
           id="success"
-          to="/main/products"
+          to="/products"
         >
           Product
         </vs-navbar-item>
         <vs-navbar-item
           :active="active == 'danger'"
           id="danger"
-          to="/main/about"
+          to="/about"
         >
           About
         </vs-navbar-item>
@@ -30,7 +30,7 @@
       <template #right>
         <vs-navbar-group>
           <vs-avatar badge>
-            <nuxt-link to="/main/cart"
+            <nuxt-link to="/cart"
               ><img src="/cart.png" alt="#"
             /></nuxt-link>
             <template #badge>
