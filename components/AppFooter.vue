@@ -13,9 +13,3 @@
     </v-footer>
   </v-card>
 </template>
-
-<style scoped>
-    .footer{
-        position: absolute;
-    }
-</style>

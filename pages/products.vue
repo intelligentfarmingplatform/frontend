@@ -12,8 +12,8 @@ export default {
   components: {
     AppProduct,
   },
-  async fetch({ store }) {
-    await store.dispatch('loadAllProducts')
-  },
+  // async fetch({ store }) {
+  //   await store.dispatch('loadAllProducts')
+  // },
 }
 </script>

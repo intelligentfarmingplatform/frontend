@@ -64,7 +64,9 @@ export default {
     // Simple usage
     //'@nuxtjs/vuetify',
   ],
-
+  router: {
+    middleware: ["products"]
+  },
   /*
    ** Axios module configuration
    */
