@@ -23,7 +23,9 @@ export default {
     materialCard,
   },
   data() {
-
+    return{
+      
+    }
   },
 }
 </script>

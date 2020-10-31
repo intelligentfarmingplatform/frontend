@@ -33,8 +33,39 @@
               color="red"
             />
           </v-list-item>
+          <v-list-item to="/">
+            <v-list-item-icon>
+              <v-icon>mdi-home</v-icon>
+            </v-list-item-icon>
+
+            <v-list-item-titles>Home</v-list-item-titles>
+          </v-list-item>
+          <v-list-group
+            prepend-icon="mdi-account-circle"
+            :value="true"
+            no-action
+            sub-group
+          >
+            <template v-slot:activator>
+              <v-list-item-content>
+                <v-list-item-title>My Account</v-list-item-title>
+              </v-list-item-content>
+            </template>
+
+            <v-list-item
+              v-for="( title, i ) in admins"
+              :key="i"
+              :to="title.to"
+            >
+              <v-list-item-title v-text="title.text"></v-list-item-title>
+
+              <v-list-item-icon>
+                <v-icon>{{ title.icon }}</v-icon>
+              </v-list-item-icon>
+            </v-list-item>
+          </v-list-group>
           <v-list-item
-            v-for="(link, i) in links"
+            v-for="(link, i) in links2"
             :key="i"
             :to="link.to"
             :active-class="color"
@@ -58,29 +89,58 @@ export default {
   data() {
     return {
       logo: '/engine.png',
+      admins: [
+        {
+          text: 'User Profile',
+          icon: 'mdi-account-multiple-outline',
+          to: '/dashboard/user-profile',
+        },
+        {
+          text: 'Bank/Card',
+          icon: 'mdi-credit-card',
+          to: '/dashboard/user-profile',
+        },
+        {
+          text: 'Address',
+          icon: 'mdi-truck',
+          to: '/dashboard/user-profile',
+        },
+        {
+          text: 'Password Settings',
+          icon: 'mdi-cog-outline',
+          to: '/dashboard/user-profile',
+        },
+      ],
       links: [
         {
-          to: '/admin/dashboard',
+          to: '/',
+          icon: 'mdi-home',
+          text: 'Home',
+        },
+      ],
+      links2: [
+        {
+          to: '/dashboard',
           icon: 'mdi-view-dashboard',
           text: 'Dashboard',
         },
         {
-          to: '/admin/user-profile',
+          to: '/dashboard/user-profile',
           icon: 'mdi-account',
           text: 'User Profile',
         },
         {
-          to: '/admin/memberManagement',
+          to: '/dashboard/memberManagement',
           icon: 'mdi-clipboard-outline',
           text: 'Member Management',
         },
         {
-          to: '/admin/productManagement',
+          to: '/dashboard/productManagement',
           icon: 'mdi-format-font',
           text: 'Product Management',
         },
         {
-          to: '/admin/notifications',
+          to: '/dashboard/notifications',
           icon: 'mdi-bell',
           text: 'Notifications',
         },
@@ -160,6 +220,5 @@ export default {
     padding-left: 15px;
     padding-right: 15px;
   }
-
 }
 </style>

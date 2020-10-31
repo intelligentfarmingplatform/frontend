@@ -4,103 +4,71 @@
       <v-flex xs12 md8>
         <material-card
           color="green"
-          title="Edit Profile"
-          text="Complete your profile"
+          title="แก้ไขโปรไฟล์"
+          text="แก้ไขข้อมูลโปรไฟล์ของคุณ"
         >
           <v-form>
             <v-container py-0>
               <v-layout wrap>
                 <v-flex xs12 md4>
-                  <v-text-field label="Company (disabled)" disabled />
+                  <v-text-field label="บริษัท (disabled)" disabled />
                 </v-flex>
                 <v-flex xs12 md4>
                   <v-text-field
                     v-model="username"
                     class="purple-input"
-                    label="User Name"
+                    label="ชื่อผู้ใช้งาน"
                   />
                 </v-flex>
                 <v-flex xs12 md4>
                   <v-text-field
                     v-model="email"
-                    label="Email Address"
+                    label="ที่อยู่อีเมล"
+                    class="purple-input"
+                  />
+                </v-flex>
+                <v-flex xs12 md4>
+                  <v-text-field
+                    v-model="email"
+                    label="ที่อยู่อีเมล"
                     class="purple-input"
                   />
                 </v-flex>
                 <v-flex xs12 md6>
-                  <v-text-field label="First Name" class="purple-input" />
+                  <v-text-field label="ชื่อ" class="purple-input" />
                 </v-flex>
                 <v-flex xs12 md6>
-                  <v-text-field label="Last Name" class="purple-input" />
+                  <v-text-field label="นามสกุล" class="purple-input" />
                 </v-flex>
                 <v-flex xs12 md12>
-                  <v-text-field label="Adress" class="purple-input" />
+                  <v-text-field label="ที่อยู่" class="purple-input" />
                 </v-flex>
                 <v-flex xs12 md4>
-                  <v-text-field label="City" class="purple-input" />
+                  <v-text-field label="ตำบล" class="purple-input" />
                 </v-flex>
                 <v-flex xs12 md4>
-                  <v-text-field label="Country" class="purple-input" />
+                  <v-text-field label="อำเภอ" class="purple-input" />
+                </v-flex>
+                <v-flex xs12 md4>
+                  <v-text-field label="จังหวัด" class="purple-input" />
                 </v-flex>
                 <v-flex xs12 md4>
                   <v-text-field
                     class="purple-input"
-                    label="Postal Code"
+                    label="รหัสไปรษณีย์"
                     type="number"
                   />
-                </v-flex>
-                <v-flex xs12 md6>
-                  <v-select
-                    :items="provincesData"
-                    item-text="name_th"
-                    item-value="id"
-                    v-model="provincesid"
-                    label="จังหวัด"
-                    :disabled="provincesDisabled"
-                    v-on:change="handleProvinces"
-                    return-object
-                    prepend-icon="mdi-flag"
-                    outlined
-                  ></v-select>
-                </v-flex>
-                <v-flex xs12 md6>
-                  <v-select
-                    :items="amphuresData"
-                    item-text="name_th"
-                    item-value="id"
-                    v-model="amphuresid"
-                    label="อำเภอ"
-                    :disabled="amphuresDisabled"
-                    v-on:change="handleAmphures"
-                    return-object
-                    prepend-icon="mdi-flag"
-                    outlined
-                  ></v-select>
-                </v-flex>
-                <v-flex xs12 md6>
-                  <v-select
-                    :items="districtsData"
-                    item-text="name_th"
-                    item-value="id"
-                    label="ตำบล"
-                    :disabled="districtsDisabled"
-                    v-model="districtsid"
-                    v-on:change="handleDistricts"
-                    prepend-icon="mdi-flag"
-                    return-object
-                    outlined
-                  ></v-select>
                 </v-flex>
                 <v-flex xs12>
                   <v-textarea
                     class="purple-input"
-                    label="About Me"
+                    label="เกี่ยวกับฉัน"
                     :value="address"
                   />
                 </v-flex>
                 <v-flex xs12 text-xs-right>
                   <v-btn class="mx-0 font-weight-light" color="success">
-                    Update Profile
+                    อัพเดตโปรไฟล์
                   </v-btn>
                 </v-flex>
               </v-layout>
@@ -117,15 +85,15 @@
           </v-avatar>
           <v-card-text class="text-xs-center">
             <h6 class="category text-gray font-weight-thin mb-3">
-              {{ user.function }}
+              
             </h6>
-            <h4 class="card-title font-weight-light">{{ fullname }}</h4>
+            <h4 class="card-title font-weight-light"></h4>
             <p class="card-description font-weight-light">
-              {{ user.description }}
+              
             </p>
-            <blockquote class="blockquote">{{ user.citation }}</blockquote>
+            <blockquote class="blockquote"></blockquote>
             <v-btn color="success" rounded class="font-weight-light"
-              >Follow</v-btn
+              >แก้ไขรูปโปรไฟล์</v-btn
             >
           </v-card-text>
         </material-card>
@@ -147,22 +115,17 @@ export default {
   data() {
     return {
       testdata: [],
-      username: '555',
+      username: this.$auth.$state.user.username,
       provincesDisabled: false,
       amphuresDisabled: true,
       districtsDisabled: true,
-      email: '333',
+      email: this.$auth.$state.user.email,
       f_name: '',
       l_name: '',
       address: [],
       item2: null,
     }
   },
-  computed: {
-    ...mapGetters({
-      user: 'user/getUser',
-      fullname: 'user/getFullname',
-    }),
-  },
+  computed: {},
 }
 </script>

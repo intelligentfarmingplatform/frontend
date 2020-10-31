@@ -10,7 +10,7 @@
           <v-data-table
             :headers="headers"
             :items="listusers"
-            :loading="loading"
+            
             loader-height="2px"
             loading-text="Loading... Please wait"
           >
