@@ -105,13 +105,6 @@ export const actions = {
         commit('SET_PRODUCTS', products)
       })
   },
-  // async loadAllProducts({ commit }) {
-  //   const response = await fetch(
-  //     'https://it-ifp-auth.herokuapp.com/api/myproducts'
-  //   )
-  //   const products = await response.data.json()
-  //   commit('SET_PRODUCTS', products)
-  // },
   async getProduct({ commit }) {
     const products = await userService.getProduct()
     commit('SET_PRODUCT', products)

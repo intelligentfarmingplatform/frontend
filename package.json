@@ -17,6 +17,8 @@
     "@nuxtjs/auth": "^4.9.1",
     "@nuxtjs/axios": "^5.12.2",
     "@vue/cli": "^4.5.8",
+    "aedes": "^0.43.0",
+    "bootstrap-vue": "^2.18.1",
     "core-js": "^3.6.5",
     "http": "0.0.1-security",
     "nuxt": "^2.14.7",
