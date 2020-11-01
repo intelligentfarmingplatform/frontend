@@ -84,13 +84,13 @@ export default {
       local: {
         endpoints: {
           login: {
-            url: 'https://it-ifp-auth.herokuapp.com/api/user/login',
+            url: 'http://127.0.0.1:4000/api/user/login',
             method: 'post',
             propertyName: 'auth-token',
           },
           logout: false,
           user: {
-            url: 'https://it-ifp-auth.herokuapp.com/api/me',
+            url: 'http://127.0.0.1:4000/api/me',
             method: 'get',
             propertyName: 'users',
           },

@@ -3,7 +3,7 @@ import HttpRequest from './request'
 class UserProvider extends HttpRequest {
   constructor () {
     // api api
-    super('https://it-ifp-auth.herokuapp.com/api/myproducts')
+    super('https://it-ifp-auth.herokuapp.com/api/products')
   }
 
   async getProduct () {

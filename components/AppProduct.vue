@@ -11,10 +11,7 @@
       <vs-row>
         <vs-col w="4" vs-justify="left" vs-align="left">
           <vs-button-group>
-            <vs-button> ผักสด </vs-button>
-            <vs-button> ผักเน่า </vs-button>
-            <vs-button> ผักเสีย </vs-button>
-            <vs-button> ผักเต็มไปด้วยสารพิษ </vs-button>
+            <vs-button v-for="i in products" :key="i._id"> {{i.category.type}} </vs-button>
           </vs-button-group>
         </vs-col>
         <vs-row>
@@ -23,18 +20,21 @@
             vs-align="center"
             w="2"
             v-for="item in products"
-            :key="item.id"
+            :key="item._id"
           >
             <vs-card>
               <template #title>
-                <h3>{{ item.name }}</h3>
+                <h3>{{ item.title }}</h3>
               </template>
               <template #img>
-                <img :src="`/products/${item.img}`" height="200" />
+                <img :src="item.productimg" height="200" />
               </template>
               <template #text>
-                <h4 class="price">{{ item.price }} บาท</h4>
-                <nuxt-link :to="`product/${item.id}`">
+              <h4 class="price">{{ item.price }} บาท</h4>
+              <h4 class="price">เหลือ {{ item.stockQty }} ชิ้น</h4>
+              <h4 class="price">ประเภทสินค้า {{ item.category.type }}</h4>
+              <h4 class="price">โดย {{ item.users.username }}</h4>
+              <nuxt-link :to="`product/${item._id}`">
                   <vs-button border> ดูสินค้า </vs-button>
                 </nuxt-link>
               </template>

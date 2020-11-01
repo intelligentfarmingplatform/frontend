@@ -40,7 +40,7 @@ export const getters = {
     if (!state.cart.length) return []
     return state.cart.map((item) => {
       return {
-        id: item.id,
+        id: item._id,
         quantity: item.quantity,
       }
     })
@@ -63,7 +63,7 @@ export const mutations = {
     ;(state.cart = []), (state.cartUIStatus = 'idle')
   },
   addToCart: (state, payload) => {
-    let itemfound = state.cart.find((el) => el.id === payload.id)
+    let itemfound = state.cart.find((el) => el._id === payload._id)
     itemfound
       ? (itemfound.quantity += payload.quantity)
       : state.cart.push(payload)
@@ -72,24 +72,24 @@ export const mutations = {
     state.clientSecret = payload
   },
   addOneToCart: (state, payload) => {
-    let itemfound = state.cart.find((el) => el.id === payload.id)
+    let itemfound = state.cart.find((el) => el._id === payload._id)
     itemfound ? itemfound.quantity++ : state.cart.push(payload)
   },
   removeOneFromCart: (state, payload) => {
-    let index = state.cart.findIndex((el) => el.id === payload.id)
+    let index = state.cart.findIndex((el) => el._id === payload._id)
     state.cart[index].quantity
       ? state.cart[index].quantity--
       : state.cart.splice(index, 1)
   },
   removeAllFromCart: (state, payload) => {
-    state.cart = state.cart.filter((el) => el.id !== payload.id)
+    state.cart = state.cart.filter((el) => el._id !== payload._id)
   },
 }
 
 export const actions = {
   async getOneProduct({ commit }, { productId }) {
     await axios
-      .get(`https://it-ifp-auth.herokuapp.com/api/myproducts/${productId}`)
+      .get(`https://it-ifp-auth.herokuapp.com/api/products/${productId}`)
       .then((response) => {
         console.log(response.data)
         let products = response.data.products
@@ -99,7 +99,7 @@ export const actions = {
 
   async loadAllProducts({ commit }) {
     await axios
-      .get('https://it-ifp-auth.herokuapp.com/api/myproducts')
+      .get('https://it-ifp-auth.herokuapp.com/api/products')
       .then((res) => {
         let products = res.data.products
         commit('SET_PRODUCTS', products)

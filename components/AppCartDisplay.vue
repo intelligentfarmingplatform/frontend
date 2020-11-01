@@ -3,7 +3,7 @@
     <v-container class="grey lighten-5">
       <v-row no-gutters>
         <v-col>
-          <v-simple-table>
+          <v-simple-table fixed-header>
             <template v-slot:default>
               <thead>
                 <tr>
@@ -15,52 +15,18 @@
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="item in detailsWithSubTotal" :key="item.id">
+                <tr
+                  height="105"
+                  v-for="item in detailsWithSubTotal"
+                  :key="item._id"
+                >
                   <td>
-                    <vs-tooltip shadow interactivity>
-                      <vs-avatar>
-                        <img
-                          :src="`/products/${item.img}`"
-                          :alt="item.name"
-                          class="product-img"
-                        />
-                      </vs-avatar>
-                      <template #tooltip>
-                        <div class="content-tooltip">
-                          <div class="body">
-                            <div class="text">
-                              Cosed Tasks
-                              <span> 89 </span>
-                            </div>
-                            <vs-avatar
-                              circle
-                              size="80"
-                              @click="activeTooltip1 = !activeTooltip1"
-                            >
-                              <img
-                                :src="`/products/${item.img}`"
-                                :alt="item.name"
-                                class="product-img"
-                              />
-                            </vs-avatar>
-                            <div class="text">
-                              Open Tasks
-                              <span> 8 </span>
-                            </div>
-                          </div>
-                          <footer>
-                            <vs-button circle icon border>
-                              <i class="bx bxs-share-alt"></i>
-                            </vs-button>
-                            <vs-button circle> Message </vs-button>
-                            <vs-button circle icon border>
-                              <i class="bx bx-like"></i>
-                            </vs-button>
-                          </footer>
-                        </div>
-                      </template>
-                    </vs-tooltip>
-                    {{ item.name }}
+                    <div width="500" class="modal-img">
+                      <v-avatar>
+                        <img :src="item.productimg" alt="John" />
+                      </v-avatar>
+                    </div>
+                    <div class="productname">{{ item.title }}</div>
                   </td>
                   <td>{{ item.price }}</td>
                   <td>
@@ -77,17 +43,24 @@
                   </td>
                   <td>{{ item.subtotal }}</td>
                   <td>
-                    <vs-button
-                      @click="removeAllFromCart(item)"
-                      class="delete-product"
-                    >
-                      ลบ
-                    </vs-button>
+                    <div class="delete-product">
+                      <v-btn
+                        @click="removeAllFromCart(item)"
+                        class="mx-2"
+                        fab
+                        dense
+                        x-small
+                        color="primary"
+                      >
+                        <v-icon dark> mdi-delete </v-icon>
+                      </v-btn>
+                    </div>
                   </td>
                 </tr>
               </tbody>
             </template>
           </v-simple-table>
+          รวมทั้งหมด {{ cartTotal }} บาท
         </v-col>
       </v-row>
     </v-container>
@@ -131,70 +104,74 @@ export default {
 }
 </script>
 
-
 <style lang="scss" scoped>
+.productname {
+  margin-top: 5px;
+  justify-content: 'center';
+}
 .modal-img {
   justify-content: 'center';
 }
+.delete-product {
+}
 </style>
 
-  <style lang="stylus" scoped>
-  getColor(colorx, alpha = 1) {
-    unquote('rgba(var(--vs-' + colorx + '), ' + alpha + ')');
-  }
+<style lang="stylus" scoped>
+getColor(colorx, alpha = 1) {
+  unquote('rgba(var(--vs-' + colorx + '), ' + alpha + ')');
+}
 
-  getVar(var) {
-    unquote('var(--vs-' + var + ')');
-  }
+getVar(var) {
+  unquote('var(--vs-' + var + ')');
+}
 
-  .content-tooltip {
-    .body {
-      display: flex;
-      align-items: flex-start;
-      justify-content: center;
+.content-tooltip {
+  .body {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
 
-      .vs-avatar-content {
-        margin-top: -30px;
-        border: 3px solid getVar('theme-layout');
-        box-shadow: 0px 4px 15px 0px rgba(0, 0, 0, 0.1);
-      }
-
-      .text {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-direction: column;
-        font-size: 0.55rem;
-        padding: 10px;
-        font-weight: normal;
-
-        span {
-          font-weight: bold;
-          font-size: 0.7rem;
-        }
-      }
+    .vs-avatar-content {
+      margin-top: -30px;
+      border: 3px solid getVar('theme-layout');
+      box-shadow: 0px 4px 15px 0px rgba(0, 0, 0, 0.1);
     }
 
-    footer {
+    .text {
       display: flex;
       align-items: center;
       justify-content: center;
-    }
+      flex-direction: column;
+      font-size: 0.55rem;
+      padding: 10px;
+      font-weight: normal;
 
-    h4 {
-      padding: 8px;
-      margin: 0px;
-      text-align: left;
-    }
-
-    p {
-      text-align: left;
-      padding: 0px;
-      margin: 0px;
-      line-height: 1rem;
-      padding-bottom: 5px;
-      padding-left: 8px;
+      span {
+        font-weight: bold;
+        font-size: 0.7rem;
+      }
     }
   }
-</style>
 
+  footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  h4 {
+    padding: 8px;
+    margin: 0px;
+    text-align: left;
+  }
+
+  p {
+    text-align: left;
+    padding: 0px;
+    margin: 0px;
+    line-height: 1rem;
+    padding-bottom: 5px;
+    padding-left: 8px;
+  }
+}
+</style>

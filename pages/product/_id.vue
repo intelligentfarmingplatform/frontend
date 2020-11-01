@@ -3,10 +3,10 @@
     <vs-col>
       <section class="item-contain">
         <section class="img">
-          <img :src="`/products/${product.img}`" height="500" />
+          <img :src="product.productimg" height="300" />
         </section>
         <section class="product-info">
-          <h1>{{ product.name }}</h1>
+          <h1>{{ product.title }}</h1>
           <h4 class="price">{{ product.price }} บาท</h4>
           <p>{{ product.description }}</p>
           <p>ทดสอบๆ</p>
@@ -21,7 +21,7 @@
               <vs-button class="update-num" @click="quantity++">+</vs-button>
             </div>
           </div>
-          <p>Available :</p>
+          <p>เหลือ : {{product.stockQty}} ชิ้น</p>
           <p>
             <vs-button border class="button purchase" @click="cartAdd"
               >หยิบใส่ตะกร้า</vs-button
@@ -34,7 +34,7 @@
       <div class="review">
         <h2>Reviews</h2>
         <!-- maybe an image of a person? -->
-        <p>{{ product.review }}</p>
+        
         <p>ทดสอบๆ</p>
       </div>
     </vs-col>
@@ -61,12 +61,14 @@ export default {
   },
   async fetch({ store, params }) {
     //return this.getProduct()
-    await store.dispatch('loadAllProducts', { productId: params.id });
+    await store.dispatch('loadAllProducts');
+    
   },
   computed: {
     ...mapState(['products']),
     product() {
-     return this.products.find((p) => p.id == this.$route.params.id)
+     return this.products.find((p) => p._id == this.$route.params.id)
+     console.log(product)
     },
     //storedata: (state) => state.storedata,
   },

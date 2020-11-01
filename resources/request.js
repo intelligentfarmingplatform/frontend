@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 class HttpRequest {
-  constructor (url = 'https://it-ifp-auth.herokuapp.com/api/myproducts') {
+  constructor (url = 'https://it-ifp-auth.herokuapp.com/api/products') {
     // this.axios = axios
     this.axiosInstance = axios.create({
       baseURL: url,

@@ -14,14 +14,17 @@
         <vs-col>
           <vs-card>
             <template #title>
-              <h3>{{ item.name }}</h3>
+              <h3>{{ item.title }}</h3>
             </template>
             <template #img>
-              <img :src="`/products/${item.img}`" />
+              <img :src="item.productimg" />
             </template>
             <template #text>
               <h4 class="price">{{ item.price }} บาท</h4>
-              <nuxt-link :to="`product/${item.id}`">
+              <h4 class="price">เหลือ {{ item.stockQty }} ชิ้น</h4>
+              <h4 class="price">ประเภทสินค้า {{ item.category.type }}</h4>
+              <h4 class="price">โดย {{ item.users.username }}</h4>
+              <nuxt-link :to="`product/${item._id}`">
                 <vs-button border> ดูสินค้า </vs-button>
               </nuxt-link>
             </template>
@@ -42,6 +45,7 @@
 </template>
 
 <script>
+import axios  from 'axios'
 import { mapState } from 'vuex'
 export default {
   name: 'AppStoreGrid',
@@ -50,6 +54,7 @@ export default {
       search: '',
     }
   },
+
   computed: {
     ...mapState(['products']),
   },
