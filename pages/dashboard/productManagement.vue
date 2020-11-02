@@ -3,9 +3,9 @@
     <v-layout justify-center align-center>
       <v-flex xs12>
         <material-card
-          color="green"
+          color="#00B3CA"
           title="Product Management"
-          text="Edit"
+          text="add/edit"
         >
 
         </material-card>

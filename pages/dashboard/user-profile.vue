@@ -3,7 +3,7 @@
     <v-layout justify-center wrap>
       <v-flex xs12 md8>
         <material-card
-          color="green"
+          color="#00B3CA"
           title="แก้ไขโปรไฟล์"
           text="แก้ไขข้อมูลโปรไฟล์ของคุณ"
         >
@@ -67,7 +67,7 @@
                   />
                 </v-flex>
                 <v-flex xs12 text-xs-right>
-                  <v-btn class="mx-0 font-weight-light" color="success">
+                  <v-btn class="mx-0 font-weight-light" color="#00B3CA">
                     อัพเดตโปรไฟล์
                   </v-btn>
                 </v-flex>
@@ -92,7 +92,7 @@
               
             </p>
             <blockquote class="blockquote"></blockquote>
-            <v-btn color="success" rounded class="font-weight-light"
+            <v-btn color="#00B3CA" rounded class="font-weight-light"
               >แก้ไขรูปโปรไฟล์</v-btn
             >
           </v-card-text>

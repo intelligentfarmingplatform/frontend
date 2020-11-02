@@ -39,7 +39,7 @@
         <nuxt-link
           v-ripple
           class="toolbar-items"
-          to="/admin/dashboard"
+          to="/dashboard"
           title="Dashboard"
         >
           <v-icon color="tertiary">mdi-view-dashboard</v-icon>
@@ -84,7 +84,7 @@
         <nuxt-link
           v-ripple
           class="toolbar-items"
-          to="/admin/user-profile"
+          to="/dashboard/user-profile"
           title="User profile"
         >
           <v-icon color="tertiary">mdi-account</v-icon>

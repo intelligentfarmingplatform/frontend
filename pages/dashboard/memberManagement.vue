@@ -2,15 +2,10 @@
   <v-container fill-height fluid grid-list-xl>
     <v-layout justify-center wrap>
       <v-flex md12 lg12>
-        <material-card
-          color="orange"
-          title="Member"
-          text="Member Manage"
-        >
+        <material-card color="#00B3CA" title="Member" text="Member Manage">
           <v-data-table
             :headers="headers"
             :items="listusers"
-            
             loader-height="2px"
             loading-text="Loading... Please wait"
           >

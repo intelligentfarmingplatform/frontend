@@ -20,11 +20,7 @@
       {{ (new Date()).getFullYear() }}
       <a
         href="#"
-        target="_blank">Creative Tim</a>, made with
-      <v-icon
-        color="tertiary"
-        size="17">mdi-heart</v-icon>
-      for a better web
+        target="_blank">Intelligent Farming Platform</a>
     </span>
   </v-footer>
 </template>
@@ -33,10 +29,10 @@
 export default {
   data: () => ({
     links: [
+      { name: 'Home', Link: '/' },
       { name: 'Dashboard', Link: '/dashboard' },
-      { name: 'Creative Tim', Link: 'https://www.creative-tim.com' },
-      { name: 'About Us', Link: 'https://creative-tim.com/presentation' },
-      { name: 'Blog', Link: 'https://blog.creative-tim.com' }
+      { name: 'User Profile', Link: '/dashboard/user-profile' },
+      { name: 'About Us', Link: '/about' },
     ]
   })
 }

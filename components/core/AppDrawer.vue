@@ -38,7 +38,7 @@
               <v-icon>mdi-home</v-icon>
             </v-list-item-icon>
 
-            <v-list-item-titles>Home</v-list-item-titles>
+            <v-list-item-title>Home</v-list-item-title>
           </v-list-item>
           <v-list-group
             prepend-icon="mdi-account-circle"
@@ -120,6 +120,11 @@ export default {
       ],
       links2: [
         {
+          to: '/dashboard/myOrder',
+          icon: 'mdi-clipboard-list-outline',
+          text: 'My Order',
+        },
+        {
           to: '/dashboard',
           icon: 'mdi-view-dashboard',
           text: 'Dashboard',
@@ -136,7 +141,7 @@ export default {
         },
         {
           to: '/dashboard/productManagement',
-          icon: 'mdi-format-font',
+          icon: 'mdi-clipboard-edit-outline',
           text: 'Product Management',
         },
         {

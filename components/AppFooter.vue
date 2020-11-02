@@ -1,6 +1,7 @@
 <template>
-  <v-card class="footer" height="150">
+  <v-card height="150">
     <v-footer
+      id="footer"
       absolute
       class="font-weight-medium"
     >
@@ -13,3 +14,9 @@
     </v-footer>
   </v-card>
 </template>
+
+<style>
+  #footer {
+    z-index: 0;
+  }
+</style>
