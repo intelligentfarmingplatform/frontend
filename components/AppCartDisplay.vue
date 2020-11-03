@@ -230,8 +230,6 @@ export default {
 .modal-img {
   justify-content: 'center';
 }
-.delete-product {
-}
 </style>
 
 <style lang="stylus" scoped>
