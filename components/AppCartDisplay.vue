@@ -173,7 +173,7 @@ export default {
         this.$axios.setHeader('Authorization', this.$auth.getToken('local'))
         let token = await this.stripe.createToken(this.card)
         let response = await this.$axios.post(
-          'http://127.0.0.1:4000/api/payment',
+          'https://it-ifp-auth.herokuapp.com/api/payment',
           {
             token: token,
             totalPrice: this.cartTotalWithShipping,
