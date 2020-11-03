@@ -4,6 +4,9 @@
   "description": "NuxtJs Dashboard",
   "author": "Jimmy Jouanne",
   "private": true,
+  "engines": {
+    "node": "12.x"
+  },
   "scripts": {
     "dev": "nuxt",
     "build": "nuxt build",
