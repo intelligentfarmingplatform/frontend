@@ -10,9 +10,9 @@
           <v-form>
             <v-container py-0>
               <v-layout wrap>
-                <v-flex xs12 md4>
+                <!-- <v-flex xs12 md4>
                   <v-text-field label="บริษัท (disabled)" disabled />
-                </v-flex>
+                </v-flex> -->
                 <v-flex xs12 md4>
                   <v-text-field
                     v-model="username"
@@ -28,36 +28,16 @@
                   />
                 </v-flex>
                 <v-flex xs12 md4>
-                  <v-text-field
-                    v-model="email"
-                    label="ที่อยู่อีเมล"
-                    class="purple-input"
-                  />
+                  <v-text-field class="purple-input" label="เบอร์โทรศัพท์" />
                 </v-flex>
-                <v-flex xs12 md6>
+                <v-flex xs12 md12>
                   <v-text-field label="ชื่อ" class="purple-input" />
                 </v-flex>
                 <v-flex xs12 md6>
-                  <v-text-field label="นามสกุล" class="purple-input" />
+                  <v-select :items="gender" label="เพศ"></v-select>
                 </v-flex>
-                <v-flex xs12 md12>
-                  <v-text-field label="ที่อยู่" class="purple-input" />
-                </v-flex>
-                <v-flex xs12 md4>
-                  <v-text-field label="ตำบล" class="purple-input" />
-                </v-flex>
-                <v-flex xs12 md4>
-                  <v-text-field label="อำเภอ" class="purple-input" />
-                </v-flex>
-                <v-flex xs12 md4>
-                  <v-text-field label="จังหวัด" class="purple-input" />
-                </v-flex>
-                <v-flex xs12 md4>
-                  <v-text-field
-                    class="purple-input"
-                    label="รหัสไปรษณีย์"
-                    type="number"
-                  />
+                <v-flex xs12 md6 v-if="gender2">
+                  <v-text-field class="purple-input" label="โปรดระบุ" />
                 </v-flex>
                 <v-flex xs12>
                   <v-textarea
@@ -84,13 +64,9 @@
             />
           </v-avatar>
           <v-card-text class="text-xs-center">
-            <h6 class="category text-gray font-weight-thin mb-3">
-              
-            </h6>
+            <h6 class="category text-gray font-weight-thin mb-3"></h6>
             <h4 class="card-title font-weight-light"></h4>
-            <p class="card-description font-weight-light">
-              
-            </p>
+            <p class="card-description font-weight-light"></p>
             <blockquote class="blockquote"></blockquote>
             <v-btn color="#00B3CA" rounded class="font-weight-light"
               >แก้ไขรูปโปรไฟล์</v-btn
@@ -124,6 +100,8 @@ export default {
       l_name: '',
       address: [],
       item2: null,
+      gender: ['ชาย', 'หญิง','อื่นๆ'],
+      gender2: ['อื่นๆ'],
     }
   },
   computed: {},

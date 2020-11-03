@@ -129,21 +129,21 @@ export default {
           icon: 'mdi-view-dashboard',
           text: 'Dashboard',
         },
-        {
-          to: '/dashboard/user-profile',
-          icon: 'mdi-account',
-          text: 'User Profile',
-        },
-        {
-          to: '/dashboard/memberManagement',
-          icon: 'mdi-clipboard-outline',
-          text: 'Member Management',
-        },
-        {
-          to: '/dashboard/productManagement',
-          icon: 'mdi-clipboard-edit-outline',
-          text: 'Product Management',
-        },
+        // {
+        //   to: '/dashboard/user-profile',
+        //   icon: 'mdi-account',
+        //   text: 'User Profile',
+        // },
+        // {
+        //   to: '/dashboard/memberManagement',
+        //   icon: 'mdi-clipboard-outline',
+        //   text: 'Member Management',
+        // },
+        // {
+        //   to: '/dashboard/productManagement',
+        //   icon: 'mdi-clipboard-edit-outline',
+        //   text: 'Product Management',
+        // },
         {
           to: '/dashboard/notifications',
           icon: 'mdi-bell',

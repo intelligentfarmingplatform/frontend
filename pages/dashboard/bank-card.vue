@@ -32,7 +32,7 @@
           <v-card-text>
             <v-container>
               <v-row ref="formCard">
-                <v-col cols="12" sm="6" md="12">
+                <v-col cols="12" sm="12" md="12">
                   <v-text-field
                     label="ชื่อที่ปรากฎบนบัตร"
                     required
@@ -44,13 +44,10 @@
                     required
                   ></v-text-field>
                 </v-col>
-                <v-col cols="12" sm="6" md="12">
-                  
-                </v-col>
-                <v-col cols="12" sm="6" md="2"
+                <v-col cols="12" sm="2" md="2"
                   ><i class="bx bxl-visa bx-md"></i>
                 </v-col>
-                <v-col cols="12" sm="6" md="2"
+                <v-col cols="12" sm="2" md="2"
                   ><i class="bx bxl-mastercard bx-md"></i>
                 </v-col>
                 <v-col cols="12" sm="6" md="6">
@@ -63,7 +60,7 @@
                 <v-col cols="12" sm="6" md="6">
                   <v-text-field label="CVV" hint="XXX" required></v-text-field>
                 </v-col>
-                <v-col cols="12" sm="6" md="12">
+                <v-col cols="12" sm="12" md="12">
                   <v-text-field
                     label="ที่อยู่ในการวางบิล"
                     required
@@ -88,6 +85,8 @@
 </template>
 
 <script>
+import Payment from '~/components/payment.vue'
+
 export default {
   layout: 'dashboard',
   data: () => ({

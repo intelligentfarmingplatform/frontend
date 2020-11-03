@@ -15,13 +15,13 @@
         >
           Product
         </vs-navbar-item>
-        <vs-navbar-item
+        <!-- <vs-navbar-item
           :active="active == 'danger'"
           id="danger"
           to="/about"
         >
           About
-        </vs-navbar-item>
+        </vs-navbar-item> -->
         <!-- <vs-navbar-item @click="contactActive = !contactActive">
           Contact Us
         </vs-navbar-item> -->
@@ -130,19 +130,19 @@
             <i v-if="!hasVisiblePasswordRegister" class="bx bx-show-alt"></i>
             <i v-else class="bx bx-hide"></i>
           </template>
-          <template v-if="getProgress >= 100" #message-success>
+          <template v-if="getProgress >= 100" #message-green>
             รหัสผ่านมีความปลอดภัยสูงสุด
           </template>
-          <template v-else-if="getProgress >= 80" #message-success>
+          <template v-else-if="getProgress >= 80" #message-green>
             รหัสผ่านมีความปลอดภัยสูง
           </template>
-          <template v-else-if="getProgress >= 60" #message-warn>
+          <template v-else-if="getProgress >= 60" #message-orange>
             รหัสผ่านมีความปลอดภัยปานกลาง
           </template>
-          <template v-else-if="getProgress >= 40" #message-warn>
+          <template v-else-if="getProgress >= 40" #message-orange>
             รหัสผ่านมีความปลอดภัยปานกลาง
           </template>
-          <template v-else-if="getProgress >= 20" #message-danger>
+          <template v-else-if="getProgress >= 20" #message-red>
             รหัสผ่านมีความปลอดภัยต่ำ
           </template>
         </vs-input>
