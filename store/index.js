@@ -15,6 +15,8 @@ export const state = () => ({
   cartUIStatus: 'idle',
   products: [],
   cart: [],
+  shippingPrice: 0,
+  shippingEstimatedDelivery: '',
   clientSecret: '', // Required to initiate the payment from the client
 })
 
@@ -28,6 +30,7 @@ export const getters = {
   //   return state.auth.user
   // },
   //featuredProducts: (state) => state.storedata.slice(0, 3),
+
   cartCount: (state) => {
     if (!state.cart.length) return 0
     return state.cart.reduce((ac, next) => ac + next.quantity, 0)
@@ -35,6 +38,13 @@ export const getters = {
   cartTotal: (state) => {
     if (!state.cart.length) return 0
     return state.cart.reduce((ac, next) => ac + next.quantity * next.price, 0)
+  },
+  cartTotalWithShipping: (state) => {
+    if (!state.cart.length) return 0
+    return (
+      state.cart.reduce((ac, next) => ac + next.quantity * next.price, 0) +
+      state.shippingPrice
+    )
   },
   cartItems: (state) => {
     if (!state.cart.length) return []
@@ -45,10 +55,17 @@ export const getters = {
       }
     })
   },
+  getEstimatedDelivery(state) {
+    return state.shippingEstimatedDelivery
+  },
   clientSecret: (state) => state.clientSecret,
 }
 
 export const mutations = {
+  setShipping(state, { price, estimatedDelivery }) {
+    ;(state.shippingPrice = price),
+      (state.shippingEstimatedDelivery = estimatedDelivery)
+  },
   SET_PRODUCTS(state, products) {
     return (state.products = products)
   },
@@ -60,7 +77,10 @@ export const mutations = {
   },
   clearCart: (state) => {
     //this clears the cart
-    ;(state.cart = []), (state.cartUIStatus = 'idle')
+    ;(state.cart = []),
+      (state.cartUIStatus = 'idle'),
+      (state.shippingPrice = 0),
+      (state.shippingEstimatedDelivery = '')
   },
   addToCart: (state, payload) => {
     let itemfound = state.cart.find((el) => el._id === payload._id)
@@ -110,6 +130,7 @@ export const actions = {
     commit('SET_PRODUCT', products)
     return products
   },
+
   async createPaymentIntent({ getters, commit }) {
     try {
       // Create a PaymentIntent with the information about the order

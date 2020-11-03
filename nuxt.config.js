@@ -7,6 +7,7 @@ export default {
    */
   head: {
     title: 'Intelligent Farming Platform',
+    script:[{ src: "https://js.stripe.com/v3"}],
     htmlAttrs: {
       lang: 'en',
     },
@@ -52,9 +53,9 @@ export default {
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
     '@nuxtjs/auth',
-    ['nuxt-stripe-module', {
-      publishableKey: 'pk_test_51Hg9lmAFMKlS8CSVt1AbCsoCYIz3CFIrcV0tddZirj0H7rnBHxqwv8eOIYDBoygBUTlCdg4axOMnZsLSD6tmXlro009D4jrTF4',
-    }],
+    // ['nuxt-stripe-module', {
+    //   publishableKey: 'pk_test_51Hg9lmAFMKlS8CSVt1AbCsoCYIz3CFIrcV0tddZirj0H7rnBHxqwv8eOIYDBoygBUTlCdg4axOMnZsLSD6tmXlro009D4jrTF4',
+    // }],
   ],
   bootstrapVue: {
     icons: false,

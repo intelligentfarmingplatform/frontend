@@ -60,25 +60,97 @@
               </tbody>
             </template>
           </v-simple-table>
-          รวมทั้งหมด {{ cartTotal }} บาท
+
+          <v-col class="d-flex" cols="12" sm="6">
+            <vs-select
+              :loading="Loaded"
+              label-placeholder="เลือกบริการขนส่ง"
+              v-model="delivery"
+              v-on:change="onChooseShipping()"
+            >
+              <vs-option label="EMS ลงทะเบียน" value="normal">
+                EMS ลงทะเบียน
+              </vs-option>
+              <vs-option label="Kerry Express" value="express">
+                Kerry Express
+              </vs-option>
+            </vs-select>
+          </v-col>
+          <v-col class="d-flex" cols="12" sm="12"><div>ค่าจัดส่ง {{ shippingPrice }} บาท</div></v-col>
+          <v-col class="d-flex" cols="12" sm="12"><div>วันที่จะได้รับ {{ estimatedDelivery }}</div></v-col>
+          <v-col class="d-flex" cols="12" sm="12"><div>รวมทั้งหมด {{ cartTotalWithShipping }} บาท</div></v-col>
+          <v-col class="d-flex" cols="12" sm="4"><div ref="card"></div></v-col>
         </v-col>
       </v-row>
+      <v-btn color="primary" elevation="2" @click="onPurchase"
+        >ยืนยันการสั่งซื้อ</v-btn
+      >
     </v-container>
   </div>
 </template>
 
 <script>
-import AppPayment from '~/components/AppPayment.vue'
+import Axios from 'axios'
 import { mapActions, mapGetters, mapState } from 'vuex'
 
 export default {
   data: () => ({
+    error: '',
+    stripe: null,
+    card: '',
+
+    Loaded: true,
     detailsActive: false,
     activeTooltip1: false,
+    shippingPrice: '',
+    estimatedDelivery: '',
+    delivery: 'normal',
   }),
-  components: {
-    AppPayment,
+  mounted() {
+    this.stripe = Stripe(
+      'pk_test_51Hg9lmAFMKlS8CSVt1AbCsoCYIz3CFIrcV0tddZirj0H7rnBHxqwv8eOIYDBoygBUTlCdg4axOMnZsLSD6tmXlro009D4jrTF4'
+    )
+    let elements = this.stripe.elements()
+    this.card = elements.create('card')
+    // Add an instance of the card Element into the `card-element` <div>
+    this.card.mount(this.$refs.card)
+    console.log(this.$auth.getToken('local'))
   },
+  async fetch() {
+    await Axios.post('https://it-ifp-auth.herokuapp.com/api/shipment', {
+      shipment: 'normal',
+    })
+      .then((response) => {
+        this.Loaded = false
+        console.log('datafrom fetch', response.data)
+        this.$store.commit('setShipping', {
+          price: response.data.shipment.price,
+          estimatedDelivery: response.data.shipment.estimated,
+        })
+        ;(this.shippingPrice = response.data.shipment.price),
+          (this.estimatedDelivery = response.data.shipment.estimated)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  },
+  // async asyncData({Axios,state}) {
+  //   try {
+  //     let response = await Axios.post('http://127.0.0.1:4000/api/shipment', {
+  //       shipment: 'normal',
+  //     })
+  //     console.log('datafrom async',response.data)
+  //     $store.commit('setShipping', {
+  //       price: response.shipment.price,
+  //       estimatedDelivery: response.shipment.estimated,
+  //     })
+  //     return {
+  //       shippingPrice: response.shipment.price,
+  //       estimatedDelivery: response.shipment.estimated,
+  //     }
+  //   } catch (err) {}
+  // },
+  components: {},
   computed: {
     ...mapState(['cart']),
     detailsWithSubTotal() {
@@ -88,9 +160,55 @@ export default {
         source: detail,
       }))
     },
-    ...mapGetters(['cartCount', 'cartTotal']),
+    ...mapGetters([
+      'cartCount',
+      'cartTotal',
+      'cartTotalWithShipping',
+      'getEstimatedDelivery',
+    ]),
   },
   methods: {
+    async onPurchase() {
+      try {
+        this.$axios.setHeader('Authorization', this.$auth.getToken('local'))
+        let token = await this.stripe.createToken(this.card)
+        let response = await this.$axios.post(
+          'http://127.0.0.1:4000/api/payment',
+          {
+            token: token,
+            totalPrice: this.cartTotalWithShipping,
+            cart: this.cart,
+            estimatedDelivery: this.getEstimatedDelivery,
+          }
+        )
+        if (response.data.success) {
+          //do something
+          this.$store.commit('clearCart')
+          this.$router.push({ path: '/' })
+        }
+      } catch (err) {
+        console.log(err)
+      }
+    },
+    async onChooseShipping() {
+      await Axios.post('https://it-ifp-auth.herokuapp.com/api/shipment', {
+        shipment: this.delivery,
+      })
+        .then((response) => {
+          this.Loaded = true
+          console.log('datafrom fetch', response.data)
+          this.$store.commit('setShipping', {
+            price: response.data.shipment.price,
+            estimatedDelivery: response.data.shipment.estimated,
+          })
+          ;(this.shippingPrice = response.data.shipment.price),
+            (this.estimatedDelivery = response.data.shipment.estimated)
+          this.Loaded = false
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    },
     addToCart(item) {
       this.$store.commit('addOneToCart', item)
     },

@@ -49,7 +49,7 @@
           outlined
           tile
         >
-         <Payment/>
+       
         </v-card>
       </v-col>
     </v-row>
@@ -63,14 +63,13 @@
 <script>
 import AppCartSteps from '~/components/AppCartSteps.vue'
 import AppCartDisplay from '~/components/AppCartDisplay.vue'
-import Payment from '~/components/payment.vue'
 import { mapState } from 'vuex'
 
 export default {
   components: {
     AppCartDisplay,
     AppCartSteps,
-    Payment
+  
   },
   computed: {
     ...mapState(['cartUIStatus']),
