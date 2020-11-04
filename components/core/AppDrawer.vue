@@ -1,4 +1,4 @@
-<template>
+,<template>
   <v-navigation-drawer
     id="app-drawer"
     v-model="inputValue"
@@ -53,7 +53,7 @@
             </template>
 
             <v-list-item
-              v-for="( title, i ) in admins"
+              v-for="( title, i ) in account"
               :key="i"
               :to="title.to"
             >
@@ -65,7 +65,7 @@
             </v-list-item>
           </v-list-group>
           <v-list-item
-            v-for="(link, i) in links2"
+            v-for="(link, i) in purchase"
             :key="i"
             :to="link.to"
             :active-class="color"
@@ -75,6 +75,30 @@
             </v-list-item-action>
             <v-list-item v-text="link.text" />
           </v-list-item>
+           <v-list-group
+            prepend-icon="mdi-bell"
+            :value="true"
+            no-action
+            sub-group
+          >
+            <template v-slot:activator>
+              <v-list-item-content>
+                <v-list-item-title>Notifications</v-list-item-title>
+              </v-list-item-content>
+            </template>
+
+            <v-list-item
+              v-for="( title, i ) in notifications"
+              :key="i"
+              :to="title.to"
+            >
+              <v-list-item-title v-text="title.text"></v-list-item-title>
+
+              <v-list-item-icon>
+                <v-icon>{{ title.icon }}</v-icon>
+              </v-list-item-icon>
+            </v-list-item>
+          </v-list-group>
         </v-list>
       </v-layout>
     </v-img>
@@ -89,28 +113,53 @@ export default {
   data() {
     return {
       logo: '/engine.png',
-      admins: [
+      account: [
         {
           text: 'User Profile',
           icon: 'mdi-account-multiple-outline',
-          to: '/dashboard/user-profile',
+          to: '/user/account/user-profile',
         },
         {
           text: 'Bank/Card',
           icon: 'mdi-credit-card',
-          to: '/dashboard/bank-card',
+          to: '/user/account/bank-card',
         },
         {
           text: 'Address',
           icon: 'mdi-truck',
-          to: '/dashboard/user-address',
+          to: '/user/account/user-address',
         },
         {
           text: 'Password Settings',
           icon: 'mdi-cog-outline',
-          to: '/dashboard/passwordSet',
+          to: '/user/account/passwordSet',
         },
       ],
+      purchase: [
+        {
+          to: '/user/purchase/myOrder',
+          icon: 'mdi-clipboard-list-outline',
+          text: 'My Order',
+        },
+      ],
+      notifications: [
+        {
+          to: '/#',
+          icon: 'bx bxs-shopping-bags',
+          text: 'order',
+        },
+        {
+          to: '/#',
+          icon: 'bx bxs-discount',
+          text: 'promotion',
+        },
+        // {
+        //   to: '/user/notifications/order',
+        //   icon: 'mdi-bell',
+        //   text: 'event',
+        // },
+      ],
+
       links: [
         {
           to: '/',
@@ -119,16 +168,12 @@ export default {
         },
       ],
       links2: [
-        {
-          to: '/dashboard/myOrder',
-          icon: 'mdi-clipboard-list-outline',
-          text: 'My Order',
-        },
-        {
-          to: '/dashboard',
-          icon: 'mdi-view-dashboard',
-          text: 'Dashboard',
-        },
+        
+        // {
+        //   to: '/dashboard',
+        //   icon: 'mdi-view-dashboard',
+        //   text: 'Dashboard',
+        // },
         // {
         //   to: '/dashboard/user-profile',
         //   icon: 'mdi-account',
@@ -145,7 +190,7 @@ export default {
         //   text: 'Product Management',
         // },
         {
-          to: '/dashboard/notifications',
+          to: '/user/notifications/order',
           icon: 'mdi-bell',
           text: 'Notifications',
         },

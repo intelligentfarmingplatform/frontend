@@ -3,6 +3,7 @@
     <div class="max-w-screen-lg flex flex-col min-h-screen w-full">
       <AppNav />
       <Nuxt />
+      <MiniCartFab />
       <AppSpeedDial />
     </div>
     <AppFooter />
@@ -12,6 +13,7 @@
 <script>
 import AppNav from '~/components/AppNav'
 import AppSpeedDial from '~/components/AppSpeedDial'
+import MiniCartFab from '~/components/MiniCartFab'
 import AppFooter from '~/components/AppFooter'
 
 export default {
@@ -19,6 +21,7 @@ export default {
     AppNav,
     AppSpeedDial,
     AppFooter,
+    MiniCartFab,
   },
 }
 </script>

@@ -43,16 +43,15 @@ export default {
           src: '/web-bg.jpg',
         },
         {
-          src: 'https://cdn.vuetifyjs.com/images/carousel/sky.jpg',
+          src: '/web-bg.jpg',
         },
         {
-          src: 'https://cdn.vuetifyjs.com/images/carousel/bird.jpg',
+          src: '/web-bg.jpg',
         },
         {
-          src: 'https://cdn.vuetifyjs.com/images/carousel/planet.jpg',
+          src: '/web-bg.jpg',
         },
       ],
-      slides: ['First', 'Second', 'Third', 'Fourth', 'Fifth'],
     }
   },
 }

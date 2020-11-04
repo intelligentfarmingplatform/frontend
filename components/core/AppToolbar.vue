@@ -36,14 +36,14 @@
           hide-details
           color="red"
         />
-        <nuxt-link
+        <!-- <nuxt-link
           v-ripple
           class="toolbar-items"
           to="/dashboard"
           title="Dashboard"
         >
           <v-icon color="tertiary">mdi-view-dashboard</v-icon>
-        </nuxt-link>
+        </nuxt-link> -->
         <v-menu
           bottom
           left

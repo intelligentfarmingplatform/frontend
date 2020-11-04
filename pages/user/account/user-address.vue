@@ -102,10 +102,10 @@
                 {{ item.phoneNumber }}
                 {{ item.note }}
               </v-list-item-title>
-              <v-list-item-subtitle
+              <!-- <v-list-item-subtitle
                 >Greyhound divisely hello coldly
                 fonwderfully</v-list-item-subtitle
-              >
+              > -->
             </v-list-item-content>
 
             <v-list-item-avatar
@@ -116,8 +116,9 @@
           </v-list-item>
 
           <v-card-actions>
-            <v-btn outlined rounded text> Button </v-btn>
+            <v-btn color="deep-purple lighten-2" text> Button </v-btn>
           </v-card-actions>
+          
         </v-card>
       </v-row>
     </v-col>
@@ -137,7 +138,8 @@ export default {
       headers: {
         Authorization: this.$auth.getToken('local'),
       },
-    }).then((response) => {
+    })
+      .then((response) => {
         this.address = response.data.address
         console.log('Dataload', this.address)
         //this.loading = false

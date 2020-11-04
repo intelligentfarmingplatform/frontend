@@ -30,9 +30,7 @@ export default {
   data: () => ({
     links: [
       { name: 'Home', Link: '/' },
-      { name: 'Dashboard', Link: '/dashboard' },
-      { name: 'User Profile', Link: '/dashboard/user-profile' },
-      { name: 'About Us', Link: '/about' },
+      { name: 'User Profile', Link: '/user/account/user-profile' },
     ]
   })
 }

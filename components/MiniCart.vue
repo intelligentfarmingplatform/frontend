@@ -1,23 +1,72 @@
 <template>
-  <div
-    style="width: 180px; right: 0; left: auto"
-    aria-labelledby="triggerId"
-  >
-
-        <tr v-for="item in cart" :key="item.id">
-          <vs-td>
-            {{ item.name }}
-          </vs-td>
-          <vs-td>
-            {{ item.price }}
-          </vs-td>
-          <vs-td>
-            {{ item.quantity }}
-          </vs-td>
-          <vs-button border danger @click="removeAllFromCart(item)">
-            x
-          </vs-button>
-        </tr>
+  <div aria-labelledby="triggerId" @click.stop>
+    <v-card width="500" height="400">
+      <v-container class="grey lighten-5">
+        <v-row no-gutters>
+          <v-col>
+            <v-simple-table fixed-header>
+              <template v-slot:default>
+                <thead>
+                  <tr>
+                    <th>สินค้า</th>
+                    <th>ราคา</th>
+                    <th>จำนวน</th>
+                    <th>รวม</th>
+                    <th>ลบสินค้า</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr
+                    height="105"
+                    v-for="item in detailsWithSubTotal"
+                    :key="item._id"
+                  >
+                    <td>
+                      <div width="500" class="modal-img">
+                        <v-avatar>
+                          <img :src="item.productimg" alt="John" />
+                        </v-avatar>
+                      </div>
+                      <div class="productname">{{ item.title }}</div>
+                    </td>
+                    <td>{{ item.price }}</td>
+                    <td>
+                      <button
+                        @click="removeOneFromCart(item)"
+                        @click.stop
+                        class="quantity-adjust"
+                      >
+                        -
+                      </button>
+                      {{ item.quantity }}
+                      <button @click="addToCart(item)" class="quantity-adjust">
+                        +
+                      </button>
+                    </td>
+                    <td>{{ item.subtotal }}</td>
+                    <td>
+                      <div class="delete-product">
+                        <v-btn
+                          @click="removeAllFromCart(item)"
+                          class="mx-2"
+                          fab
+                          dense
+                          x-small
+                          color="primary"
+                        >
+                          <v-icon dark> mdi-delete </v-icon>
+                        </v-btn>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </template>
+            </v-simple-table>
+            <p align="center">รวมทั้งหมด {{ cartTotal }} บาท</p>
+          </v-col>
+        </v-row>
+      </v-container>
+    </v-card>
   </div>
 </template>
 
@@ -27,7 +76,13 @@ import { mapState, mapGetters, mapMutations } from 'vuex'
 export default {
   computed: {
     ...mapState(['cart']),
-
+    detailsWithSubTotal() {
+      return this.cart.map((detail) => ({
+        ...detail,
+        subtotal: detail.quantity * detail.price,
+        source: detail,
+      }))
+    },
     ...mapGetters(['cartCount', 'cartTotal']),
   },
 
@@ -39,9 +94,14 @@ export default {
     clearCart(item) {
       this.$store.commit('clearCart', item)
     },
+    removeAllFromCart(item) {
+      this.$store.commit('removeAllFromCart', item)
+    },
+    addToCart(item) {
+      this.$store.commit('addOneToCart', item)
+    },
   },
 }
 </script>
 
-<style>
-</style>
+<style></style>

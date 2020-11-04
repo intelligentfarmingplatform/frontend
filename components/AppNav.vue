@@ -28,29 +28,56 @@
       </template>
 
       <template #right>
-        <vs-navbar-group>
+        <!-- <vs-navbar-group> -->
           <vs-avatar badge>
-            <nuxt-link to="/cart"
-              ><img src="/cart.png" alt="#"
-            /></nuxt-link>
+            <nuxt-link to="/cart"><img src="/cart.png" alt="#" /></nuxt-link>
             <template #badge>
               {{ cartCount }}
             </template>
           </vs-avatar>
-          <template #items>
-            <!-- <MiniCart /> -->
+          <!-- <template #items>
+            <MiniCart />
           </template>
-        </vs-navbar-group>
+        </vs-navbar-group> -->
         <vs-button @click="loginActive = !loginActive" v-if="!$auth.loggedIn"
           >Login / Register</vs-button
         >
-        <div v-if="$auth.loggedIn">{{ $auth.$state.user.email }}</div>
-        <vs-button @click="logoutHandle" v-if="$auth.loggedIn"
+        <vs-navbar-group>
+          <vs-avatar v-if="$auth.loggedIn" style="margin-right:70px">
+              <img src="/avatar.png" alt="" />
+            </vs-avatar>
+          <template #items>
+            <vs-navbar-item
+              :active="active == 'MyAccount'"
+              id="MyAccount"
+              to="/user/account/user-profile"
+            >
+              บัญชีของฉัน
+            </vs-navbar-item>
+            <vs-navbar-item
+              :active="active == 'MyOrder'"
+              id="MyOrder"
+              to="/user/purchase/myOrder"
+            >
+              การสั่งซื้อของฉัน
+            </vs-navbar-item>
+            <vs-navbar-item
+              :active="active == 'Logout'"
+              id="Logout"
+              @click="logoutHandle"
+              v-if="$auth.loggedIn"
+            >
+              ออกจากระบบ
+            </vs-navbar-item>
+          </template>
+        </vs-navbar-group>
+        <!-- <vs-button @click="logoutHandle" v-if="$auth.loggedIn"
           >Logout</vs-button
-        >
+        > -->
         <!-- <vs-button v-if="$auth.loggedIn">Welcome {{$auth.$state.user.email}}</vs-button> -->
       </template>
     </vs-navbar>
+    
     <vs-dialog prevent-close blur v-model="loginActive">
       <template #header>
         <h4 class="not-margin">
@@ -95,7 +122,12 @@
 
           <div class="new">
             ยังไม่มีบัญชีผู้ใช้งาน?
-            <a href="#" @click="registerActive = !registerActive , loginActive=!loginActive"
+            <a
+              href="#"
+              @click="
+                ;(registerActive = !registerActive),
+                  (loginActive = !loginActive)
+              "
               >สร้างบัญชีผู้ใช้งานใหม่</a
             >
           </div>
@@ -413,6 +445,10 @@ getColor(vsColor, alpha = 1) {
 
 getVar(var) {
   unquote('var(--vs-' + var + ')');
+}
+
+.Nav {
+  margin: auto
 }
 
 .not-margin {

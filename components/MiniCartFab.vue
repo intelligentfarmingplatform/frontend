@@ -12,51 +12,32 @@
       :transition="transition"
     >
       <template v-slot:activator>
-        <vs-tooltip left>
-          <v-btn v-model="fab" color="blue darken-2" dark fab>
-            <v-icon v-if="fab"> mdi-close </v-icon>
-            <img src="/contact-us.png" v-else />
-          </v-btn>
-          <template #tooltip> ติดต่อเรา </template>
+        <vs-tooltip top>
+        <v-btn v-model="fab" color="blue darken-2" dark fab>
+          <v-icon v-if="fab"> mdi-close </v-icon>
+          <i v-else class='bx bxs-cart bx-md' ></i>
+        </v-btn>
+        <template #tooltip> ตะกร้า </template>
         </vs-tooltip>
       </template>
-      <vs-tooltip left>
-        <v-btn
-          fab
-          dark
-          small
-          color="green"
-          href="https://www.facebook.com/"
-          target="_blank"
-        >
-          <img src="/facebook.png" />
-        </v-btn>
-        <template #tooltip> Facebook </template>
-      </vs-tooltip>
-      <vs-tooltip left>
-        <v-btn
-          fab
-          dark
-          small
-          color="indigo"
-          href="https://line.me/th/"
-          target="_blank"
-        >
-          <img src="/line.png" />
-        </v-btn>
-        <template #tooltip> Line </template>
-      </vs-tooltip>
+         <MiniCart />
     </v-speed-dial>
   </v-card>
 </template>
 
 <script>
+import MiniCart from '~/components/MiniCart'
+
 export default {
+  components: {
+    MiniCart
+  },
   data: () => ({
-    direction: 'top',
+    direction: 'left',
     fab: false,
     fling: false,
-    hover: true,
+    hover: false,
+    tabs: null,
     top: false,
     right: true,
     bottom: true,
@@ -78,6 +59,7 @@ export default {
       this.right = !val
     },
   },
+
 }
 </script>
 
@@ -90,6 +72,6 @@ export default {
 #create .fixed {
   position: fixed;
   right: 15px;
-  bottom: 15px;
+  bottom: 60%;
 }
 </style>

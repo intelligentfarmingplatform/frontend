@@ -11,7 +11,7 @@
       <vs-row>
         <vs-col w="4" vs-justify="left" vs-align="left">
           <vs-button-group>
-            <vs-button v-for="i in products" :key="i._id"> {{i.category.type}} </vs-button>
+            <vs-button v-for="i in products.category" :key="i._id"> {{i.category.type}} </vs-button>
           </vs-button-group>
         </vs-col>
         <vs-row>
