@@ -7,7 +7,7 @@ export default {
    */
   head: {
     title: 'Intelligent Farming Platform',
-    script:[{ src: "https://js.stripe.com/v3"}],
+    script: [{ src: 'https://js.stripe.com/v3' }],
     htmlAttrs: {
       lang: 'en',
     },
@@ -70,14 +70,15 @@ export default {
    ** Axios module configuration
    */
   axios: {
-    credentials: true
+    credentials: true,
   },
   auth: {
     localStorage: false,
     cookie: {
       options: {
-        expires: 7
-      }},
+        expires: 7,
+      },
+    },
     redirect: {
       login: '/',
     },
@@ -102,37 +103,7 @@ export default {
   },
   build: {
     extractCSS: true,
-    optimization: {
-      splitChunks: {
-        cacheGroups: {
-          styles: {
-            name: 'styles',
-            test: /\.(css|vue)$/,
-            chunks: 'all',
-            enforce: true,
-          },
-        },
-      },
-    },
-    extend(config, ctx) {
-      // Run ESLint on save
-      if (ctx.isDev && ctx.isClient) {
-        config.module.rules.push({
-          enforce: 'pre',
-          exclude: /(node_modules)/,
-        })
-      }
-      if (ctx.isClient) {
-        config.devtool = 'source-map'
-      }
-    },
-    transpile: [/^vuetify/],
     babel: { compact: true },
-  },
-  performance: {
-    hints: false,
-    maxEntrypointSize: 512000,
-    maxAssetSize: 512000,
   },
   /*
    ** Build configuration
