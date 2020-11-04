@@ -18,17 +18,17 @@
                 <tr
                   height="105"
                   v-for="item in detailsWithSubTotal"
-                  :key="item._id"
+                  :key="item.id"
                 >
                   <td>
                     <div width="500" class="modal-img">
                       <v-avatar>
-                        <img :src="item.productimg" alt="John" />
+                        <img :src="`https://intelligentfarmingplatform.herokuapp.com/${item.productimg}`" alt="John" />
                       </v-avatar>
                     </div>
-                    <div class="productname">{{ item.title }}</div>
+                    <div class="productname">{{ item.productname }}</div>
                   </td>
-                  <td>{{ item.price }}</td>
+                  <td>{{ item.productprice }}</td>
                   <td>
                     <button
                       @click="removeOneFromCart(item)"
@@ -156,7 +156,7 @@ export default {
     detailsWithSubTotal() {
       return this.cart.map((detail) => ({
         ...detail,
-        subtotal: detail.quantity * detail.price,
+        subtotal: detail.quantity * detail.productprice,
         source: detail,
       }))
     },

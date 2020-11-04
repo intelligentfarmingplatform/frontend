@@ -3,12 +3,12 @@
     <vs-col>
       <section class="item-contain">
         <section class="img">
-          <img :src="product.productimg" height="300" />
+          <img :src="`https://intelligentfarmingplatform.herokuapp.com/${product.productimg}`" height="300" />
         </section>
         <section class="product-info">
-          <h1>{{ product.title }}</h1>
-          <h4 class="price">{{ product.price }} บาท</h4>
-          <p>{{ product.description }}</p>
+          <h1>{{ product.productname }}</h1>
+          <h4 class="price">{{ product.productprice }} บาท</h4>
+          <p>{{ product.productdetail }}</p>
           <p>ทดสอบๆ</p>
           <div class="product-options">
             <div class="quantity">
@@ -21,7 +21,7 @@
               <vs-button class="update-num" @click="quantity++">+</vs-button>
             </div>
           </div>
-          <p>เหลือ : {{product.stockQty}} ชิ้น</p>
+          <p>เหลือ : {{product.productnumber}} ชิ้น</p>
           <p>
             <vs-button border class="button purchase" @click="cartAdd"
               >หยิบใส่ตะกร้า</vs-button
@@ -67,7 +67,7 @@ export default {
   computed: {
     ...mapState(['products']),
     product() {
-     return this.products.find((p) => p._id == this.$route.params.id)
+     return this.products.find((p) => p.id == this.$route.params.id)
      console.log(product)
     },
     //storedata: (state) => state.storedata,

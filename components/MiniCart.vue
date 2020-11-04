@@ -2,70 +2,72 @@
   <div aria-labelledby="triggerId" @click.stop>
     <v-card width="500" height="400">
       <v-container class="grey lighten-5">
-        <v-row no-gutters>
-          <v-col>
-            <v-simple-table fixed-header>
-              <template v-slot:default>
-                <thead>
-                  <tr>
-                    <th>สินค้า</th>
-                    <th>ราคา</th>
-                    <th>จำนวน</th>
-                    <th>รวม</th>
-                    <th>ลบสินค้า</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr
-                    height="105"
-                    v-for="item in detailsWithSubTotal"
-                    :key="item._id"
-                  >
-                    <td>
-                      <div width="500" class="modal-img">
-                        <v-avatar>
-                          <img :src="item.productimg" alt="John" />
-                        </v-avatar>
-                      </div>
-                      <div class="productname">{{ item.title }}</div>
-                    </td>
-                    <td>{{ item.price }}</td>
-                    <td>
-                      <button
-                        @click="removeOneFromCart(item)"
-                        @click.stop
-                        class="quantity-adjust"
+      <v-row no-gutters>
+        <v-col>
+          <v-simple-table fixed-header>
+            <template v-slot:default>
+              <thead>
+                <tr>
+                  <th>สินค้า</th>
+                  <th>ราคา</th>
+                  <th>จำนวน</th>
+                  <th>รวม</th>
+                  <th>ลบสินค้า</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  height="105"
+                  v-for="item in detailsWithSubTotal"
+                  :key="item.id"
+                >
+                  <td>
+                    <div width="500" class="modal-img">
+                      <v-avatar>
+                        <img :src="`https://intelligentfarmingplatform.herokuapp.com/${item.productimg}`" alt="John" />
+                      </v-avatar>
+                    </div>
+                    <div class="productname">{{ item.productname }}</div>
+                  </td>
+                  <td>{{ item.productprice }}</td>
+                  <td>
+                    <button
+                      @click="removeOneFromCart(item)"
+                      class="quantity-adjust"
+                    >
+                      -
+                    </button>
+                    {{ item.quantity }}
+                    <button @click="addToCart(item)" class="quantity-adjust">
+                      +
+                    </button>
+                  </td>
+                  <td>{{ item.subtotal }}</td>
+                  <td>
+                    <div class="delete-product">
+                      <v-btn
+                        @click="removeAllFromCart(item)"
+                        class="mx-2"
+                        fab
+                        dense
+                        x-small
+                        color="primary"
                       >
-                        -
-                      </button>
-                      {{ item.quantity }}
-                      <button @click="addToCart(item)" class="quantity-adjust">
-                        +
-                      </button>
-                    </td>
-                    <td>{{ item.subtotal }}</td>
-                    <td>
-                      <div class="delete-product">
-                        <v-btn
-                          @click="removeAllFromCart(item)"
-                          class="mx-2"
-                          fab
-                          dense
-                          x-small
-                          color="primary"
-                        >
-                          <v-icon dark> mdi-delete </v-icon>
-                        </v-btn>
-                      </div>
-                    </td>
-                  </tr>
-                </tbody>
-              </template>
-            </v-simple-table>
-            <p align="center">รวมทั้งหมด {{ cartTotal }} บาท</p>
-          </v-col>
-        </v-row>
-      </v-container>
+                        <v-icon dark> mdi-delete </v-icon>
+                      </v-btn>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </template>
+          </v-simple-table>
+          <p align="center"> ราคารวม {{cartTotal}} บาท</p>
+        </v-col>0
+      </v-row>
+      <v-btn color="primary" elevation="2" @click="onPurchase"
+        >ยืนยันการสั่งซื้อ</v-btn
+      >
+    </v-container>
     </v-card>
   </div>
 </template>
@@ -79,7 +81,7 @@ export default {
     detailsWithSubTotal() {
       return this.cart.map((detail) => ({
         ...detail,
-        subtotal: detail.quantity * detail.price,
+        subtotal: detail.quantity * detail.productprice,
         source: detail,
       }))
     },

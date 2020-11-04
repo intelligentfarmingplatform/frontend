@@ -37,12 +37,12 @@ export const getters = {
   },
   cartTotal: (state) => {
     if (!state.cart.length) return 0
-    return state.cart.reduce((ac, next) => ac + next.quantity * next.price, 0)
+    return state.cart.reduce((ac, next) => ac + next.quantity * next.productprice, 0)
   },
   cartTotalWithShipping: (state) => {
     if (!state.cart.length) return 0
     return (
-      state.cart.reduce((ac, next) => ac + next.quantity * next.price, 0) +
+      state.cart.reduce((ac, next) => ac + next.quantity * next.productprice, 0) +
       state.shippingPrice
     )
   },
@@ -83,7 +83,7 @@ export const mutations = {
       (state.shippingEstimatedDelivery = '')
   },
   addToCart: (state, payload) => {
-    let itemfound = state.cart.find((el) => el._id === payload._id)
+    let itemfound = state.cart.find((el) => el.id === payload.id)
     itemfound
       ? (itemfound.quantity += payload.quantity)
       : state.cart.push(payload)
@@ -92,17 +92,17 @@ export const mutations = {
     state.clientSecret = payload
   },
   addOneToCart: (state, payload) => {
-    let itemfound = state.cart.find((el) => el._id === payload._id)
+    let itemfound = state.cart.find((el) => el.id === payload.id)
     itemfound ? itemfound.quantity++ : state.cart.push(payload)
   },
   removeOneFromCart: (state, payload) => {
-    let index = state.cart.findIndex((el) => el._id === payload._id)
+    let index = state.cart.findIndex((el) => el.id === payload.id)
     state.cart[index].quantity
       ? state.cart[index].quantity--
       : state.cart.splice(index, 1)
   },
   removeAllFromCart: (state, payload) => {
-    state.cart = state.cart.filter((el) => el._id !== payload._id)
+    state.cart = state.cart.filter((el) => el.id !== payload.id)
   },
 }
 
@@ -117,11 +117,12 @@ export const actions = {
       })
   },
 
+
   async loadAllProducts({ commit }) {
     await axios
-      .get('https://it-ifp-auth.herokuapp.com/api/products')
+      .get('  https://intelligentfarmingplatform.herokuapp.com/api/sellproducts/show')
       .then((res) => {
-        let products = res.data.products
+        let products = res.data.data
         commit('SET_PRODUCTS', products)
       })
   },
@@ -130,6 +131,20 @@ export const actions = {
     commit('SET_PRODUCT', products)
     return products
   },
+
+  // async loadAllProducts({ commit }) {
+  //   await axios
+  //     .get('https://it-ifp-auth.herokuapp.com/api/products')
+  //     .then((res) => {
+  //       let products = res.data.products
+  //       commit('SET_PRODUCTS', products)
+  //     })
+  // },
+  // async getProduct({ commit }) {
+  //   const products = await userService.getProduct()
+  //   commit('SET_PRODUCT', products)
+  //   return products
+  // },
 
   async createPaymentIntent({ getters, commit }) {
     try {
