@@ -313,7 +313,7 @@ export default {
         await this.$auth.loginWith('local', {
           data: { email: this.emailRegister, password: this.passwordRegister },
         })
-        // this.registerActive=false
+        this.registerActive=false
         const noti = this.$vs.notification({
           position: 'top-center',
           icon: `<i class='bx bx-bell' ></i>`,

@@ -62,11 +62,8 @@
             </template>
           </v-simple-table>
           <p align="center"> ราคารวม {{cartTotal}} บาท</p>
-        </v-col>0
+        </v-col>
       </v-row>
-      <v-btn color="primary" elevation="2" @click="onPurchase"
-        >ยืนยันการสั่งซื้อ</v-btn
-      >
     </v-container>
     </v-card>
   </div>
