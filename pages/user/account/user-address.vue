@@ -15,17 +15,9 @@
             <h3>ที่อยู่ของฉัน</h3>
           </v-row>
         </v-col>
-        <v-col class="mb-6" offset-md="6">
-          <v-row outlined tile>
-            <v-btn depressed color="#00B3CA" @click="addAddress = !addAddress">
-              <h2>+</h2>
-              เพิ่มที่อยู่
-            </v-btn>
-          </v-row>
-        </v-col>
       </v-row>
 
-      <v-dialog v-model="addAddress" persistent max-width="600px">
+      <v-dialog v-model="dialog" persistent max-width="600px">
         <v-card>
           <v-card-title>
             <span class="headline">ที่อยู่ในการจัดส่ง</span>
@@ -35,24 +27,38 @@
               <v-container>
                 <v-row>
                   <v-col cols="12" sm="6" md="12">
-                    <v-text-field label="ชื่อ-นามสกุล" required></v-text-field>
+                    <v-text-field
+                      label="ชื่อ-นามสกุล"
+                      v-model="addressForm.fullName"
+                      required
+                    ></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6" md="4">
-                    <v-text-field label="อำเภอ" required></v-text-field>
+                    <v-text-field
+                      label="อำเภอ"
+                      v-model="addressForm.district"
+                      required
+                    ></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6" md="4">
-                    <v-text-field label="จังหวัด" required></v-text-field>
+                    <v-text-field
+                      label="จังหวัด"
+                      v-model="addressForm.province"
+                      required
+                    ></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6" md="4">
                     <v-text-field
                       label="รหัสไปรษณีย์"
                       type=""
+                      v-model="addressForm.zipCode"
                       required
                     ></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6" md="12">
                     <v-text-field
                       label="อาคาร , ถนน ฯลฯ"
+                      v-model="addressForm.streetAddress"
                       required
                     ></v-text-field>
                   </v-col>
@@ -70,11 +76,11 @@
               <v-btn
                 color="blue darken-1"
                 text
-                @click="reset(), (addAddress = false)"
+                @click="reset(), (dialog = false)"
               >
                 ยกเลิก
               </v-btn>
-              <v-btn color="blue darken-1" text @click="addAddress = false">
+              <v-btn color="blue darken-1" text @click="addAddress">
                 บันทึก
               </v-btn>
             </v-card-actions>
@@ -84,43 +90,29 @@
     </v-layout>
 
     <v-col md="12" cols="12">
-      <v-row class="pa-2" outlined tile>
-        <v-card
-          max-width="100%"
-          outlined
-          v-for="item in address"
-          :key="item._id"
-        >
-          <v-list-item three-line>
-            <v-list-item-content>
-              <div class="overline mb-4">{{ item.fullName }}</div>
-              <v-list-item-title class="headline mb-1">
-                {{ item.streetAddress }}
-                {{ item.district }}
-                {{ item.province }}
-                {{ item.zipCode }}
-                {{ item.phoneNumber }}
-                {{ item.note }}
-              </v-list-item-title>
-              <!-- <v-list-item-subtitle
-                >Greyhound divisely hello coldly
-                fonwderfully</v-list-item-subtitle
-              > -->
-            </v-list-item-content>
-
-            <v-list-item-avatar
-              tile
-              size="80"
-              color="grey"
-            ></v-list-item-avatar>
-          </v-list-item>
-
-          <v-card-actions>
-            <v-btn color="deep-purple lighten-2" text> Button </v-btn>
-          </v-card-actions>
-          
-        </v-card>
-      </v-row>
+      <v-data-table
+        :headers="dessertHeaders"
+        :items="desserts"
+        :single-expand="singleExpand"
+        :expanded.sync="expanded"
+        item-key="name"
+        show-expand
+        class="elevation-1"
+      >
+        <template v-slot:top>
+          <v-toolbar flat>
+            <v-toolbar-title>Your Address</v-toolbar-title>
+            <v-spacer></v-spacer>
+            <v-btn depressed color="#00B3CA" @click="dialog = !dialog">
+              <h2>+</h2>
+              เพิ่มที่อยู่
+            </v-btn>
+          </v-toolbar>
+        </template>
+        <template v-slot:expanded-item="{ headers, item }">
+          <td :colspan="headers.length">More info about {{ item.name }}</td>
+        </template>
+      </v-data-table>
     </v-col>
   </v-container>
 </template>
@@ -130,8 +122,114 @@ import Axios from 'axios'
 export default {
   layout: 'dashboard',
   data: () => ({
+    addressForm: {
+      fullName: '',
+      district: '',
+      province: '',
+      zipCode: '',
+      streetAddress: '',
+    },
+
+    expanded: [],
+    singleExpand: false,
+    dessertHeaders: [
+      {
+        text: 'Dessert (100g serving)',
+        align: 'start',
+        sortable: false,
+        value: 'name',
+      },
+      { text: 'Calories', value: 'calories' },
+      { text: 'Fat (g)', value: 'fat' },
+      { text: 'Carbs (g)', value: 'carbs' },
+      { text: 'Protein (g)', value: 'protein' },
+      { text: 'Iron (%)', value: 'iron' },
+      { text: '', value: 'data-table-expand' },
+    ],
+    desserts: [
+      {
+        name: 'Frozen Yogurt',
+        calories: 159,
+        fat: 6.0,
+        carbs: 24,
+        protein: 4.0,
+        iron: '1%',
+      },
+      {
+        name: 'Ice cream sandwich',
+        calories: 237,
+        fat: 9.0,
+        carbs: 37,
+        protein: 4.3,
+        iron: '1%',
+      },
+      {
+        name: 'Eclair',
+        calories: 262,
+        fat: 16.0,
+        carbs: 23,
+        protein: 6.0,
+        iron: '7%',
+      },
+      {
+        name: 'Cupcake',
+        calories: 305,
+        fat: 3.7,
+        carbs: 67,
+        protein: 4.3,
+        iron: '8%',
+      },
+      {
+        name: 'Gingerbread',
+        calories: 356,
+        fat: 16.0,
+        carbs: 49,
+        protein: 3.9,
+        iron: '16%',
+      },
+      {
+        name: 'Jelly bean',
+        calories: 375,
+        fat: 0.0,
+        carbs: 94,
+        protein: 0.0,
+        iron: '0%',
+      },
+      {
+        name: 'Lollipop',
+        calories: 392,
+        fat: 0.2,
+        carbs: 98,
+        protein: 0,
+        iron: '2%',
+      },
+      {
+        name: 'Honeycomb',
+        calories: 408,
+        fat: 3.2,
+        carbs: 87,
+        protein: 6.5,
+        iron: '45%',
+      },
+      {
+        name: 'Donut',
+        calories: 452,
+        fat: 25.0,
+        carbs: 51,
+        protein: 4.9,
+        iron: '22%',
+      },
+      {
+        name: 'KitKat',
+        calories: 518,
+        fat: 26.0,
+        carbs: 65,
+        protein: 7,
+        iron: '6%',
+      },
+    ],
     address: '',
-    addAddress: false,
+    dialog: false,
   }),
   async fetch() {
     await Axios.get('https://it-ifp-auth.herokuapp.com/api/addresses', {
@@ -149,6 +247,19 @@ export default {
       })
   },
   methods: {
+    async addAddress() {
+      try {
+        const config = {
+          headers: {
+            Authorization: this.$auth.getToken('local'),
+          },
+        }
+         await Axios.post(
+          'http://127.0.0.1:4000/api/customer/address',
+          this.addressForm
+        )
+      } catch (err) {}
+    },
     reset() {
       this.$refs.formAddress.reset()
     },

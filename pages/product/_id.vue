@@ -23,8 +23,11 @@
           </div>
           <p>เหลือ : {{product.productnumber}} ชิ้น</p>
           <p>
-            <vs-button border class="button purchase" @click="cartAdd"
+            <vs-button v-if="$auth.loggedIn" border class="button purchase" @click="cartAdd"
               >หยิบใส่ตะกร้า</vs-button
+            >
+                                <vs-button border class="button purchase" @click="loginActive = !loginActive" v-if="!$auth.loggedIn"
+              >กรุณาล็อคอินเพื่อเลือกสินค้า</vs-button
             >
           </p>
         </section>
@@ -34,19 +37,162 @@
       <div class="review">
         <h2>Reviews</h2>
         <!-- maybe an image of a person? -->
-        
+
         <p>ทดสอบๆ</p>
       </div>
     </vs-col>
     <app-featured-products />
+     <vs-dialog prevent-close blur v-model="loginActive">
+      <template #header>
+        <h4 class="not-margin">
+          <b>เข้าสู่ระบบ</b>
+        </h4>
+      </template>
+
+      <div class="con-form">
+        <vs-input
+          v-model="email"
+          placeholder="Email"
+          :rules="emailRules"
+          label-placeholder="Email"
+        >
+        </vs-input>
+
+        <vs-input
+          type="password"
+          v-model="password"
+          placeholder="Password"
+          label-placeholder="Password"
+          :visiblePassword="hasVisiblePassword"
+          icon-after
+          @click-icon="hasVisiblePassword = !hasVisiblePassword"
+        >
+          <template #icon>
+            <i v-if="!hasVisiblePassword" class="bx bx-show-alt"></i>
+            <i v-else class="bx bx-hide"></i>
+          </template>
+        </vs-input>
+        <div class="flex">
+          <vs-checkbox v-model="remember">จดจำฉันไว้</vs-checkbox>
+          <a href="#">ลืมรหัสผ่าน?</a>
+        </div>
+      </div>
+
+      <template #footer>
+        <div class="footer-dialog">
+          <vs-button ref="login" block @click="handleLoginClicked">
+            Log in
+          </vs-button>
+
+          <div class="new">
+            ยังไม่มีบัญชีผู้ใช้งาน?
+            <a
+              href="#"
+              @click="
+                ;(registerActive = !registerActive),
+                  (loginActive = !loginActive)
+              "
+              >สร้างบัญชีผู้ใช้งานใหม่</a
+            >
+          </div>
+        </div>
+      </template>
+    </vs-dialog>
+    <vs-dialog prevent-close v-model="registerActive">
+      <template #header>
+        <h4 class="not-margin">
+          <b>สร้างบัญชีผู้ใช้งานใหม่</b>
+        </h4>
+      </template>
+
+      <div class="con-form">
+        <vs-input v-model="usernameRegister" placeholder="Username">
+          <template #icon> @ </template>
+        </vs-input>
+        <vs-input v-model="emailRegister" placeholder="Email">
+          <template #icon> @ </template>
+        </vs-input>
+        <vs-input
+          type="password"
+          v-model="passwordRegister"
+          placeholder="Password"
+          label-placeholder="Password"
+          :progress="getProgress"
+          :visiblePassword="hasVisiblePasswordRegister"
+          icon-after
+          @click-icon="hasVisiblePasswordRegister = !hasVisiblePasswordRegister"
+        >
+          <template #icon>
+            <i v-if="!hasVisiblePasswordRegister" class="bx bx-show-alt"></i>
+            <i v-else class="bx bx-hide"></i>
+          </template>
+          <template v-if="getProgress >= 100" #message-success>
+            รหัสผ่านมีความปลอดภัยสูงสุด
+          </template>
+          <template v-else-if="getProgress >= 80" #message-success>
+            รหัสผ่านมีความปลอดภัยสูง
+          </template>
+          <template v-else-if="getProgress >= 60" #message-warn>
+            รหัสผ่านมีความปลอดภัยปานกลาง
+          </template>
+          <template v-else-if="getProgress >= 40" #message-warn>
+            รหัสผ่านมีความปลอดภัยปานกลาง
+          </template>
+          <template v-else-if="getProgress >= 20" #message-danger>
+            รหัสผ่านมีความปลอดภัยต่ำ
+          </template>
+        </vs-input>
+        <vs-input
+          type="password"
+          v-model="passwordRegisterConfirm"
+          placeholder="Password Confirm"
+          :visiblePassword="hasVisiblePasswordRegisterConfirm"
+          icon-after
+          @click-icon="
+            hasVisiblePasswordRegisterConfirm = !hasVisiblePasswordRegisterConfirm
+          "
+        >
+          <template #icon>
+            <i v-if="!hasVisiblePasswordRegister" class="bx bx-show-alt"></i>
+            <i v-else class="bx bx-hide"></i>
+          </template>
+
+          <template
+            v-if="
+              passwordRegister == passwordRegisterConfirm && passwordRegister
+            "
+            #message-success
+          >
+            รหัสผ่านตรงกัน
+          </template>
+
+          <template
+            v-else-if="passwordRegisterConfirm != passwordRegister"
+            #message-danger
+          >
+            รหัสผ่านไม่ตรงกัน
+          </template>
+        </vs-input>
+      </div>
+
+      <template #footer>
+        <div class="footer-dialog">
+          <vs-button block @click="handleRegisterClicked">
+            สมัครสมาชิก
+          </vs-button>
+        </div>
+      </template>
+    </vs-dialog>
   </div>
 </template>
 
 <script>
 import { mapActions, mapGetters, mapState } from 'vuex'
+import loginMixin from '~/mixins/login'
 import AppFeaturedProducts from '~/components/AppFeaturedProducts.vue'
 
 export default {
+  mixins:[loginMixin],
   components: {
     AppFeaturedProducts,
   },
@@ -62,7 +208,7 @@ export default {
   async fetch({ store, params }) {
     //return this.getProduct()
     await store.dispatch('loadAllProducts');
-    
+
   },
   computed: {
     ...mapState(['products']),

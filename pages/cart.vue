@@ -49,7 +49,7 @@
           outlined
           tile
         >
-       
+
         </v-card>
       </v-col>
     </v-row>
@@ -69,7 +69,30 @@ export default {
   components: {
     AppCartDisplay,
     AppCartSteps,
-  
+  },
+   async asyncData({ $axios, store }) {
+    console.log('asyncedata')
+    try {
+      let response = await $axios.post(
+        'https://it-ifp-auth.herokuapp.com/api/shipment',
+        {
+          shipment: 'normal',
+        }
+      )
+
+      console.log('datafrom asyncDData', response.data)
+      store.commit('setShipping', {
+        price: response.data.shipment.price,
+        estimatedDelivery: response.data.shipment.estimated,
+      })
+      return {
+        Loaded:false,
+        shippingPrice: response.data.shipment.price,
+        estimatedDelivery: response.data.shipment.estimated,
+      }
+    } catch (err) {
+      console.log(err)
+    }
   },
   computed: {
     ...mapState(['cartUIStatus']),

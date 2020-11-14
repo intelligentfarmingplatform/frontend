@@ -29,13 +29,13 @@
 
       <template #right>
         <!-- <vs-navbar-group> -->
-          <vs-avatar badge>
-            <nuxt-link to="/cart"><img src="/cart.png" alt="#" /></nuxt-link>
-            <template #badge>
-              {{ cartCount }}
-            </template>
-          </vs-avatar>
-          <!-- <template #items>
+        <vs-avatar badge>
+          <nuxt-link to="/cart"><img src="/cart.png" alt="#" /></nuxt-link>
+          <template #badge>
+            {{ cartCount }}
+          </template>
+        </vs-avatar>
+        <!-- <template #items>
             <MiniCart />
           </template>
         </vs-navbar-group> -->
@@ -43,9 +43,9 @@
           >Login / Register</vs-button
         >
         <vs-navbar-group>
-          <vs-avatar v-if="$auth.loggedIn" style="margin-right:70px">
-              <img src="/avatar.png" alt="" />
-            </vs-avatar>
+          <vs-avatar v-if="$auth.loggedIn" style="margin-right: 70px">
+            <img src="/avatar.png" alt="" />
+          </vs-avatar>
           <template #items>
             <vs-navbar-item
               :active="active == 'MyAccount'"
@@ -77,7 +77,7 @@
         <!-- <vs-button v-if="$auth.loggedIn">Welcome {{$auth.$state.user.email}}</vs-button> -->
       </template>
     </vs-navbar>
-    
+
     <vs-dialog prevent-close blur v-model="loginActive">
       <template #header>
         <h4 class="not-margin">
@@ -118,6 +118,9 @@
         <div class="footer-dialog">
           <vs-button ref="login" block @click="handleLoginClicked">
             Log in
+          </vs-button>
+          <vs-button ref="login" block @click="handleFacebookLogin">
+            Facebook Login
           </vs-button>
 
           <div class="new">
@@ -162,19 +165,19 @@
             <i v-if="!hasVisiblePasswordRegister" class="bx bx-show-alt"></i>
             <i v-else class="bx bx-hide"></i>
           </template>
-          <template v-if="getProgress >= 100" #message-green>
+          <template v-if="getProgress >= 100" #message-success>
             รหัสผ่านมีความปลอดภัยสูงสุด
           </template>
-          <template v-else-if="getProgress >= 80" #message-green>
+          <template v-else-if="getProgress >= 80" #message-success>
             รหัสผ่านมีความปลอดภัยสูง
           </template>
-          <template v-else-if="getProgress >= 60" #message-orange>
+          <template v-else-if="getProgress >= 60" #message-warn>
             รหัสผ่านมีความปลอดภัยปานกลาง
           </template>
-          <template v-else-if="getProgress >= 40" #message-orange>
+          <template v-else-if="getProgress >= 40" #message-warn>
             รหัสผ่านมีความปลอดภัยปานกลาง
           </template>
-          <template v-else-if="getProgress >= 20" #message-red>
+          <template v-else-if="getProgress >= 20" #message-danger>
             รหัสผ่านมีความปลอดภัยต่ำ
           </template>
         </vs-input>
@@ -209,12 +212,6 @@
             รหัสผ่านไม่ตรงกัน
           </template>
         </vs-input>
-        <vs-input
-          v-model="id_cardRegister"
-          placeholder="รหัสบัตรประจำตัว 13 หลัก"
-        >
-          <template #icon> @ </template>
-        </vs-input>
       </div>
 
       <template #footer>
@@ -225,216 +222,18 @@
         </div>
       </template>
     </vs-dialog>
-
-    <vs-dialog blur prevent-close v-model="contactActive">
-      <template #header>
-        <h4 class="not-margin">
-          <b>ติดต่อเรา</b>
-        </h4>
-      </template>
-
-      <div class="con-form">
-        <vs-input v-model="name" placeholder="ชื่อ">
-          <template #icon> @ </template>
-        </vs-input>
-        <vs-input v-model="lastname" placeholder="นามสกุล">
-          <template #icon> @ </template>
-        </vs-input>
-        <vs-input v-model="email" placeholder="อีเมล">
-          <template #icon> @ </template>
-        </vs-input>
-        <vs-input v-model="phone" placeholder="เบอร์โทรศัพท์">
-          <template #icon> @ </template>
-        </vs-input>
-        <vs-input v-model="message" placeholder="ข้อความ">
-          <template #icon> @ </template>
-        </vs-input>
-      </div>
-
-      <template #footer>
-        <div class="footer-dialog">
-          <vs-button block> ยืนยัน </vs-button>
-
-          <div class="new">New Here? <a href="#">Create New Account</a></div>
-        </div>
-      </template>
-    </vs-dialog>
   </div>
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
+import loginMixin from '~/mixins/login'
 //import MiniCart from '~/components/MiniCart'
 import materialCard from '~/components/material/AppCard'
 import Notification from '~/components/Notification'
 
 export default {
+  mixins: [loginMixin],
   components: { materialCard, Notification },
-  data: () => ({
-    activeTooltipProfile: false,
-    emailRegister: '',
-    passwordRegister: '',
-    passwordRegisterConfirm: '',
-    usernameRegister: '',
-    id_cardRegister: '',
-    hasVisiblePassword: false,
-    hasVisiblePasswordRegister: false,
-    hasVisiblePasswordRegisterConfirm: false,
-    active: 'primary',
-    loginActive: false,
-    registerActive: false,
-    email: '',
-    password: '',
-    passwordRules: [(v) => !!v || 'จำเป็นต้องใส่ Password'],
-    emailRules: [
-      (v) => !!v || 'จำเป็นต้องใส่ E-mail',
-      (v) => /.+@.+\..+/.test(v) || 'รูปแบบบ E-mail ไม่ถูกต้อง',
-    ],
-    remember: false,
-    contactActive: false,
-    name: '',
-    lastname: '',
-    phone: '',
-    message: '',
-  }),
-  methods: {
-    async handleRegisterClicked() {
-      try {
-        const response = await this.$axios.post(
-          'https://it-ifp-auth.herokuapp.com/api/user/register',
-          {
-            username: this.usernameRegister,
-            email: this.emailRegister,
-            password: this.passwordRegister,
-            id_card: this.id_cardRegister,
-          }
-        )
-        //console.log(response)
-        await this.$auth.loginWith('local', {
-          data: { email: this.emailRegister, password: this.passwordRegister },
-        })
-        this.registerActive=false
-        const noti = this.$vs.notification({
-          position: 'top-center',
-          icon: `<i class='bx bx-bell' ></i>`,
-          color: 'success',
-          width: '100%',
-          title: '<center>สมัครสมาชิกสำเร็จ</center>',
-          text: `<center>กำลังนำคุณไปสู่หน้าหลัก...</center>`,
-        })
-      } catch (err) {
-        this.registersuccess = err
-        if ((this.error = err.response.data.success === false)) {
-          this.error = err.response.data.message
-        } else {
-          this.error = err.response.data
-        }
-        //console.log(err.response.data.success)
-      }
-    },
-    async logoutHandle() {
-      await this.$auth.logout()
-      if (process.client) {
-        localStorage.removeItem('refresh')
-        localStorage.removeItem('auth-token')
-        localStorage.removeItem('tokenExpiration')
-        localStorage.removeItem('userData')
-        if (!localStorage.getItem('auth-token')) {
-          $nuxt.$router.push('/')
-        }
-      }
-      const noti = this.$vs.notification({
-        position: 'top-center',
-        width: '100%',
-        color: 'warn',
-        title: '<center>ออกจากระบบสำเร็จ</center>',
-        text: `<center>กำลังนำคุณไปสู่หน้าหลัก...</center>`,
-      })
-    },
-    async handleLoginClicked() {
-      console.log('before', this.loginActive)
-      try {
-        const response = await this.$auth.loginWith('local', {
-          data: { email: this.email, password: this.password },
-        })
-        console.log(response.data.success)
-        if (response.data.success) {
-          this.loginActive = false
-          const noti = this.$vs.notification({
-            position: 'top-center',
-            icon: `<i class='bx bx-bell' ></i>`,
-            color: 'success',
-            width: '100%',
-            title: '<center>เข้าสู่ระบบสำเร็จ</center>',
-            text: `<center>กำลังนำคุณไปสู่หน้าหลัก...</center>`,
-          })
-          console.log('after', this.loginActive)
-
-          //this.$router.push({ path: '/admin/dashboard' })
-        }
-      } catch (err) {
-        this.loginsuccess = err
-        if ((this.error = err.response.data.success === false)) {
-          this.error = err.response.data.message
-          const noti = this.$vs.notification({
-            position: 'top-center',
-            color: 'danger',
-            width: '100%',
-            title: '<center>เกิดข้อผิดพลาด</center>',
-            text: '<center>' + err.response.data.message + '</center>',
-          })
-        } else {
-          this.error = err.response.data
-          const noti = this.$vs.notification({
-            position: 'top-center',
-            width: '100%',
-            color: 'danger',
-            title: '<center>เกิดข้อผิดพลาด</center>',
-            text: '<center>' + err.response.data + '</center>',
-          })
-        }
-        //console.log(err.response.data.success)
-      }
-    },
-  },
-  computed: {
-    getProgress() {
-      let progress = 0
-
-      // at least one number
-
-      if (/\d/.test(this.passwordRegister)) {
-        progress += 20
-      }
-
-      // at least one capital letter
-
-      if (/(.*[A-Z].*)/.test(this.passwordRegister)) {
-        progress += 20
-      }
-
-      // at menons a lowercase
-
-      if (/(.*[a-z].*)/.test(this.passwordRegister)) {
-        progress += 20
-      }
-
-      // more than 5 digits
-
-      if (this.passwordRegister.length >= 6) {
-        progress += 20
-      }
-
-      // at least one special character
-
-      if (/[^A-Za-z0-9]/.test(this.passwordRegister)) {
-        progress += 20
-      }
-
-      return progress
-    },
-    ...mapGetters(['cartCount']),
-  },
 }
 </script>
 
@@ -448,7 +247,7 @@ getVar(var) {
 }
 
 .Nav {
-  margin: auto
+  margin: auto;
 }
 
 .not-margin {

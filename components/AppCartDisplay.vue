@@ -23,7 +23,10 @@
                   <td>
                     <div width="500" class="modal-img">
                       <v-avatar>
-                        <img :src="`https://intelligentfarmingplatform.herokuapp.com/${item.productimg}`" alt="John" />
+                        <img
+                          :src="`https://intelligentfarmingplatform.herokuapp.com/${item.productimg}`"
+                          alt="John"
+                        />
                       </v-avatar>
                     </div>
                     <div class="productname">{{ item.productname }}</div>
@@ -76,9 +79,15 @@
               </vs-option>
             </vs-select>
           </v-col>
-          <v-col class="d-flex" cols="12" sm="12"><div>ค่าจัดส่ง {{ shippingPrice }} บาท</div></v-col>
-          <v-col class="d-flex" cols="12" sm="12"><div>วันที่จะได้รับ {{ estimatedDelivery }}</div></v-col>
-          <v-col class="d-flex" cols="12" sm="12"><div>รวมทั้งหมด {{ cartTotalWithShipping }} บาท</div></v-col>
+          <v-col class="d-flex" cols="12" sm="12"
+            ><div>ค่าจัดส่ง {{ this.$store.state.shippingPrice }} บาท</div></v-col
+          >
+          <v-col class="d-flex" cols="12" sm="12"
+            ><div>วันที่จะได้รับ {{ this.$store.state.shippingEstimatedDelivery }}</div></v-col
+          >
+          <v-col class="d-flex" cols="12" sm="12"
+            ><div>รวมทั้งหมด {{ cartTotalWithShipping }} บาท</div></v-col
+          >
           <v-col class="d-flex" cols="12" sm="4"><div ref="card"></div></v-col>
         </v-col>
       </v-row>
@@ -106,34 +115,6 @@ export default {
     estimatedDelivery: '',
     delivery: 'normal',
   }),
-  mounted() {
-    this.stripe = Stripe(
-      'pk_test_51Hg9lmAFMKlS8CSVt1AbCsoCYIz3CFIrcV0tddZirj0H7rnBHxqwv8eOIYDBoygBUTlCdg4axOMnZsLSD6tmXlro009D4jrTF4'
-    )
-    let elements = this.stripe.elements()
-    this.card = elements.create('card')
-    // Add an instance of the card Element into the `card-element` <div>
-    this.card.mount(this.$refs.card)
-    console.log(this.$auth.getToken('local'))
-  },
-  async fetch() {
-    await Axios.post('https://it-ifp-auth.herokuapp.com/api/shipment', {
-      shipment: 'normal',
-    })
-      .then((response) => {
-        this.Loaded = false
-        console.log('datafrom fetch', response.data)
-        this.$store.commit('setShipping', {
-          price: response.data.shipment.price,
-          estimatedDelivery: response.data.shipment.estimated,
-        })
-        ;(this.shippingPrice = response.data.shipment.price),
-          (this.estimatedDelivery = response.data.shipment.estimated)
-      })
-      .catch((err) => {
-        console.log(err)
-      })
-  },
   // async asyncData({Axios,state}) {
   //   try {
   //     let response = await Axios.post('http://127.0.0.1:4000/api/shipment', {
@@ -167,13 +148,26 @@ export default {
       'getEstimatedDelivery',
     ]),
   },
+  mounted() {
+          this.stripe = Stripe(
+        'pk_test_51Hg9lmAFMKlS8CSVt1AbCsoCYIz3CFIrcV0tddZirj0H7rnBHxqwv8eOIYDBoygBUTlCdg4axOMnZsLSD6tmXlro009D4jrTF4'
+      )
+      let elements = this.stripe.elements()
+      this.card = elements.create('card')
+      // Add an instance of the card Element into the `card-element` <div>
+      this.card.mount(this.$refs.card)
+      //console.log(this.$auth.getToken('local'))
+    if(this.$store.state.shippingPrice){
+      this.Loaded = false
+    }
+  },
   methods: {
     async onPurchase() {
       try {
         this.$axios.setHeader('Authorization', this.$auth.getToken('local'))
         let token = await this.stripe.createToken(this.card)
         let response = await this.$axios.post(
-          'https://it-ifp-auth.herokuapp.com/api/payment',
+          'http://127.0.0.1:4000/api/customer/payment',
           {
             token: token,
             totalPrice: this.cartTotalWithShipping,

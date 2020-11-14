@@ -37,13 +37,18 @@ export const getters = {
   },
   cartTotal: (state) => {
     if (!state.cart.length) return 0
-    return state.cart.reduce((ac, next) => ac + next.quantity * next.productprice, 0)
+    return state.cart.reduce(
+      (ac, next) => ac + next.quantity * next.productprice,
+      0
+    )
   },
   cartTotalWithShipping: (state) => {
     if (!state.cart.length) return 0
     return (
-      state.cart.reduce((ac, next) => ac + next.quantity * next.productprice, 0) +
-      state.shippingPrice
+      state.cart.reduce(
+        (ac, next) => ac + next.quantity * next.productprice,
+        0
+      ) + state.shippingPrice
     )
   },
   cartItems: (state) => {
@@ -117,10 +122,9 @@ export const actions = {
       })
   },
 
-
   async loadAllProducts({ commit }) {
     await axios
-      .get('  https://intelligentfarmingplatform.herokuapp.com/api/sellproducts/show')
+      .get('http://127.0.0.1:4000/api/sellproducts/show')
       .then((res) => {
         let products = res.data.data
         commit('SET_PRODUCTS', products)

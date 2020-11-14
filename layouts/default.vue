@@ -17,6 +17,7 @@ import MiniCartFab from '~/components/MiniCartFab'
 import AppFooter from '~/components/AppFooter'
 
 export default {
+  name:'default',
   components: {
     AppNav,
     AppSpeedDial,
