@@ -109,9 +109,6 @@ export default {
       ttl: 60,
     },
   },
-  bootstrapVue: {
-    icons: false,
-  },
 
   buildModules: [
     "nuxt-compress"

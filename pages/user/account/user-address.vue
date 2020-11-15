@@ -17,10 +17,17 @@
         </v-col>
       </v-row>
 
+      <!-- Add Address -->
       <v-dialog v-model="dialog" persistent max-width="600px">
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn depressed color="info" v-bind="attrs" v-on="on">
+            <v-icon> mdi-plus </v-icon>
+            เพิ่มที่อยู่
+          </v-btn>
+        </template>
         <v-card>
           <v-card-title>
-            <span class="headline">ที่อยู่ในการจัดส่ง</span>
+            <span class="headline">{{ formTitle }}</span>
           </v-card-title>
           <v-form ref="formAddress">
             <v-card-text>
@@ -62,6 +69,14 @@
                       required
                     ></v-text-field>
                   </v-col>
+                  <v-col cols="12" sm="6" md="12">
+                    <v-text-field
+                      prepend-inner-icon="mdi-phone"
+                      label="เบอร์โทรศัพท์ที่ติดต่อได้"
+                      v-model="addressForm.phoneNumber"
+                      required
+                    ></v-text-field>
+                  </v-col>
                 </v-row>
               </v-container>
               <h6 text-color="red">
@@ -80,11 +95,26 @@
               >
                 ยกเลิก
               </v-btn>
-              <v-btn color="blue darken-1" text @click="addAddress">
-                บันทึก
-              </v-btn>
+              <v-btn color="blue darken-1" text @click="save"> บันทึก </v-btn>
             </v-card-actions>
           </v-form>
+        </v-card>
+      </v-dialog>
+      <v-dialog v-model="dialogDelete" max-width="500px">
+        <v-card>
+          <v-card-title class="headline"
+            >Are you sure you want to delete this item?</v-card-title
+          >
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="blue darken-1" text @click="closeDelete"
+              >Cancel</v-btn
+            >
+            <v-btn color="blue darken-1" text @click="deleteItemConfirm"
+              >OK</v-btn
+            >
+            <v-spacer></v-spacer>
+          </v-card-actions>
         </v-card>
       </v-dialog>
     </v-layout>
@@ -92,25 +122,33 @@
     <v-col md="12" cols="12">
       <v-data-table
         :headers="dessertHeaders"
-        :items="desserts"
+        :items="address"
         :single-expand="singleExpand"
         :expanded.sync="expanded"
-        item-key="name"
+        item-key="id"
         show-expand
         class="elevation-1"
+        :loading="loading"
+        loading-text="กำลังโหลดข้อมูล..."
       >
         <template v-slot:top>
           <v-toolbar flat>
             <v-toolbar-title>Your Address</v-toolbar-title>
             <v-spacer></v-spacer>
-            <v-btn depressed color="#00B3CA" @click="dialog = !dialog">
+            <!-- <v-btn depressed color="#00B3CA" @click="dialog = !dialog">
               <h2>+</h2>
               เพิ่มที่อยู่
-            </v-btn>
+            </v-btn> -->
           </v-toolbar>
         </template>
         <template v-slot:expanded-item="{ headers, item }">
-          <td :colspan="headers.length">More info about {{ item.name }}</td>
+          <td :colspan="headers.length">More info about</td>
+        </template>
+        <template v-slot:item.actions="{ item }">
+          <v-icon small class="mr-2" @click="editItem(item)">
+            mdi-pencil
+          </v-icon>
+          <v-icon small @click="deleteItem(item)"> mdi-delete </v-icon>
         </template>
       </v-data-table>
     </v-col>
@@ -122,146 +160,210 @@ import Axios from 'axios'
 export default {
   layout: 'dashboard',
   data: () => ({
+    dialogDelete: false,
+    AddEdit: '',
     addressForm: {
       fullName: '',
       district: '',
       province: '',
       zipCode: '',
       streetAddress: '',
+      phoneNumber: '',
+    },
+    defaultAddressForm: {
+      fullName: '',
+      district: '',
+      province: '',
+      zipCode: '',
+      streetAddress: '',
+      phoneNumber: '',
     },
 
     expanded: [],
     singleExpand: false,
     dessertHeaders: [
-      {
-        text: 'Dessert (100g serving)',
-        align: 'start',
-        sortable: false,
-        value: 'name',
-      },
-      { text: 'Calories', value: 'calories' },
-      { text: 'Fat (g)', value: 'fat' },
-      { text: 'Carbs (g)', value: 'carbs' },
-      { text: 'Protein (g)', value: 'protein' },
-      { text: 'Iron (%)', value: 'iron' },
+      { text: 'ชื่อ-นามสกุล', value: 'fullName' },
+      { text: 'ที่อยู่', value: 'streetAddress' },
+      { text: 'อำเภอ', value: 'district' },
+      { text: 'จังหวัด', value: 'province' },
+      { text: 'รหัสไปรษณีย์', value: 'zipCode' },
+      { text: 'เบอร์โทรศัพท์', value: 'phoneNumber' },
+      { text: 'Actions', value: 'actions', sortable: false },
       { text: '', value: 'data-table-expand' },
     ],
-    desserts: [
-      {
-        name: 'Frozen Yogurt',
-        calories: 159,
-        fat: 6.0,
-        carbs: 24,
-        protein: 4.0,
-        iron: '1%',
-      },
-      {
-        name: 'Ice cream sandwich',
-        calories: 237,
-        fat: 9.0,
-        carbs: 37,
-        protein: 4.3,
-        iron: '1%',
-      },
-      {
-        name: 'Eclair',
-        calories: 262,
-        fat: 16.0,
-        carbs: 23,
-        protein: 6.0,
-        iron: '7%',
-      },
-      {
-        name: 'Cupcake',
-        calories: 305,
-        fat: 3.7,
-        carbs: 67,
-        protein: 4.3,
-        iron: '8%',
-      },
-      {
-        name: 'Gingerbread',
-        calories: 356,
-        fat: 16.0,
-        carbs: 49,
-        protein: 3.9,
-        iron: '16%',
-      },
-      {
-        name: 'Jelly bean',
-        calories: 375,
-        fat: 0.0,
-        carbs: 94,
-        protein: 0.0,
-        iron: '0%',
-      },
-      {
-        name: 'Lollipop',
-        calories: 392,
-        fat: 0.2,
-        carbs: 98,
-        protein: 0,
-        iron: '2%',
-      },
-      {
-        name: 'Honeycomb',
-        calories: 408,
-        fat: 3.2,
-        carbs: 87,
-        protein: 6.5,
-        iron: '45%',
-      },
-      {
-        name: 'Donut',
-        calories: 452,
-        fat: 25.0,
-        carbs: 51,
-        protein: 4.9,
-        iron: '22%',
-      },
-      {
-        name: 'KitKat',
-        calories: 518,
-        fat: 26.0,
-        carbs: 65,
-        protein: 7,
-        iron: '6%',
-      },
-    ],
-    address: '',
+    loading: true,
+    address: [],
     dialog: false,
+    editedIndex: -1,
   }),
-  async fetch() {
-    await Axios.get('https://it-ifp-auth.herokuapp.com/api/addresses', {
-      headers: {
-        Authorization: this.$auth.getToken('local'),
-      },
-    })
-      .then((response) => {
-        this.address = response.data.address
-        console.log('Dataload', this.address)
-        //this.loading = false
-      })
-      .catch((err) => {
-        console.log(err)
-      })
+  async asyncData({ $axios, $auth }) {
+    console.log('asyncdata')
+    await $auth.fetchUser()
+    try {
+      const config = {
+        headers: {
+          Authorization: $auth.getToken('local'),
+        },
+      }
+      // this.$axios.setHeader('Authorization', this.$auth.getToken('local'))
+      let response = await $axios.get(
+        'http://127.0.0.1:4000/api/customer/address',
+        config
+      )
+      const [addressResponse] = await Promise.all([response])
+      console.log('datafrom order', addressResponse.data)
+      if (!addressResponse.data.success) {
+        return { loading: false }
+      }
+      if (addressResponse.data.success) {
+        return { address: addressResponse.data.address, loading: false }
+      }
+    } catch (err) {
+      console.log(err)
+    }
   },
   methods: {
-    async addAddress() {
-      try {
-        const config = {
-          headers: {
-            Authorization: this.$auth.getToken('local'),
-          },
-        }
-         await Axios.post(
-          'http://127.0.0.1:4000/api/customer/address',
-          this.addressForm
-        )
-      } catch (err) {}
-    },
     reset() {
       this.$refs.formAddress.reset()
+    },
+    editItem(item) {
+      this.editedIndex = this.address.indexOf(item)
+      this.addressForm = Object.assign({}, item)
+      this.dialog = true
+    },
+
+    deleteItem(item) {
+      this.editedIndex = this.address.indexOf(item)
+      this.addressForm = Object.assign({}, item)
+      this.dialogDelete = true
+    },
+
+    async deleteItemConfirm() {
+      const config = {
+        headers: {
+          Authorization: this.$auth.getToken('local'),
+        },
+      }
+      try {
+        let deleteAddress = await Axios.delete(
+          `http://127.0.0.1:4000/api/customer/address/${this.addressForm.id}`,
+          config
+        )
+        if (deleteAddress.data.success) {
+          this.address.splice(this.editedIndex, 1)
+          this.closeDelete()
+          const noti = this.$vs.notification({
+            position: 'top-center',
+            icon: `<i class='bx bx-bell' ></i>`,
+            color: 'success',
+            width: '100%',
+            title: '<center>ลบที่อยู่สำเร็จ</center>',
+            text: `<center>กรุณารอสักครู่...</center>`,
+          })
+        }
+      } catch (err) {
+        if ((this.error = err.deleteAddress.data.success === false)) {
+          const noti = this.$vs.notification({
+            position: 'top-center',
+            color: 'danger',
+            width: '100%',
+            title: '<center>เกิดข้อผิดพลาด</center>',
+            text: '<center>' + err.deleteAddress.data.message + '</center>',
+          })
+        }
+      }
+    },
+
+    closeDelete() {
+      this.dialogDelete = false
+      this.$nextTick(() => {
+        this.editedItem = Object.assign({}, this.defaultAddressForm)
+        this.editedIndex = -1
+      })
+    },
+    async save() {
+      const config = {
+        headers: {
+          Authorization: this.$auth.getToken('local'),
+        },
+      }
+      if (this.editedIndex > -1) {
+        try {
+          let response = await Axios.put(
+            `http://127.0.0.1:4000/api/customer/address/${this.addressForm.id}`,
+            {
+              fullName: this.addressForm.fullName,
+              district: this.addressForm.district,
+              province: this.addressForm.province,
+              zipCode: this.addressForm.zipCode,
+              streetAddress: this.addressForm.streetAddress,
+              phoneNumber: this.addressForm.phoneNumber,
+            },
+            config
+          )
+          if (response.data.success) {
+            Object.assign(this.address[this.editedIndex], this.addressForm)
+            this.$refs.formAddress.reset()
+            this.dialog = false
+            const noti = this.$vs.notification({
+              position: 'top-center',
+              icon: `<i class='bx bx-bell' ></i>`,
+              color: 'success',
+              width: '100%',
+              title: '<center>แก้ไขที่อยู่สำเร็จ</center>',
+              text: `<center>กรุณารอสักครู่...</center>`,
+            })
+          }
+        } catch (err) {
+          if ((this.error = err.response.data.success === false)) {
+            const noti = this.$vs.notification({
+              position: 'top-center',
+              color: 'danger',
+              width: '100%',
+              title: '<center>เกิดข้อผิดพลาด</center>',
+              text: '<center>' + err.response.data.message + '</center>',
+            })
+          }
+        }
+      } else {
+        try {
+          let response = await Axios.post(
+            'http://127.0.0.1:4000/api/customer/address',
+            this.addressForm,
+            config
+          )
+          console.log('datafrom add address', response.data.success)
+          if (response.data.success) {
+            this.address.push(response.data.data)
+            this.$refs.formAddress.reset()
+            this.dialog = false
+            const noti = this.$vs.notification({
+              position: 'top-center',
+              icon: `<i class='bx bx-bell' ></i>`,
+              color: 'success',
+              width: '100%',
+              title: '<center>เพิ่มที่อยู่สำเร็จ</center>',
+              text: `<center>กรุณารอสักครู่...</center>`,
+            })
+          }
+        } catch (err) {
+          if ((this.error = err.response.data.success === false)) {
+            const noti = this.$vs.notification({
+              position: 'top-center',
+              color: 'danger',
+              width: '100%',
+              title: '<center>เกิดข้อผิดพลาด</center>',
+              text: '<center>' + err.response.data.message + '</center>',
+            })
+          }
+        }
+      }
+    },
+  },
+
+  computed: {
+    formTitle() {
+      return this.editedIndex === -1 ? 'ที่อยู่ของฉัน' : 'แก้ไขที่อยู่'
     },
   },
 }

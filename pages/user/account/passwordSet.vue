@@ -55,6 +55,7 @@
                 type="password"
                 v-model="passwordSetConfirm"
                 :visiblePassword="hasVisiblePasswordSetConfirm"
+                :rules="confirmPasswordRules.concat(passwordConfirmationRule())"
                 icon-after
                 @click-icon="
                   hasVisiblePasswordSetConfirm = !hasVisiblePasswordSetConfirm
@@ -64,15 +65,11 @@
                   <i v-else class="bx bx-hide"></i>
                 </template>
               </v-text-field>
-              <template
-                v-if="passwordSet == passwordSetConfirm && passwordSet"
-              >
+              <template v-if="passwordSet == passwordSetConfirm && passwordSet">
                 <h6 class="green--text">รหัสผ่านตรงกัน</h6>
               </template>
 
-              <template
-                v-else-if="passwordSetConfirm != passwordSet"
-              >
+              <template v-else-if="passwordSetConfirm != passwordSet">
                 <h6 class="red--text">รหัสผ่านไม่ตรงกัน</h6>
               </template>
             </v-flex>
@@ -88,7 +85,9 @@
               <v-btn depressed color="#00B3CA"> รับรหัส OTP </v-btn>
             </v-flex>
             <v-flex xs12 md6>
-              <v-btn depressed color="#00B3CA"> ยืนยัน </v-btn>
+              <v-btn depressed color="#00B3CA" @click="changePassword">
+                ยืนยัน
+              </v-btn>
             </v-flex>
           </v-layout>
         </v-container>
@@ -101,12 +100,80 @@
 export default {
   layout: 'dashboard',
   data: () => ({
+    confirmPasswordRules: [(v) => !!v || 'Password is required'],
     passwordSet: '',
     passwordSetConfirm: '',
     hasVisiblePasswordSet: false,
     hasVisiblePasswordSetConfirm: false,
+    isMatchPassword: false,
   }),
+  methods: {
+    async changePassword() {
+      if (!this.isMatchPassword) {
+        const noti = this.$vs.notification({
+          position: 'top-center',
+          color: 'danger',
+          width: '100%',
+          title: '<center>เกิดข้อผิดพลาด</center>',
+          text: '<center>' + 'รหัสผ่านไม่ตรงกัน' + '</center>',
+        })
+      } else {
+        try {
+          const config = {
+            headers: {
+              Authorization: this.$auth.getToken('local'),
+            },
+          }
+          // this.$axios.setHeader('Authorization', this.$auth.getToken('local'))
+          let response = await this.$axios.put(
+            'http://127.0.0.1:4000/api/customer',
+            { password: this.passwordSetConfirm },
+            config
+          )
+          if (response.data.success) {
+            const noti = this.$vs.notification({
+              position: 'top-center',
+              icon: `<i class='bx bx-bell' ></i>`,
+              color: 'success',
+              width: '100%',
+              title: '<center>เปลี่ยนรหัสผ่านสำเร็จ</center>',
+              text: `<center>กรุณาเข้าสู่ระบบใหม่อีกครั้ง...</center>`,
+            })
+            ;(this.passwordSet = ''), (this.passwordSetConfirm = '')
+            await this.$auth.logout()
+            if (process.client) {
+              localStorage.removeItem('refresh')
+              localStorage.removeItem('auth-token')
+              localStorage.removeItem('tokenExpiration')
+              localStorage.removeItem('userData')
+              if (!localStorage.getItem('auth-token')) {
+                $nuxt.$router.push('/')
+              }
+            }
+          }
+        } catch (err) {
+          if ((this.error = err.response.data.success === false)) {
+            const noti = this.$vs.notification({
+              position: 'top-center',
+              color: 'danger',
+              width: '100%',
+              title: '<center>เกิดข้อผิดพลาด</center>',
+              text: '<center>' + err.response.data.message + '</center>',
+            })
+          }
+        }
+      }
+    },
+  },
   computed: {
+    passwordConfirmationRule() {
+      if (this.passwordSet === this.passwordSetConfirm && this.passwordSet) {
+        this.isMatchPassword = true
+      } else {
+        this.isMatchPassword = false
+      }
+      return () => this.passwordSet === this.passwordSetConfirm || ''
+    },
     getProgress() {
       let progress = 0
 
