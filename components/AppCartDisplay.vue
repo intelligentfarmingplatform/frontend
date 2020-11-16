@@ -185,7 +185,7 @@ export default {
       }
     },
     async onChooseShipping() {
-      await Axios.post('https://intelligentfarmingplatform.herokuapp.com/api/customer/shipment', {
+      await Axios.get('https://intelligentfarmingplatform.herokuapp.com/api/customer/shipment', {
         shipment: this.delivery,
       })
         .then((response) => {

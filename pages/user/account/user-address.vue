@@ -145,10 +145,13 @@
           <td :colspan="headers.length">More info about</td>
         </template>
         <template v-slot:item.actions="{ item }">
-          <v-icon small class="mr-2" @click="editItem(item)">
+          <v-icon small class="mr-1" @click="editItem(item)">
             mdi-pencil
           </v-icon>
-          <v-icon small @click="deleteItem(item)"> mdi-delete </v-icon>
+          <v-icon small class="mr-1" @click="deleteItem(item)">
+            mdi-delete
+          </v-icon>
+          <v-icon small @click="setDefault(item)"> mdi-home</v-icon>
         </template>
       </v-data-table>
     </v-col>
@@ -236,6 +239,30 @@ export default {
       this.editedIndex = this.address.indexOf(item)
       this.addressForm = Object.assign({}, item)
       this.dialogDelete = true
+    },
+    async setDefault(item) {
+      const config = {
+        headers: {
+          Authorization: this.$auth.getToken('local'),
+        },
+      }
+      try {
+        let onSetDefault = await Axios.put(
+          `https://intelligentfarmingplatform.herokuapp.com/api/customer/address/set/${item.id}/default`,'',
+          config
+        )
+        if (onSetDefault.data.success) {
+          const noti = this.$vs.notification({
+            position: 'top-center',
+            icon: `<i class='bx bx-bell' ></i>`,
+            color: 'success',
+            width: '100%',
+            title: '<center>' + onSetDefault.data.message + '</center>',
+            text: `<center>กรุณารอสักครู่...</center>`,
+          })
+        }
+      } catch (err) {}
+      console.log(item.id)
     },
 
     async deleteItemConfirm() {

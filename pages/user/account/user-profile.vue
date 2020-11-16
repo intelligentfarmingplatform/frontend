@@ -15,9 +15,9 @@
                 </v-flex> -->
                 <v-flex xs12 md4>
                   <v-text-field
-                    v-model="username"
+                    v-model="displayName"
                     class="purple-input"
-                    label="ชื่อผู้ใช้งาน"
+                    label="Display Name"
                   />
                 </v-flex>
                 <v-flex xs12 md4>
@@ -31,23 +31,25 @@
                   <v-text-field class="purple-input" label="เบอร์โทรศัพท์" />
                 </v-flex>
                 <v-flex xs12 md12>
-                  <v-text-field label="ชื่อ" class="purple-input" />
+                  <v-text-field label="ชื่อ - นามสกุล" class="purple-input" />
                 </v-flex>
                 <v-flex xs12 md6>
-                  <v-select :items="gender" label="เพศ"></v-select>
-                </v-flex>
-                <v-flex xs12 md6 v-if="gender2">
-                  <v-text-field class="purple-input" label="โปรดระบุ" />
-                </v-flex>
-                <v-flex xs12>
-                  <v-textarea
-                    class="purple-input"
-                    label="เกี่ยวกับฉัน"
-                    :value="address"
-                  />
+                  <v-select
+                    v-model="select"
+                    :items="genderItem"
+                    item-text="gender"
+                    item-value="value"
+                    label="เพศ"
+                    return-object
+                    single-line
+                  ></v-select>
                 </v-flex>
                 <v-flex xs12 text-xs-right>
-                  <v-btn class="mx-0 font-weight-light" color="#00B3CA">
+                  <v-btn
+                    @click="updateProfile"
+                    class="mx-0 font-weight-light"
+                    color="#00B3CA"
+                  >
                     อัพเดตโปรไฟล์
                   </v-btn>
                 </v-flex>
@@ -64,10 +66,10 @@
             />
           </v-avatar>
           <v-card-text class="text-xs-center">
-            <h6 class="category text-gray font-weight-thin mb-3"></h6>
-            <h4 class="card-title font-weight-light"></h4>
-            <p class="card-description font-weight-light"></p>
-            <blockquote class="blockquote"></blockquote>
+            <h6 class="category text-gray font-weight-thin mb-3">ชื่อผู้ใช้</h6>
+            <h4 class="card-title font-weight-light">ชื่อผู้ใช้</h4>
+            <p class="card-description font-weight-light">ชื่อผู้ใช้</p>
+            <blockquote class="blockquote">ชื่อผู้ใช้</blockquote>
             <v-btn color="#00B3CA" rounded class="font-weight-light"
               >แก้ไขรูปโปรไฟล์</v-btn
             >
@@ -88,20 +90,55 @@ export default {
   components: {
     materialCard,
   },
+  methods: {
+    async updateProfile() {
+      const config = {
+        headers: {
+          Authorization: this.$auth.getToken('local'),
+        },
+      }
+      try {
+        let onUpdateProfile = await Axios.put(
+          `https://intelligentfarmingplatform.herokuapp.com/api/customer/edit/profile`,
+          '',
+          config
+        )
+        if (onUpdateProfile.data.success) {
+          const noti = this.$vs.notification({
+            position: 'top-center',
+            icon: `<i class='bx bx-bell' ></i>`,
+            color: 'success',
+            width: '100%',
+            title: '<center>' + onUpdateProfile.data.message + '</center>',
+            text: `<center>กรุณารอสักครู่...</center>`,
+          })
+        }
+      } catch (err) {
+        if ((this.error = err.onUpdateProfile.data.success === false)) {
+          const noti = this.$vs.notification({
+            position: 'top-center',
+            color: 'danger',
+            width: '100%',
+            title: '<center>เกิดข้อผิดพลาด</center>',
+            text: '<center>' + err.onUpdateProfile.data.message + '</center>',
+          })
+        }
+      }
+    },
+  },
   data() {
     return {
-      testdata: [],
       username: this.$auth.$state.user.username,
-      provincesDisabled: false,
-      amphuresDisabled: true,
-      districtsDisabled: true,
+      displayName: '',
       email: this.$auth.$state.user.email,
-      f_name: '',
-      l_name: '',
-      address: [],
-      item2: null,
-      gender: ['ชาย', 'หญิง','อื่นๆ'],
-      gender2: ['อื่นๆ'],
+      fullName: '',
+      phoneNumber: '',
+      select: { gender: '', value: '' },
+      genderItem: [
+        { gender: 'ชาย', value: '1' },
+        { gender: 'หญิง', value: '2' },
+        { gender: 'อื่น ๆ', value: '3' },
+      ],
     }
   },
   computed: {},
