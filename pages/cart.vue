@@ -37,23 +37,7 @@
 
       </vs-col>
     </vs-row>
-  <v-container class="grey lighten-5">
-    <v-row no-gutters>
-      <v-col
-      align='center'
-        cols="12"
-        sm="4"
-      >
-        <v-card
-          class="pa-2"
-          outlined
-          tile
-        >
 
-        </v-card>
-      </v-col>
-    </v-row>
-  </v-container>
 
 
 

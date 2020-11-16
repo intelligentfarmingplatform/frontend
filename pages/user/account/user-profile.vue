@@ -28,10 +28,18 @@
                   />
                 </v-flex>
                 <v-flex xs12 md4>
-                  <v-text-field class="purple-input" label="เบอร์โทรศัพท์" />
+                  <v-text-field
+                    class="purple-input"
+                    v-model="phoneNumber"
+                    label="เบอร์โทรศัพท์"
+                  />
                 </v-flex>
                 <v-flex xs12 md12>
-                  <v-text-field label="ชื่อ - นามสกุล" class="purple-input" />
+                  <v-text-field
+                    v-model="fullName"
+                    label="ชื่อ - นามสกุล"
+                    class="purple-input"
+                  />
                 </v-flex>
                 <v-flex xs12 md6>
                   <v-select
@@ -67,7 +75,7 @@
           </v-avatar>
           <v-card-text class="text-xs-center">
             <h6 class="category text-gray font-weight-thin mb-3">ชื่อผู้ใช้</h6>
-            <h4 class="card-title font-weight-light">ชื่อผู้ใช้</h4>
+            <h4 class="card-title font-weight-light">{{ username }}</h4>
             <p class="card-description font-weight-light">ชื่อผู้ใช้</p>
             <blockquote class="blockquote">ชื่อผู้ใช้</blockquote>
             <v-btn color="#00B3CA" rounded class="font-weight-light"
@@ -81,7 +89,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 import materialCard from '~/components/material/AppCard'
 import Axios from 'axios'
 
@@ -89,6 +97,9 @@ export default {
   layout: 'dashboard',
   components: {
     materialCard,
+  },
+  async asyncData({ $auth }) {
+    await $auth.fetchUser()
   },
   methods: {
     async updateProfile() {
@@ -100,9 +111,15 @@ export default {
       try {
         let onUpdateProfile = await Axios.put(
           `https://intelligentfarmingplatform.herokuapp.com/api/customer/edit/profile`,
-          '',
+          {
+            displayName: this.displayName,
+            fullName: this.fullName,
+            phoneNumber: this.phoneNumber,
+            sex: this.select.value,
+          },
           config
         )
+        await this.$auth.fetchUser()
         if (onUpdateProfile.data.success) {
           const noti = this.$vs.notification({
             position: 'top-center',
@@ -128,12 +145,15 @@ export default {
   },
   data() {
     return {
-      username: this.$auth.$state.user.username,
-      displayName: '',
+      username: this.$auth.$state.user.userName,
+      displayName: this.$auth.$state.user.CustomerProfile.displayName,
       email: this.$auth.$state.user.email,
-      fullName: '',
-      phoneNumber: '',
-      select: { gender: '', value: '' },
+      fullName: this.$auth.$state.user.CustomerProfile.fullName,
+      phoneNumber: this.$auth.$state.user.CustomerProfile.phoneNumber,
+      select: {
+        gender: '',
+        value: `${this.$auth.$state.user.CustomerProfile.sex}`,
+      },
       genderItem: [
         { gender: 'ชาย', value: '1' },
         { gender: 'หญิง', value: '2' },
@@ -141,6 +161,5 @@ export default {
       ],
     }
   },
-  computed: {},
 }
 </script>

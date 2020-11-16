@@ -91,7 +91,7 @@
           <v-col class="d-flex" cols="12" sm="4"><div ref="card"></div></v-col>
         </v-col>
       </v-row>
-      <v-btn color="primary" elevation="2" @click="onPurchase"
+      <v-btn color="primary" elevation="2" :disabled="!$auth.loggedIn" @click="onPurchase"
         >ยืนยันการสั่งซื้อ</v-btn
       >
     </v-container>
@@ -185,7 +185,7 @@ export default {
       }
     },
     async onChooseShipping() {
-      await Axios.get('https://intelligentfarmingplatform.herokuapp.com/api/customer/shipment', {
+      await Axios.post('https://intelligentfarmingplatform.herokuapp.com/api/customer/shipment', {
         shipment: this.delivery,
       })
         .then((response) => {
