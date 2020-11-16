@@ -136,13 +136,13 @@ export default {
       local: {
         endpoints: {
           login: {
-            url: 'http://127.0.0.1:4000/api/customer/login',
+            url: 'https://intelligentfarmingplatform.herokuapp.com/api/customer/login',
             method: 'post',
             propertyName: 'token',
           },
           logout: false,
           user: {
-            url: 'http://127.0.0.1:4000/api/customer/me/profile',
+            url: 'https://intelligentfarmingplatform.herokuapp.com/api/customer/me/profile',
             method: 'get',
             propertyName: 'users',
           },

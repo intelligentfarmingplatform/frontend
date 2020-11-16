@@ -55,7 +55,7 @@ export default {
       }
       // this.$axios.setHeader('Authorization', this.$auth.getToken('local'))
       let response = await $axios.get(
-        'http://127.0.0.1:4000/api/customer/orders',
+        'https://intelligentfarmingplatform.herokuapp.com/api/customer/orders',
         config
       )
 

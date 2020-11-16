@@ -126,7 +126,7 @@ export default {
           }
           // this.$axios.setHeader('Authorization', this.$auth.getToken('local'))
           let response = await this.$axios.put(
-            'http://127.0.0.1:4000/api/customer',
+            'https://intelligentfarmingplatform.herokuapp.com/api/customer',
             { password: this.passwordSetConfirm },
             config
           )

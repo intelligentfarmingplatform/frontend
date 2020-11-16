@@ -32,7 +32,7 @@ export default {
     async handleRegisterClicked() {
       try {
         const response = await this.$axios.post(
-          'http://127.0.0.1:4000/api/customer',
+          'https://intelligentfarmingplatform.herokuapp.com/api/customer',
           {
             userName: this.usernameRegister,
             email: this.emailRegister,

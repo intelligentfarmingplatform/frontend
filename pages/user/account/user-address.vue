@@ -207,7 +207,7 @@ export default {
       }
       // this.$axios.setHeader('Authorization', this.$auth.getToken('local'))
       let response = await $axios.get(
-        'http://127.0.0.1:4000/api/customer/address',
+        'https://intelligentfarmingplatform.herokuapp.com/api/customer/address',
         config
       )
       const [addressResponse] = await Promise.all([response])
@@ -246,7 +246,7 @@ export default {
       }
       try {
         let deleteAddress = await Axios.delete(
-          `http://127.0.0.1:4000/api/customer/address/${this.addressForm.id}`,
+          `https://intelligentfarmingplatform.herokuapp.com/api/customer/address/${this.addressForm.id}`,
           config
         )
         if (deleteAddress.data.success) {
@@ -290,7 +290,7 @@ export default {
       if (this.editedIndex > -1) {
         try {
           let response = await Axios.put(
-            `http://127.0.0.1:4000/api/customer/address/${this.addressForm.id}`,
+            `https://intelligentfarmingplatform.herokuapp.com/api/customer/address/${this.addressForm.id}`,
             {
               fullName: this.addressForm.fullName,
               district: this.addressForm.district,
@@ -328,7 +328,7 @@ export default {
       } else {
         try {
           let response = await Axios.post(
-            'http://127.0.0.1:4000/api/customer/address',
+            'https://intelligentfarmingplatform.herokuapp.com/api/customer/address',
             this.addressForm,
             config
           )

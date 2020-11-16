@@ -167,7 +167,7 @@ export default {
         this.$axios.setHeader('Authorization', this.$auth.getToken('local'))
         let token = await this.stripe.createToken(this.card)
         let response = await this.$axios.post(
-          'http://127.0.0.1:4000/api/customer/payment',
+          'https://intelligentfarmingplatform.herokuapp.com/api/customer/payment',
           {
             token: token,
             totalPrice: this.cartTotalWithShipping,
@@ -185,7 +185,7 @@ export default {
       }
     },
     async onChooseShipping() {
-      await Axios.post('https://it-ifp-auth.herokuapp.com/api/shipment', {
+      await Axios.post('https://intelligentfarmingplatform.herokuapp.com/api/customer/shipment', {
         shipment: this.delivery,
       })
         .then((response) => {

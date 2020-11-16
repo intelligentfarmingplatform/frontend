@@ -112,29 +112,29 @@ export const mutations = {
 }
 
 export const actions = {
-  async getOneProduct({ commit }, { productId }) {
-    await axios
-      .get(`https://it-ifp-auth.herokuapp.com/api/products/${productId}`)
-      .then((response) => {
-        console.log(response.data)
-        let products = response.data.products
-        commit('SET_PRODUCTS', products)
-      })
-  },
+  // async getOneProduct({ commit }, { productId }) {
+  //   await axios
+  //     .get(`https://it-ifp-auth.herokuapp.com/api/products/${productId}`)
+  //     .then((response) => {
+  //       console.log(response.data)
+  //       let products = response.data.products
+  //       commit('SET_PRODUCTS', products)
+  //     })
+  // },
 
   async loadAllProducts({ commit }) {
     await axios
-      .get('http://127.0.0.1:4000/api/sellproducts/show')
+      .get('https://intelligentfarmingplatform.herokuapp.com/api/sellproducts/show')
       .then((res) => {
         let products = res.data.data
         commit('SET_PRODUCTS', products)
       })
   },
-  async getProduct({ commit }) {
-    const products = await userService.getProduct()
-    commit('SET_PRODUCT', products)
-    return products
-  },
+  // async getProduct({ commit }) {
+  //   const products = await userService.getProduct()
+  //   commit('SET_PRODUCT', products)
+  //   return products
+  // },
 
   // async loadAllProducts({ commit }) {
   //   await axios
@@ -150,28 +150,28 @@ export const actions = {
   //   return products
   // },
 
-  async createPaymentIntent({ getters, commit }) {
-    try {
-      // Create a PaymentIntent with the information about the order
-      const result = await axios.post(
-        'https://ecommerce-netlify.netlify.app/.netlify/functions/create-payment-intent',
-        {
-          items: getters.cartItems,
-        },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        }
-      )
+  // async createPaymentIntent({ getters, commit }) {
+  //   try {
+  //     // Create a PaymentIntent with the information about the order
+  //     const result = await axios.post(
+  //       'https://ecommerce-netlify.netlify.app/.netlify/functions/create-payment-intent',
+  //       {
+  //         items: getters.cartItems,
+  //       },
+  //       {
+  //         headers: {
+  //           'Content-Type': 'application/json',
+  //         },
+  //       }
+  //     )
 
-      if (result.data.clientSecret) {
-        // Store a reference to the client secret created by the PaymentIntent
-        // This secret will be used to finalize the payment from the client
-        commit('setClientSecret', result.data.clientSecret)
-      }
-    } catch (e) {
-      console.log('error', e)
-    }
-  },
+  //     if (result.data.clientSecret) {
+  //       // Store a reference to the client secret created by the PaymentIntent
+  //       // This secret will be used to finalize the payment from the client
+  //       commit('setClientSecret', result.data.clientSecret)
+  //     }
+  //   } catch (e) {
+  //     console.log('error', e)
+  //   }
+  // },
 }
