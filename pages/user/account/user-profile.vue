@@ -131,13 +131,13 @@ export default {
           })
         }
       } catch (err) {
-        if ((this.error = err.onUpdateProfile.data.success === false)) {
+        if (err.response.data.success === false) {
           const noti = this.$vs.notification({
             position: 'top-center',
             color: 'danger',
             width: '100%',
             title: '<center>เกิดข้อผิดพลาด</center>',
-            text: '<center>' + err.onUpdateProfile.data.message + '</center>',
+            text: '<center>' + err.response.data.message + '</center>',
           })
         }
       }

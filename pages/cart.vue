@@ -1,8 +1,7 @@
 <template>
   <div class="cartMain">
-      <vs-row>
+    <vs-row>
       <vs-col vs-type="flex" vs-justify="center" vs-align="center" w="12">
-
         <AppCartSteps />
         <hr />
         <h2 class="center">Your Cart</h2>
@@ -34,13 +33,8 @@
             again.
           </p>
         </section>
-
       </vs-col>
     </vs-row>
-
-
-
-
   </div>
 </template>
 
@@ -54,7 +48,8 @@ export default {
     AppCartDisplay,
     AppCartSteps,
   },
-   async asyncData({ $axios, store }) {
+  async asyncData({ $axios, store, $auth }) {
+    await $auth.fetchUser()
     console.log('asyncedata')
     try {
       let response = await $axios.post(
@@ -70,7 +65,7 @@ export default {
         estimatedDelivery: response.data.shipment.estimated,
       })
       return {
-        Loaded:false,
+        Loaded: false,
         shippingPrice: response.data.shipment.price,
         estimatedDelivery: response.data.shipment.estimated,
       }
@@ -93,19 +88,17 @@ export default {
 .success {
   text-align: center;
 }
-.center{
+.center {
   text-align: center;
 }
 
 @media screen and (min-width: 700px) {
   .cartMain {
-  margin-top: 45px;
-     justify-self: center;
-     align-self: center;
-     text-align: center;
-
-
-   }
+    margin-top: 45px;
+    justify-self: center;
+    align-self: center;
+    text-align: center;
+  }
 }
 
 @media screen and (max-width: 699px) {
@@ -116,10 +109,10 @@ export default {
     align-self: center;
     text-align: center;
 
-  justify-content: center;
+    justify-content: center;
   }
   .cardstep {
-  margin-top: 50px;
-}
+    margin-top: 50px;
+  }
 }
 </style>

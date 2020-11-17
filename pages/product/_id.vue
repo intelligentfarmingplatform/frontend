@@ -1,48 +1,61 @@
 <template>
   <div>
-    <vs-col>
-      <section class="item-contain">
-        <section class="img">
-          <img :src="`https://intelligentfarmingplatform.herokuapp.com/${product.productimg}`" height="300" />
-        </section>
-        <section class="product-info">
-          <h1>{{ product.productname }}</h1>
-          <h4 class="price">{{ product.productprice }} บาท</h4>
-          <p>{{ product.productdetail }}</p>
-          <p>ทดสอบๆ</p>
-          <div class="product-options">
-            <div class="quantity">
-              <vs-button
-                class="update-num"
-                @click="quantity > 0 ? quantity-- : (quantity = 0)"
-                >-</vs-button
-              >
-              <input type="number" v-model="quantity" />
-              <vs-button class="update-num" @click="quantity++">+</vs-button>
-            </div>
-          </div>
-          <p>เหลือ : {{product.productnumber}} ชิ้น</p>
-          <p>
-            <vs-button v-if="$auth.loggedIn" border class="button purchase" @click="cartAdd"
-              >หยิบใส่ตะกร้า</vs-button
-            >
-                                <vs-button border class="button purchase" @click="loginActive = !loginActive" v-if="!$auth.loggedIn"
-              >กรุณาล็อคอินเพื่อเลือกสินค้า</vs-button
-            >
-          </p>
-        </section>
+    <section class="item-contain">
+      <section class="img">
+        <img
+          :src="`https://intelligentfarmingplatform.herokuapp.com/${product.productimg}`"
+          height="300"
+        />
       </section>
-
-      <hr />
-      <div class="review">
-        <h2>Reviews</h2>
-        <!-- maybe an image of a person? -->
-
+      <section class="product-info">
+        <h1>{{ product.productname }}</h1>
+        <h4 class="price">{{ product.productprice }} บาท</h4>
+        <p>{{ product.productdetail }}</p>
         <p>ทดสอบๆ</p>
-      </div>
-    </vs-col>
-    <app-featured-products />
-     <vs-dialog prevent-close blur v-model="loginActive">
+        <div class="product-options">
+          <div class="quantity">
+            <vs-button
+              size="mini"
+              class="update-num"
+              @click="quantity > 0 ? quantity-- : (quantity = 0)"
+              ><i class='bx bx-minus' ></i></vs-button
+            >
+            <input type="number" v-model="quantity" />
+            <vs-button size="mini" class="update-num" @click="quantity++"
+              ><i class='bx bx-plus'></i></vs-button
+            >
+          </div>
+        </div>
+        <p>เหลือ : {{ product.productnumber }} ชิ้น</p>
+        <p>
+          <vs-button
+            v-if="$auth.loggedIn"
+            border
+            class="button purchase"
+            @click="cartAdd"
+            >หยิบใส่ตะกร้า</vs-button
+          >
+          <vs-button
+            border
+            class="button purchase"
+            @click="loginActive = !loginActive"
+            v-if="!$auth.loggedIn"
+            >กรุณาล็อคอินเพื่อเลือกสินค้า</vs-button
+          >
+        </p>
+      </section>
+    </section>
+
+    <hr />
+    <div class="review">
+      <h2>Reviews</h2>
+      <!-- maybe an image of a person? -->
+
+      <p>ทดสอบๆ</p>
+    </div>
+
+    <AppFeaturedProducts />
+    <vs-dialog prevent-close blur v-model="loginActive">
       <template #header>
         <h4 class="not-margin">
           <b>เข้าสู่ระบบ</b>
@@ -192,7 +205,7 @@ import loginMixin from '~/mixins/login'
 import AppFeaturedProducts from '~/components/AppFeaturedProducts.vue'
 
 export default {
-  mixins:[loginMixin],
+  mixins: [loginMixin],
   components: {
     AppFeaturedProducts,
   },
@@ -207,14 +220,13 @@ export default {
   },
   async fetch({ store, params }) {
     //return this.getProduct()
-    await store.dispatch('loadAllProducts');
-
+    await store.dispatch('loadAllProducts')
   },
   computed: {
     ...mapState(['products']),
     product() {
-     return this.products.find((p) => p.id == this.$route.params.id)
-     console.log(product)
+      return this.products.find((p) => p.id == this.$route.params.id)
+      console.log(product)
     },
     //storedata: (state) => state.storedata,
   },
@@ -238,15 +250,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.item-contain {
-  margin-top: 44px;
-  margin-left: 8%;
-  width: 80%;
-  display: grid;
-  justify-content: space-around;
-  grid-template-columns: 1fr 2fr;
-}
-
 .product-options {
   display: grid;
 }
@@ -281,27 +284,67 @@ select {
   outline-offset: -1px;
 }
 
-.quantity {
-  display: flex;
-}
-
 .size-required-message {
   color: red;
 }
 
-@media screen and (max-width: 650px) {
-  .img img {
-    width: 100%;
-  }
-
+@media screen and (min-width: 700px) {
+  //PC
   .item-contain {
-    margin-left: 0 !important;
-    width: 95% !important;
+    margin-top: 75px;
+    margin-left: 8%;
+    margin-bottom: 25px;
+    width: 80%;
+    display: grid;
+    justify-content: space-around;
+    grid-template-columns: 1fr 2fr;
   }
-
+  .quantity {
+    margin: 10px 0px;
+    display: flex;
+  }
+  .img img {
+    width: 300;
+    height: 300;
+  }
   .review {
     width: 90%;
     margin-left: 4%;
   }
 }
+
+@media screen and (max-width: 699px) {
+  //Mobile
+  .item-contain {
+    margin-top: 75px;
+    margin-left: 8%;
+    width: 75%;
+  }
+  .quantity {
+    display: flex;
+  }
+  .img img {
+    height: 150px;
+  }
+  .review {
+    width: 90%;
+    margin-left: 4%;
+  }
+}
+
+// @media screen and (max-width: 650px) {
+//   .img img {
+//     width: 100%;
+//   }
+
+//   .item-contain {
+//     margin-left: 0 !important;
+//     width: 95% !important;
+//   }
+
+//   .review {
+//     width: 90%;
+//     margin-left: 4%;
+//   }
+// }
 </style>

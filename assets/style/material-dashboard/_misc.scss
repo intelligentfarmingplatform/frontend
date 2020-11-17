@@ -8,10 +8,12 @@ a {
 }
 
 html {
-  font-size: $font-size-general + 2!important;
+  font-family: 'Prompt' !important;
+  font-size: $font-size-general +3!important;
 }
 
 .category {
+  font-family: 'Prompt' !important;
   font-size: $font-size-general;
 }
 

@@ -7,31 +7,35 @@
         </vs-col>
       </vs-row>
     </div>
-    <div class="container" style="margin-top: 20px">
-      <vs-row>
-        <vs-row>
-          <vs-col
-            vs-justify="center"
-            vs-align="center"
-            w="2"
-            v-for="item in products"
-            :key="item.id"
-          >
+    <div class="product">
+      <vs-row justify="center">
+        <div
+          :key="i"
+          v-for="(item, i) in $vs.getSearch(products, search)"
+          :data="item"
+        >
+          <vs-col class="product-item">
             <vs-card>
               <template #title>
                 <h3>{{ item.productname }}</h3>
               </template>
               <template #img>
-                <img :src="`https://intelligentfarmingplatform.herokuapp.com/${item.productimg}`" />
+                <nuxt-link :to="`product/${item.id}`">
+                  <img
+                    :src="`https://intelligentfarmingplatform.herokuapp.com/${item.productimg}`"
+                  />
+                </nuxt-link>
               </template>
               <template #text>
-              <h4 class="price">{{ item.productprice }} บาท</h4>
-              <h4 class="price">เหลือ {{ item.productnumber }} ชิ้น</h4>
-              <!-- <h4 class="price">ประเภทสินค้า {{ item.category.type }}</h4>
-              <h4 class="price">โดย {{ item.users.username }}</h4> -->
-              <nuxt-link :to="`product/${item.id}`">
-                  <vs-button border> ดูสินค้า </vs-button>
-                </nuxt-link>
+                <h4 class="price">{{ item.productprice }} บาท</h4>
+                <h4 class="price">เหลือ {{ item.productnumber }} ชิ้น</h4>
+                <!-- <h4 class="price">ประเภทสินค้า {{ item.category.type }}</h4> -->
+                <h4 class="price">
+                  โดย
+                  <nuxt-link :to="`product/${item.id}`">
+                    {{ item.nameseller }}
+                  </nuxt-link>
+                </h4>
               </template>
               <template #interactions>
                 <vs-button danger icon>
@@ -44,7 +48,7 @@
               </template>
             </vs-card>
           </vs-col>
-        </vs-row>
+        </div>
       </vs-row>
     </div>
   </div>
@@ -69,7 +73,19 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .search {
-    width: 100%;
-  }
+.product-item {
+  padding: 20px;
+  justify-self: center;
+  align-self: center;
+  text-align: center;
+}
+.product {
+  margin: 25px;
+  justify-self: center;
+  align-self: center;
+  text-align: center;
+}
+.search {
+  width: 100%;
+}
 </style>

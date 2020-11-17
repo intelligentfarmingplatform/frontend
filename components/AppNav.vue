@@ -1,6 +1,16 @@
 <template>
   <div class="Nav">
-    <vs-navbar color="#32CD32" text-white center-collapsed v-model="active">
+    <vs-navbar
+      color="#32CD32"
+      text-white
+      shadow
+      shadowScroll
+      square
+      not-line
+      leftCollapsed
+      fixed
+      v-model="active"
+    >
       <template #left>
         <h3>Intelligent Farming</h3>
       </template>
