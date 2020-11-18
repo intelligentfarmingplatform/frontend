@@ -1,40 +1,12 @@
 <template>
   <div class="cartMain">
-    <vs-row>
-      <vs-col vs-type="flex" vs-justify="center" vs-align="center" w="12">
-        <AppCartSteps />
-        <hr />
-        <h2 class="center">Your Cart</h2>
-
-        <section v-if="cartUIStatus === 'idle'">
-          <AppCartDisplay />
-        </section>
-
-        <section
-          v-else-if="cartUIStatus === 'loading'"
-          class="loader"
-        ></section>
-
-        <section v-else-if="cartUIStatus === 'success'" class="success">
-          <h2>Success!</h2>
-          <p>
-            Thank you for your purchase. You'll be receiving your items in 4
-            business days.
-          </p>
-          <p>Forgot something?</p>
-          <vs-button class="pay-with-stripe">
-            <nuxt-link exact to="/">Back to Home</nuxt-link>
-          </vs-button>
-        </section>
-
-        <section v-else-if="cartUIStatus === 'failure'">
-          <p>
-            Oops, something went wrong. Redirecting you to your cart to try
-            again.
-          </p>
-        </section>
-      </vs-col>
-    </vs-row>
+    <v-container>
+      <vs-row class="cartStep">
+        <vs-col vs-type="flex" vs-justify="center" vs-align="center" w="12">
+          <AppCartSteps />
+        </vs-col>
+      </vs-row>
+    </v-container>
   </div>
 </template>
 
@@ -42,12 +14,12 @@
 import AppCartSteps from '~/components/AppCartSteps.vue'
 import AppCartDisplay from '~/components/AppCartDisplay.vue'
 import { mapState } from 'vuex'
-
 export default {
   components: {
     AppCartDisplay,
     AppCartSteps,
   },
+
   async asyncData({ $axios, store, $auth }) {
     await $auth.fetchUser()
     console.log('asyncedata')
@@ -80,6 +52,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.cartStep {
+  margin-top: 10px;
+}
 .loader {
   display: flex;
   justify-content: center;

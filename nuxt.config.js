@@ -40,6 +40,7 @@ export default {
    ** Plugins to load before mounting the App
    */
   plugins: [
+    '~/plugins/step-wizard',
     '~/plugins/vuetify',
     '~/plugins/vuesax',
     { src: '~/plugins/vuex-persist', ssr: false },
@@ -55,16 +56,16 @@ export default {
     '@nuxtjs/auth',
     'nuxt-ssr-cache',
     [
-      "nuxt-compress",
+      'nuxt-compress',
       {
         gzip: {
-          cache: true
+          cache: true,
         },
         brotli: {
-          threshold: 10240
-        }
-      }
-    ]
+          threshold: 10240,
+        },
+      },
+    ],
     // ['nuxt-stripe-module', {
     //   publishableKey: 'pk_test_51Hg9lmAFMKlS8CSVt1AbCsoCYIz3CFIrcV0tddZirj0H7rnBHxqwv8eOIYDBoygBUTlCdg4axOMnZsLSD6tmXlro009D4jrTF4',
     // }],
@@ -80,7 +81,7 @@ export default {
     pages: [
       // these are prefixes of pages that need to be cached
       // if you want to cache all pages, just include '/'
-      '/'
+      '/',
       //'/page1',
       //'/page2',
 
@@ -111,7 +112,7 @@ export default {
   },
 
   buildModules: [
-    "nuxt-compress"
+    'nuxt-compress',
     // Simple usage
     //'@nuxtjs/vuetify',
   ],
@@ -136,13 +137,15 @@ export default {
       local: {
         endpoints: {
           login: {
-            url: 'https://intelligentfarmingplatform.herokuapp.com/api/customer/login',
+            url:
+              'https://intelligentfarmingplatform.herokuapp.com/api/customer/login',
             method: 'post',
             propertyName: 'token',
           },
           logout: false,
           user: {
-            url: 'https://intelligentfarmingplatform.herokuapp.com/api/customer/me/profile',
+            url:
+              'https://intelligentfarmingplatform.herokuapp.com/api/customer/me/profile',
             method: 'get',
             propertyName: 'users',
           },
@@ -155,16 +158,16 @@ export default {
           authorization: 'https://accounts.google.com/o/oauth2/auth',
           token: undefined,
           userInfo: 'https://www.googleapis.com/oauth2/v3/userinfo',
-          logout: 'https://example.com/logout'
+          logout: 'https://example.com/logout',
         },
         token: {
           property: 'access_token',
           type: 'Bearer',
-          maxAge: 1800
+          maxAge: 1800,
         },
         refreshToken: {
           property: 'refresh_token',
-          maxAge: 60 * 60 * 24 * 30
+          maxAge: 60 * 60 * 24 * 30,
         },
         responseType: 'token',
         grantType: 'authorization_code',
@@ -181,7 +184,8 @@ export default {
       },
       facebook: {
         client_id: '2580459375504166',
-        userinfo_endpoint: 'https://graph.facebook.com/v2.12/me?fields=about,name,picture{url},email,birthday',
+        userinfo_endpoint:
+          'https://graph.facebook.com/v2.12/me?fields=about,name,picture{url},email,birthday',
         scope: ['public_profile', 'email', 'user_birthday'],
         token_key: 'token',
         token_type: 'Bearer',
