@@ -17,6 +17,9 @@ export const state = () => ({
   cart: [],
   shippingPrice: 0,
   shippingEstimatedDelivery: '',
+  deliveryAddress: [],
+  saveToDatabase: false,
+  setDefault: false,
   clientSecret: '', // Required to initiate the payment from the client
 })
 
@@ -63,13 +66,25 @@ export const getters = {
   getEstimatedDelivery(state) {
     return state.shippingEstimatedDelivery
   },
+  getSelectedAddress(state) {
+    return state.auth.user.CustomerAddresses
+  },
   clientSecret: (state) => state.clientSecret,
 }
 
 export const mutations = {
   setShipping(state, { price, estimatedDelivery }) {
-    ;(state.shippingPrice = price),
+    ; (state.shippingPrice = price),
       (state.shippingEstimatedDelivery = estimatedDelivery)
+  },
+  setDeliveryAddress(state, { fullName, streetAddress, district, province, zipCode, phoneNumber, noteToDelivery }) {
+    state.deliveryAddress = { fullName, streetAddress, district, province, zipCode, phoneNumber, noteToDelivery }
+  },
+  setSaveDatabase(state, { addToDatabase }) {
+    state.saveToDatabase = addToDatabase
+  },
+  setSetDefault(state, { setDefault }) {
+    state.setDefault = setDefault
   },
   SET_PRODUCTS(state, products) {
     return (state.products = products)
@@ -82,7 +97,7 @@ export const mutations = {
   },
   clearCart: (state) => {
     //this clears the cart
-    ;(state.cart = []),
+    ; (state.cart = []),
       (state.cartUIStatus = 'idle'),
       (state.shippingPrice = 0),
       (state.shippingEstimatedDelivery = '')

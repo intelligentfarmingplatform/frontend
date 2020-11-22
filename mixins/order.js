@@ -2,7 +2,7 @@ import { mapActions, mapGetters, mapState } from 'vuex'
 import Axios from 'axios'
 export default {
   data: () => ({
-    active: false,
+    addressConfirm: false,
     input1: '',
     input2: '',
     checkbox1: false,
@@ -10,13 +10,14 @@ export default {
     error: '',
     stripe: null,
     card: '',
-
+    value2: '',
     Loaded: true,
     detailsActive: false,
     activeTooltip1: false,
     shippingPrice: '',
     estimatedDelivery: '',
     delivery: 'normal',
+    testdata:'',
   }),
   computed: {
     ...mapState(['cart']),
@@ -71,8 +72,8 @@ export default {
             price: response.data.shipment.price,
             estimatedDelivery: response.data.shipment.estimated,
           })
-          ;(this.shippingPrice = response.data.shipment.price),
-            (this.estimatedDelivery = response.data.shipment.estimated)
+            ; (this.shippingPrice = response.data.shipment.price),
+              (this.estimatedDelivery = response.data.shipment.estimated)
           this.Loaded = false
         })
         .catch((err) => {

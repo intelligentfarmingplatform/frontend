@@ -40,6 +40,7 @@ export default {
    ** Plugins to load before mounting the App
    */
   plugins: [
+    '~/plugins/sync',
     '~/plugins/step-wizard',
     '~/plugins/vuetify',
     '~/plugins/vuesax',

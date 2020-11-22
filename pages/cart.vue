@@ -7,39 +7,58 @@
         </vs-col>
       </vs-row>
     </v-container>
+    <AppFeaturedProducts />
   </div>
 </template>
 
 <script>
 import AppCartSteps from '~/components/AppCartSteps.vue'
 import AppCartDisplay from '~/components/AppCartDisplay.vue'
+import AppFeaturedProducts from '~/components/AppFeaturedProducts.vue'
+import orderMixin from '~/mixins/order'
 import { mapState } from 'vuex'
 export default {
   components: {
     AppCartDisplay,
     AppCartSteps,
+    AppFeaturedProducts,
   },
-
+  mounted() {
+    return { testdata: this.dataFromAsyncdata }
+  },
   async asyncData({ $axios, store, $auth }) {
     await $auth.fetchUser()
     console.log('asyncedata')
     try {
+      const config = {
+        headers: {
+          Authorization: $auth.getToken('local'),
+        },
+      }
       let response = await $axios.post(
         'https://it-ifp-auth.herokuapp.com/api/shipment',
         {
           shipment: 'normal',
         }
       )
-
-      console.log('datafrom asyncDData', response.data)
+      let response2 = await $axios.get(
+        'https://intelligentfarmingplatform.herokuapp.com/api/customer/address',
+        config
+      )
+      const [shippingResponse, addressResponse] = await Promise.all([
+        response,
+        response2,
+      ])
+      const dataFromAsyncdata = addressResponse.data.address
+      console.log('fetch Address', dataFromAsyncdata)
       store.commit('setShipping', {
-        price: response.data.shipment.price,
-        estimatedDelivery: response.data.shipment.estimated,
+        price: shippingResponse.data.shipment.price,
+        estimatedDelivery: shippingResponse.data.shipment.estimated,
       })
       return {
         Loaded: false,
-        shippingPrice: response.data.shipment.price,
-        estimatedDelivery: response.data.shipment.estimated,
+        shippingPrice: shippingResponse.data.shipment.price,
+        estimatedDelivery: shippingResponse.data.shipment.estimated,
       }
     } catch (err) {
       console.log(err)
@@ -79,7 +98,7 @@ export default {
 @media screen and (max-width: 699px) {
   .cartMain {
     margin-top: 45px;
-    width: 95vw;
+    width: 100%;
     justify-self: center;
     align-self: center;
     text-align: center;

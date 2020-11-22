@@ -17,6 +17,7 @@
 
 <style>
   #footer {
+
     z-index: 0;
   }
 </style>

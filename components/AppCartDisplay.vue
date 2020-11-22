@@ -1,72 +1,78 @@
 <template>
   <div class="cartDisplay">
     <v-container>
-      <v-row no-gutters>
-        <v-col>
-          <v-simple-table fixed-header>
-            <template v-slot:default>
-              <thead>
-                <tr>
-                  <th>สินค้า</th>
-                  <th>ราคา</th>
-                  <th>จำนวน</th>
-                  <th>รวม</th>
-                  <th>ลบสินค้า</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr
-                  height="105"
-                  v-for="item in detailsWithSubTotal"
-                  :key="item.id"
-                >
-                  <td>
-                    <div width="500" class="modal-img">
-                      <v-avatar>
-                        <img
-                          :src="`https://intelligentfarmingplatform.herokuapp.com/${item.productimg}`"
-                          alt="John"
-                        />
-                      </v-avatar>
-                    </div>
-                    <div class="productname">{{ item.productname }}</div>
-                  </td>
-                  <td>{{ item.productprice }}</td>
-                  <td>
-                    <button
-                      @click="removeOneFromCart(item)"
-                      class="quantity-adjust"
-                    >
-                      -
-                    </button>
-                    {{ item.quantity }}
-                    <button @click="addToCart(item)" class="quantity-adjust">
-                      +
-                    </button>
-                  </td>
-                  <td>{{ item.subtotal }}</td>
-                  <td>
-                    <div class="delete-product">
-                      <v-btn
-                        @click="removeAllFromCart(item)"
-                        class="mx-2"
-                        fab
-                        dense
-                        x-small
-                        color="primary"
+      <section>
+        <v-row no-gutters>
+          <v-col>
+            <v-simple-table fixed-header>
+              <template v-slot:default>
+                <thead>
+                  <tr>
+                    <th>สินค้า</th>
+                    <th>ราคา</th>
+                    <th>จำนวน</th>
+                    <th>รวม</th>
+                    <th>ลบสินค้า</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr
+                    height="105"
+                    v-for="item in detailsWithSubTotal"
+                    :key="item.id"
+                  >
+                    <td>
+                      <div width="500" class="modal-img">
+                        <v-avatar>
+                          <img
+                            :src="`https://intelligentfarmingplatform.herokuapp.com/${item.productimg}`"
+                            alt="John"
+                          />
+                        </v-avatar>
+                      </div>
+                      <div class="productname">{{ item.productname }}</div>
+                    </td>
+                    <td>{{ item.productprice }}</td>
+                    <td>
+                      <button
+                        @click="removeOneFromCart(item)"
+                        class="quantity-adjust"
                       >
-                        <v-icon dark> mdi-delete </v-icon>
-                      </v-btn>
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
-            </template>
-          </v-simple-table>
-        </v-col>
+                        -
+                      </button>
+                      {{ item.quantity }}
+                      <button @click="addToCart(item)" class="quantity-adjust">
+                        +
+                      </button>
+                    </td>
+                    <td>{{ item.subtotal }}</td>
+                    <td>
+                      <div class="delete-product">
+                        <v-btn
+                          @click="removeAllFromCart(item)"
+                          class="mx-2"
+                          fab
+                          dense
+                          x-small
+                          color="primary"
+                        >
+                          <v-icon dark> mdi-delete </v-icon>
+                        </v-btn>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </template>
+            </v-simple-table>
+          </v-col>
 
-        <!-- cart table column -->
-      </v-row>
+          <!-- cart table column -->
+        </v-row>
+      </section>
+
+      <section>
+
+      </section>
     </v-container>
   </div>
 </template>
