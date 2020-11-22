@@ -55,6 +55,7 @@
                             v-model="select"
                             label="ข้อมูลเดิม"
                             :items="fetchAddress"
+                            :disabled="disableForm"
                             item-text="streetAddress"
                             item-value="id"
                             v-on:change="onChooseAddress()"
@@ -190,7 +191,7 @@
                 <v-card-title>
                   <span class="headline">ที่อยู่ที่ต้องจัดส่ง</span>
                 </v-card-title>
-<!-- อย่าลืมเปลี่ยนให้รับค่าจาก vuex เพราะยังกลับมาใส่ที่อยู่ได้อยู่หลังจาก refresh -->
+                <!-- อย่าลืมเปลี่ยนให้รับค่าจาก vuex เพราะยังกลับมาใส่ที่อยู่ได้อยู่หลังจาก refresh -->
                 <v-card-text>
                   <v-container>
                     <v-row>
@@ -392,7 +393,7 @@ export default {
       districtRule: [(v) => !!v || 'จำเป็นต้องใส่'],
       disableForm: false,
       saveAddressTrigger: false,
-      fetchAddress: this.$auth.$state.user.CustomerAddresses,
+      fetchAddress: this.$store.state.CustomerAddress,
       select: '',
       payBtn: true,
       defaultForm: {
@@ -433,7 +434,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(['cartUIStatus']),
+    ...mapState(['cartUIStatus', 'CustomerAddress']),
     ...mapGetters(['cartCount', 'getSelectedAddress']),
     selectAddress() {
       return this.getSelectedAddress.filter((a) => a.id === this.select)
@@ -451,9 +452,11 @@ export default {
     },
     async save() {
       if (this.$refs.formAddress.validate()) {
+        if(this.$store.state.deliveryAddress){
+          this.disableForm = true
+        }
         this.addressConfirm = false
         this.saveAddressTrigger = true
-        this.disableForm = true
         this.payBtn = false
         await (this.defaultForm.fullName = this.addressForm.fullName),
           (this.defaultForm.district = this.addressForm.district),
@@ -462,7 +465,10 @@ export default {
           (this.defaultForm.zipCode = this.addressForm.zipCode),
           (this.defaultForm.phoneNumber = this.addressForm.phoneNumber),
           (this.defaultForm.noteToDelivery = this.addressForm.noteToDelivery)
-        if (this.addressForm.addToDatabase === true) {
+        if (
+          this.addressForm.addToDatabase === true &&
+          this.$auth.loggedIn === true
+        ) {
           const config = {
             headers: {
               Authorization: this.$auth.getToken('local'),

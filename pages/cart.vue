@@ -30,27 +30,28 @@ export default {
     await $auth.fetchUser()
     console.log('asyncedata')
     try {
-      const config = {
-        headers: {
-          Authorization: $auth.getToken('local'),
-        },
+      if ($auth.loggedIn === true) {
+        const config = {
+          headers: {
+            Authorization: $auth.getToken('local'),
+          },
+        }
+        let response2 = await $axios.get(
+          'https://intelligentfarmingplatform.herokuapp.com/api/customer/address',
+          config
+        )
       }
+
       let response = await $axios.post(
         'https://it-ifp-auth.herokuapp.com/api/shipment',
         {
           shipment: 'normal',
         }
       )
-      let response2 = await $axios.get(
-        'https://intelligentfarmingplatform.herokuapp.com/api/customer/address',
-        config
-      )
-      const [shippingResponse, addressResponse] = await Promise.all([
+
+      const [shippingResponse] = await Promise.all([
         response,
-        response2,
       ])
-      const dataFromAsyncdata = addressResponse.data.address
-      console.log('fetch Address', dataFromAsyncdata)
       store.commit('setShipping', {
         price: shippingResponse.data.shipment.price,
         estimatedDelivery: shippingResponse.data.shipment.estimated,

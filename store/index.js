@@ -12,6 +12,7 @@ const userService = new productProvider()
 // })
 
 export const state = () => ({
+  CustomerAddresses: [],
   cartUIStatus: 'idle',
   products: [],
   cart: [],
@@ -85,6 +86,9 @@ export const mutations = {
   },
   setSetDefault(state, { setDefault }) {
     state.setDefault = setDefault
+  },
+  setCustomerAddress(state, { CustomerAddress }) {
+    state.CustomerAddress = CustomerAddress
   },
   SET_PRODUCTS(state, products) {
     return (state.products = products)
