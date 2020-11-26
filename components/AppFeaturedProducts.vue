@@ -6,8 +6,8 @@
     <div class="featureditems">
       <vs-row justify="center">
         <div class="item" v-for="product in featuredProducts" :key="product.id">
-          <img :src="`/products/${product.img}`" height="200" />
-          <h3>{{ product.name }}</h3>
+          <img :src="`https://intelligentfarmingplatform.herokuapp.com/${product.productimg}`" height="200" />
+          <h3>{{ product.productname }}</h3>
           <h4>{{ product.price }} บาท</h4>
           <nuxt-link :to="`/product/${product.id}`">
             <vs-button border>ดูสินค้า ></vs-button>
@@ -29,7 +29,7 @@ export default {
 
   async fetch() {
     await axios
-      .get('https://it-ifp-auth.herokuapp.com/api/myproducts/featured/all')
+      .get('https://intelligentfarmingplatform.herokuapp.com/api/sellproducts/show')
       .then((response) => {
         this.featuredProducts = response.data.products
       })

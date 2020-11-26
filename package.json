@@ -8,9 +8,9 @@
     "node": "12.x"
   },
   "scripts": {
-    "dev": "nuxt",
+    "dev": "nuxt --hostname 0.0.0.0 --port 3333",
     "build": "nuxt build",
-    "start": "nuxt start",
+    "start": "nuxt start --hostname 0.0.0.0 --port 3333",
     "heroku-postbuild": "npm run build",
     "generate": "nuxt generate",
     "lint": "eslint --ext .js,.vue,.ts --ignore-path .gitignore ."
