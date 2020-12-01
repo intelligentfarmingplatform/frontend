@@ -11,22 +11,20 @@
             <template>
               <thead>
                 <tr>
-                  <th class="text-left">Name</th>
+                  <th class="text-left">หมายเลขสั่งซื้อ</th>
                   <th class="text-left">Quantity</th>
                   <th class="text-left">Total Price</th>
-                  <th class="text-left">สถานะการจัดส่ง</th>
                   <th class="text-left">ร้านค้า</th>
+                  <th class="text-left">สถานะการจัดส่ง</th>
                 </tr>
               </thead>
               <tbody>
                 <tr v-for="item in listOrders" :key="item.id">
-                  <td>{{ item.customerId }}</td>
-                  <td>{{ item.quantity }}</td>
+                  <td>{{ item.CustomerTransactions[0].orderNo }}</td>
+                  <td>{{ item.totalQuantity }}</td>
                   <td>{{ item.totalPrice }}</td>
-                  <td>{{ item.orderStatus }}</td>
-                  <td v-for="seller in item.cartItem" :key="seller.id">
-                    {{ seller.nameseller }}
-                  </td>
+                  <td>{{ item.seller }}</td>
+                  <td>{{ item.CustomerDeliveries[0].orderStatus }}</td>
                 </tr>
               </tbody>
             </template>
@@ -44,7 +42,7 @@ export default {
     isHasData: false,
   }),
   methods: {},
-  async asyncData({$axios,$auth}) {
+  async asyncData({ $axios, $auth }) {
     console.log('asyncdata')
     await $auth.fetchUser()
     try {
@@ -55,15 +53,14 @@ export default {
       }
       // this.$axios.setHeader('Authorization', this.$auth.getToken('local'))
       let response = await $axios.get(
-        'https://intelligentfarmingplatform.herokuapp.com/api/customer/orders',
+        'http://maims.cmtc.ac.th:3000/api/customer/orders',
         config
       )
 
       //console.log('datafrom order', response.data.order)
       if (response.data.success) {
-  return { isHasData: true,listOrders: response.data.order }
+        return { isHasData: true, listOrders: response.data.order }
       }
-
     } catch (err) {
       console.log(err)
     }
@@ -71,4 +68,3 @@ export default {
   layout: 'dashboard',
 }
 </script>
-s

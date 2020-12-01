@@ -4,7 +4,49 @@
       <section>
         <v-row no-gutters>
           <v-col>
-            <v-simple-table fixed-header>
+            <div
+              class="haderpeng"
+              v-for="item in detailsWithSubTotal"
+              :key="item.id"
+            >
+              <v-card class="">
+                <v-row >
+                  <v-col cols="12" md="4">
+                    <img
+                      class=""
+                      :src="`http://maims.cmtc.ac.th:3000/product/${item.productimg}`"
+                      alt="John"
+                      height="155rem"
+                    /><br>
+                    {{ item.productname }}<br>
+                    จากร้าน {{ item.nameseller }}<br>
+                     ราคา {{ item.productprice }} บาท
+                  </v-col>
+                  <v-col cols="12" md="4" class="label1">
+                    <label class="">
+
+                      <button
+                        @click="removeOneFromCart(item)"
+                        class="quantity-adjust"
+                      >
+                        -
+                      </button>
+                      {{ item.quantity }}
+                      <button @click="addToCart(item)" class="quantity-adjust">
+                        +
+                      </button>
+                    </label>
+                  </v-col>
+                  <v-col cols="12" md="4" class="label1" >
+                    <v-icon @click="removeAllFromCart(item)" color="#FF6347"
+                      >mdi-delete</v-icon
+                    >
+                  </v-col>
+                </v-row>
+              </v-card>
+            </div>
+            ทั้งหมด {{cartTotal}} บาท (ยังไม่รวมค่าจัดส่ง)
+            <!-- <v-simple-table fixed-header>
               <template v-slot:default>
                 <thead>
                   <tr>
@@ -25,7 +67,7 @@
                       <div width="500" class="modal-img">
                         <v-avatar>
                           <img
-                            :src="`https://intelligentfarmingplatform.herokuapp.com/${item.productimg}`"
+                            :src="`http://127.0.0.1:4000/product/${item.productimg}`"
                             alt="John"
                           />
                         </v-avatar>
@@ -63,16 +105,14 @@
                   </tr>
                 </tbody>
               </template>
-            </v-simple-table>
+            </v-simple-table> -->
           </v-col>
 
           <!-- cart table column -->
         </v-row>
       </section>
 
-      <section>
-
-      </section>
+      <section></section>
     </v-container>
   </div>
 </template>
@@ -104,6 +144,22 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.haderpeng {
+  padding: 15px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.11);
+  width: 100%;
+  .productImg {
+    margin-right: 200px;
+  }
+  .label1 {
+    padding-top: 75px;
+  }
+
+  .subtitle {
+    font-size: 1rem;
+  }
+
+}
 .addressDetail {
   display: flex;
   align-items: center;

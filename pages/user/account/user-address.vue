@@ -210,7 +210,7 @@ export default {
       }
       // this.$axios.setHeader('Authorization', this.$auth.getToken('local'))
       let response = await $axios.get(
-        'https://intelligentfarmingplatform.herokuapp.com/api/customer/address',
+        'http://maims.cmtc.ac.th:3000/api/customer/address',
         config
       )
       const [addressResponse] = await Promise.all([response])
@@ -248,7 +248,7 @@ export default {
       }
       try {
         let onSetDefault = await Axios.put(
-          `https://intelligentfarmingplatform.herokuapp.com/api/customer/address/set/${item.id}/default`,'',
+          `http://maims.cmtc.ac.th:3000/api/customer/address/set/${item.id}/default`,'',
           config
         )
         if (onSetDefault.data.success) {
@@ -273,7 +273,7 @@ export default {
       }
       try {
         let deleteAddress = await Axios.delete(
-          `https://intelligentfarmingplatform.herokuapp.com/api/customer/address/${this.addressForm.id}`,
+          `http://maims.cmtc.ac.th:3000/api/customer/address/${this.addressForm.id}`,
           config
         )
         if (deleteAddress.data.success) {
@@ -317,7 +317,7 @@ export default {
       if (this.editedIndex > -1) {
         try {
           let response = await Axios.put(
-            `https://intelligentfarmingplatform.herokuapp.com/api/customer/address/${this.addressForm.id}`,
+            `http://maims.cmtc.ac.th:3000/api/customer/address/${this.addressForm.id}`,
             {
               fullName: this.addressForm.fullName,
               district: this.addressForm.district,
@@ -355,7 +355,7 @@ export default {
       } else {
         try {
           let response = await Axios.post(
-            'https://intelligentfarmingplatform.herokuapp.com/api/customer/address',
+            'http://maims.cmtc.ac.th:3000/api/customer/address',
             this.addressForm,
             config
           )

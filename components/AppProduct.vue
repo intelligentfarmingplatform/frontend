@@ -22,7 +22,7 @@
               <template #img>
                 <nuxt-link :to="`product/${item.id}`">
                   <img
-                    :src="`https://intelligentfarmingplatform.herokuapp.com/${item.productimg}`"
+                    :src="`http://maims.cmtc.ac.th:3000/product/${item.productimg}`"
                   />
                 </nuxt-link>
               </template>

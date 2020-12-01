@@ -451,10 +451,10 @@ export default {
         (this.addressForm.phoneNumber = this.selectAddress[0].phoneNumber)
     },
     async save() {
-      if (this.$refs.formAddress.validate()) {
-        if(this.$store.state.deliveryAddress){
-          this.disableForm = true
-        }
+      // if (this.$refs.formAddress.validate()) {
+        // if(this.$store.state.deliveryAddress){
+        //   this.disableForm = true
+        // }
         this.addressConfirm = false
         this.saveAddressTrigger = true
         this.payBtn = false
@@ -480,7 +480,7 @@ export default {
           })
           try {
             let response = await this.$axios.post(
-              'https://intelligentfarmingplatform.herokuapp.com/api/customer/address',
+              'http://maims.cmtc.ac.th:3000/api/customer/address',
               {
                 fullName: this.defaultForm.fullName,
                 streetAddress: this.defaultForm.streetAddress,
@@ -547,7 +547,9 @@ export default {
           phoneNumber: this.defaultForm.phoneNumber,
           noteToDelivery: this.defaultForm.noteToDelivery,
         })
-      } else this.addressConfirm = false
+      // } else {
+      //   console.log('fail')
+      //   this.addressConfirm = false}
     },
     reset() {
       this.$refs.formAddress.reset()

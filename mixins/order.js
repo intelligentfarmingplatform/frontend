@@ -33,6 +33,7 @@ export default {
       'cartTotal',
       'cartTotalWithShipping',
       'getEstimatedDelivery',
+      'getSelectedAddress',
     ]),
   },
   methods: {
@@ -41,12 +42,16 @@ export default {
         this.$axios.setHeader('Authorization', this.$auth.getToken('local'))
         let token = await this.stripe.createToken(this.card)
         let response = await this.$axios.post(
-          'https://intelligentfarmingplatform.herokuapp.com/api/customer/payment',
+          'http://maims.cmtc.ac.th:3000/api/customer/payment',
           {
             token: token,
             totalPrice: this.cartTotalWithShipping,
             cart: this.cart,
+            email: this.$auth.user.email,
+            totalQuantity: this.cart.length,
             estimatedDelivery: this.getEstimatedDelivery,
+            deliveryProvider: this.delivery,
+            deliveryAddress: this.getSelectedAddress[0].id
           }
         )
         if (response.data.success) {
@@ -60,7 +65,7 @@ export default {
     },
     async onChooseShipping() {
       await Axios.post(
-        'https://intelligentfarmingplatform.herokuapp.com/api/customer/shipment',
+        'http://maims.cmtc.ac.th:3000/api/customer/shipment',
         {
           shipment: this.delivery,
         }

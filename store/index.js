@@ -143,7 +143,7 @@ export const actions = {
 
   async loadAllProducts({ commit }) {
     await axios
-      .get('https://intelligentfarmingplatform.herokuapp.com/api/sellproducts/show')
+      .get('http://maims.cmtc.ac.th:3000/api/sellproducts/show')
       .then((res) => {
         let products = res.data.data
         commit('SET_PRODUCTS', products)

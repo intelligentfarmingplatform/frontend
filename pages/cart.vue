@@ -31,27 +31,28 @@ export default {
     console.log('asyncedata')
     try {
       if ($auth.loggedIn === true) {
+        await store.commit('setCustomerAddress', {
+          CustomerAddress: $auth.state.user.CustomerAddresses,
+        })
         const config = {
           headers: {
             Authorization: $auth.getToken('local'),
           },
         }
         let response2 = await $axios.get(
-          'https://intelligentfarmingplatform.herokuapp.com/api/customer/address',
+          'http://maims.cmtc.ac.th:3000/api/customer/address',
           config
         )
       }
 
       let response = await $axios.post(
-        'https://it-ifp-auth.herokuapp.com/api/shipment',
+        'http://maims.cmtc.ac.th:3000/api/shipment',
         {
           shipment: 'normal',
         }
       )
 
-      const [shippingResponse] = await Promise.all([
-        response,
-      ])
+      const [shippingResponse] = await Promise.all([response])
       store.commit('setShipping', {
         price: shippingResponse.data.shipment.price,
         estimatedDelivery: shippingResponse.data.shipment.estimated,

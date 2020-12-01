@@ -3,7 +3,7 @@
     <section class="item-contain">
       <section class="img">
         <img
-          :src="`https://intelligentfarmingplatform.herokuapp.com/${product.productimg}`"
+          :src="`http://maims.cmtc.ac.th:3000/product/${product.productimg}`"
           height="300"
         />
       </section>

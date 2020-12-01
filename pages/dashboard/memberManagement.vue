@@ -62,7 +62,7 @@ export default {
     }
   },
   async fetch() {
-    await Axios.get('https://intelligentfarmingplatform.herokuapp.com/api/user')
+    await Axios.get('http://maims.cmtc.ac.th:3000/api/user')
       .then((response) => {
         this.listusers = response.data.data
         console.log('Dataload', this.listusers[0])

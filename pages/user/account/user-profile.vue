@@ -110,7 +110,7 @@ export default {
       }
       try {
         let onUpdateProfile = await Axios.put(
-          `https://intelligentfarmingplatform.herokuapp.com/api/customer/edit/profile`,
+          `http://maims.cmtc.ac.th:3000/api/customer/edit/profile`,
           {
             displayName: this.displayName,
             fullName: this.fullName,
