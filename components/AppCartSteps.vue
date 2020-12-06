@@ -1,6 +1,15 @@
 <template>
   <section>
     <form-wizard ref="checkoutWizard" :hide-buttons="true">
+      <template slot="step" slot-scope="props">
+        <wizard-step
+          :tab="props.tab"
+          :transition="props.transition"
+          :key="props.tab.title"
+          :index="props.index"
+        >
+        </wizard-step>
+      </template>
       <tab-content title="ตะกร้าสินค้า" icon="bx bx-cart" class="mb-5" lazy>
         <hr />
 
@@ -50,7 +59,6 @@
                     <v-container>
                       <v-row>
                         <v-col cols="12" sm="6" md="12">
-                         
                           <v-select
                             v-model="select"
                             label="ข้อมูลเดิม"
@@ -244,6 +252,32 @@
                       </v-col>
                     </v-row>
                   </v-container>
+                  <vs-row align="center" justify="center" class="addressDetail">
+                    <vs-col w="4"> </vs-col>
+                    <vs-col w="4">
+                      <vs-select
+                        :disabled="payBtn"
+                        :loading="Loaded"
+                        label-placeholder="เลือกบริการขนส่ง"
+                        v-model="delivery"
+                        v-on:change="onChooseShipping()"
+                      >
+                        <vs-option label="EMS ลงทะเบียน" value="normal">
+                          EMS ลงทะเบียน
+                        </vs-option>
+                        <vs-option label="Kerry Express" value="express">
+                          Kerry Express
+                        </vs-option>
+                      </vs-select>
+                    </vs-col>
+                    <vs-col w="4"> </vs-col>
+                  </vs-row>
+
+                  <div>ค่าจัดส่ง {{ this.$store.state.shippingPrice }} บาท</div>
+                  <div>
+                    วันที่จะได้รับ
+                    {{ this.$store.state.shippingEstimatedDelivery }}
+                  </div>
                   <vs-row>
                     <vs-col w="12">
                       <v-btn
@@ -252,8 +286,8 @@
                         v-show="this.$store.state.cart.length"
                         class="w-full"
                         :disabled="payBtn"
-                        @click="$refs.checkoutWizard.nextTab()"
-                        >ชำระเงิน</v-btn
+                        @click="orderConfirm = !orderConfirm"
+                        >ยืนยันการสั่งซื้อสินค้า</v-btn
                       >
                     </vs-col></vs-row
                   >
@@ -261,52 +295,13 @@
               </v-card>
             </v-col>
           </v-row>
-          <p>บัญชีของคุณยังไม่มีที่อยู่</p>
-          <v-btn small color="primary" @click="addressConfirm = !addressConfirm"
-            >เพิ่มที่อยู่</v-btn
-          >
+          <!-- <p>บัญชีของคุณยังไม่มีที่อยู่</p>
+          <v-btn small color="primary" @click="addressConfirm = !addressConfirm">เพิ่มที่อยู่</v-btn> -->
         </div>
       </tab-content>
       <tab-content title="ข้อมูลการชำระเงิน" icon="bx bx-credit-card">
         <hr />
         <h3 class="center">ข้อมูลการชำระเงิน</h3>
-        <vs-row align="center" justify="center" class="addressDetail">
-          <vs-col w="4"> </vs-col>
-          <vs-col w="4">
-            <vs-select
-              :loading="Loaded"
-              v-model="delivery"
-              v-on:change="onChooseShipping()"
-            >
-              <vs-option label="EMS ลงทะเบียน" value="normal">
-                EMS ลงทะเบียน
-              </vs-option>
-              <vs-option label="Kerry Express" value="express">
-                Kerry Express
-              </vs-option>
-            </vs-select>
-          </vs-col>
-          <vs-col w="4">
-            <vs-select
-              :loading="Loaded"
-              label-placeholder="เลือกบริการขนส่ง"
-              v-model="delivery"
-              v-on:change="onChooseShipping()"
-            >
-              <vs-option label="EMS ลงทะเบียน" value="normal">
-                EMS ลงทะเบียน
-              </vs-option>
-              <vs-option label="Kerry Express" value="express">
-                Kerry Express
-              </vs-option>
-            </vs-select>
-          </vs-col>
-        </vs-row>
-
-        <div>ค่าจัดส่ง {{ this.$store.state.shippingPrice }} บาท</div>
-        <div>
-          วันที่จะได้รับ {{ this.$store.state.shippingEstimatedDelivery }}
-        </div>
 
         <div>รวมทั้งหมด {{ cartTotalWithShipping }} บาท</div>
 
@@ -333,6 +328,13 @@
             @click="payWithTruemoney"
             >ชำระด้วย True Money
           </v-btn>
+          <v-btn
+            color="primary"
+            elevation="2"
+            :disabled="!$auth.loggedIn"
+            @click="payLaterConfirm = !payLaterConfirm"
+            >ชำระภายหลัง</v-btn
+          >
         </v-form>
       </tab-content>
       <template slot="footer" slot-scope="props">
@@ -377,6 +379,40 @@
         <div class="con-footer">
           <vs-button @click="save" transparent> ตกลง </vs-button>
           <vs-button @click="addressConfirm = false" dark transparent>
+            ยกเลิก
+          </vs-button>
+        </div>
+      </template>
+    </vs-dialog>
+    <!-- order Dialog -->
+    <vs-dialog width="550px" blur not-center v-model="orderConfirm">
+      <template #header>
+        <h4>ยืนยันการสั่งซื้อสินค้า</h4>
+      </template>
+
+      <div class="con-content"></div>
+
+      <template #footer>
+        <div class="con-footer">
+          <vs-button @click="makeOrder" transparent> ตกลง </vs-button>
+          <vs-button @click="orderConfirm = false" dark transparent>
+            ยกเลิก
+          </vs-button>
+        </div>
+      </template>
+    </vs-dialog>
+    <!-- paylater Dialog -->
+    <vs-dialog width="550px" blur not-center v-model="payLaterConfirm">
+      <template #header>
+        <h4>ต้องการชำระเงินภายหลังใช่หรือไม่ ?</h4>
+      </template>
+
+      <div class="con-content"></div>
+
+      <template #footer>
+        <div class="con-footer">
+          <vs-button @click="payLater" transparent> ตกลง </vs-button>
+          <vs-button @click="payLaterConfirm = false" dark transparent>
             ยกเลิก
           </vs-button>
         </div>
@@ -462,17 +498,64 @@ export default {
     },
   },
   methods: {
+    async makeOrder() {
+      //$refs.checkoutWizard.nextTab()
+      try {
+        this.$axios.setHeader('Authorization', this.$auth.getToken('local'))
+        let response = await this.$axios.post(
+          'http://maims.cmtc.ac.th:3000/api/customer/makeorder',
+          {
+            totalPrice: this.cartTotalWithShipping,
+            cart: this.cart,
+            email: this.$auth.user.email,
+            totalQuantity: this.cart.length,
+            estimatedDelivery: this.getEstimatedDelivery,
+            deliveryProvider: this.delivery,
+            deliveryAddress: this.getSelectedAddress[0].id,
+          }
+        )
+        if (response.data.success) {
+          //do something
+          //await this.$store.commit('clearCart')
+          await this.$store.commit('setCustomerOrderID', {
+            OrderID: response.data.orderID,
+          })
+          this.orderConfirm = false
+          const noti = await this.$vs.notification({
+            position: 'top-center',
+            icon: `<i class='bx bx-bell' ></i>`,
+            color: 'success',
+            width: '100%',
+            title: '<center>ทำการสั่งซื้อสำเร็จ</center>',
+            text: `<center>กำลังนำท่านไปสู่ชำระเงิน...</center>`,
+          })
+          this.$refs.checkoutWizard.nextTab()
+        }
+      } catch (err) {}
+    },
+    async payLater() {
+      const noti = await this.$vs.notification({
+        position: 'top-center',
+        icon: `<i class='bx bx-bell' ></i>`,
+        color: 'primary',
+        width: '100%',
+        title: '<center>กำลังนำท่านไปสู่หน้าหลัก...</center>',
+      })
+      await this.$store.commit('clearCustomerDetail')
+      this.$router.push({ path: '/' })
+    },
     async payWithCredit() {
       try {
         OmiseCard.open({
-          frameDescription: 'Invoice #8888',
+          frameDescription:
+            'รหัสการสั่งซื้อ: ' + this.$store.state.customerOrderID,
           defaultPaymentMethod: 'credit_card',
           amount: this.cartTotalWithShipping * 100,
           // submitFormTarget: '#checkout-form',
           onCreateTokenSuccess: async (token) => {
             this.$axios.setHeader('Authorization', this.$auth.getToken('local'))
             let response = await this.$axios.post(
-              'http://127.0.0.1:3000/api/customer/payment',
+              'http://maims.cmtc.ac.th:3000/api/customer/payment',
               {
                 token: token,
                 totalPrice: this.cartTotalWithShipping,
@@ -482,11 +565,13 @@ export default {
                 estimatedDelivery: this.getEstimatedDelivery,
                 deliveryProvider: this.delivery,
                 deliveryAddress: this.getSelectedAddress[0].id,
+                OrderID: this.$store.state.customerOrderID,
               }
             )
             if (response.data.success) {
               //do something
               await this.$store.commit('clearCart')
+              await this.$store.commit('clearCustomerDetail')
               const noti = await this.$vs.notification({
                 position: 'top-center',
                 icon: `<i class='bx bx-bell' ></i>`,
@@ -509,7 +594,8 @@ export default {
     async payWithIbanking() {
       try {
         OmiseCard.open({
-          frameDescription: 'Invoice #8888',
+          frameDescription:
+            'รหัสการสั่งซื้อ: ' + this.$store.state.customerOrderID,
           defaultPaymentMethod: 'internet_banking',
           amount: this.cartTotalWithShipping * 100,
           // submitFormTarget: '#checkout-form',
@@ -522,14 +608,15 @@ export default {
     async payWithTruemoney() {
       try {
         OmiseCard.open({
-          frameDescription: 'Invoice #8888',
+          frameDescription:
+            'รหัสการสั่งซื้อ: ' + this.$store.state.customerOrderID,
           defaultPaymentMethod: 'truemoney',
           amount: this.cartTotalWithShipping * 100,
-          // submitFormTarget: '#checkout-form',
+          //submitFormTarget: '#checkoutForm',
           onCreateTokenSuccess: async (token) => {
             this.$axios.setHeader('Authorization', this.$auth.getToken('local'))
             let response = await this.$axios.post(
-              'http://127.0.0.1:3000/api/customer/truepayment',
+              'http://maims.cmtc.ac.th:3000/api/customer/truepayment',
               {
                 token: token,
                 totalPrice: this.cartTotalWithShipping,
@@ -539,27 +626,31 @@ export default {
                 estimatedDelivery: this.getEstimatedDelivery,
                 deliveryProvider: this.delivery,
                 deliveryAddress: this.getSelectedAddress[0].id,
+                OrderID: this.$store.state.customerOrderID,
               }
             )
-            if (response.data.success) {
+            console.log('tokennnnnnn', token)
+            if (response.data.status === 'pending') {
               //do something
               await this.$store.commit('clearCart')
-               const noti = await this.$vs.notification({
-                    position: 'top-center',
-                    icon: `<i class='bx bx-bell' ></i>`,
-                    color: 'success',
-                    width: '100%',
-                    title: '<center>ชำระเงินด้วย True Wallet สำเร็จ</center>',
-                    text: `<center>กำลังนำท่านไปสู่หน้าหลัก...</center>`,
-                  })
+              const noti = await this.$vs.notification({
+                position: 'top-center',
+                icon: `<i class='bx bx-bell' ></i>`,
+                color: 'success',
+                width: '100%',
+                title: '<center>ชำระเงินด้วย True Wallet สำเร็จ</center>',
+                text: `<center>กำลังนำท่านไปสู่หน้าหลัก...</center>`,
+              })
 
               location.replace(`${response.data.authorize_uri}`)
+            } else if (response.data.status === 'failed') {
             }
-
             console.log(token)
           },
         })
-      } catch (err) {}
+      } catch (err) {
+        console.log(err)
+      }
     },
     async onChooseAddress() {
       console.log('testdata', this.selectAddress)
@@ -572,9 +663,8 @@ export default {
     },
     async save() {
       // if (this.$refs.formAddress.validate()) {
-      // if(this.$store.state.deliveryAddress){
-      //   this.disableForm = true
-      // }
+      this.disableForm = true
+
       this.addressConfirm = false
       this.saveAddressTrigger = true
       this.payBtn = false
@@ -669,7 +759,8 @@ export default {
       })
       // } else {
       //   console.log('fail')
-      //   this.addressConfirm = false}
+      //   this.addressConfirm = false
+      // }
     },
     reset() {
       this.$refs.formAddress.reset()
@@ -700,4 +791,58 @@ h4 {
     grid-column-gap: 30px !important;
   }
 }
+</style>
+
+<style lang="stylus">
+getColor(vsColor, alpha = 1)
+    unquote("rgba(var(--vs-"+vsColor+"), "+alpha+")")
+getVar(var)
+    unquote("var(--vs-"+var+")")
+.con-footer
+  display flex
+  align-items center
+  justify-content flex-end
+  .vs-button
+    margin 0px
+    .vs-button__content
+      padding 10px 30px
+    ~ .vs-button
+      margin-left 10px
+.not-margin
+  margin 0px
+  font-weight normal
+  padding 10px
+  padding-bottom 0px
+.con-content
+  width 100%
+  p
+    font-size .8rem
+    padding 0px 10px
+  .vs-checkbox-label
+    font-size .8rem
+  .vs-input-parent
+    width 100%
+  .vs-input-content
+    margin 10px 0px
+    width calc(100%)
+    .vs-input
+      width 100%
+.footer-dialog
+  display flex
+  align-items center
+  justify-content center
+  flex-direction column
+  width calc(100%)
+  .new
+    margin 0px
+    margin-top 20px
+    padding: 0px
+    font-size .7rem
+    a
+      color getColor('primary') !important
+      margin-left 6px
+      &:hover
+        text-decoration underline
+  .vs-button
+    margin 0px
 </style>

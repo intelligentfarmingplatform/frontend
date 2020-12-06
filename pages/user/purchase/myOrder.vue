@@ -16,15 +16,17 @@
                   <th class="text-left">Total Price</th>
                   <th class="text-left">ร้านค้า</th>
                   <th class="text-left">สถานะการจัดส่ง</th>
+                  <th class="text-left">ชำระเงิน</th>
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="item in listOrders" :key="item.id">
+                <tr v-for="(item,index) in listOrders" :key="item.id">
                   <td>{{ item.CustomerTransactions[0].orderNo }}</td>
                   <td>{{ item.totalQuantity }}</td>
                   <td>{{ item.totalPrice }}</td>
                   <td>{{ item.seller }}</td>
-                  <td>{{ item.CustomerDeliveries[0].orderStatus }}</td>
+                  <td>{{ item.CustomerDeliveries[0].orderStatus }} {{index+1}}</td>
+                  <td ><v-btn color="primary" v-show="item.CustomerDeliveries[0].orderStatus==='Pending'">ชำระเงิน</v-btn></td>
                 </tr>
               </tbody>
             </template>

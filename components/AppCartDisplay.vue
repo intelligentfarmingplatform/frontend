@@ -157,7 +157,7 @@ export default {
     ...mapState(['cart']),
   },
   mounted() {
-    //console.log('getter', this.cartItems('eiei'))
+    console.log('getter', this.cartItems('eiei'))
     this.cardItem.push({ id: 5, name: 'ขนม' }, { id: 5, name: 'ขนม' })
     this.cardData = this.$store.state.cart
 

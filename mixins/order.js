@@ -2,6 +2,8 @@ import { mapActions, mapGetters, mapState } from 'vuex'
 import Axios from 'axios'
 export default {
   data: () => ({
+    payLaterConfirm:false,
+    orderConfirm: false,
     addressConfirm: false,
     input1: '',
     input2: '',
@@ -36,41 +38,38 @@ export default {
     ]),
   },
   methods: {
-//     async onPurchase() {
-// await  this.creditCardConfigure()
-// await OmiseCard.configureButton('#checkout-button');
-      // try {
-      //   this.$axios.setHeader('Authorization', this.$auth.getToken('local'))
-      //   let token = await this.stripe.createToken(this.card)
-      //   let response = await this.$axios.post(
-      //     'http://maims.cmtc.ac.th:3000/api/customer/payment',
-      //     {
-      //       token: token,
-      //       totalPrice: this.cartTotalWithShipping,
-      //       cart: this.cart,
-      //       email: this.$auth.user.email,
-      //       totalQuantity: this.cart.length,
-      //       estimatedDelivery: this.getEstimatedDelivery,
-      //       deliveryProvider: this.delivery,
-      //       deliveryAddress: this.getSelectedAddress[0].id
-      //     }
-      //   )
-      //   if (response.data.success) {
-      //     //do something
-      //     this.$store.commit('clearCart')
-      //     this.$router.push({ path: '/' })
-      //   }
-      // } catch (err) {
-      //   console.log(err)
-      // }
+    //     async onPurchase() {
+    // await  this.creditCardConfigure()
+    // await OmiseCard.configureButton('#checkout-button');
+    // try {
+    //   this.$axios.setHeader('Authorization', this.$auth.getToken('local'))
+    //   let token = await this.stripe.createToken(this.card)
+    //   let response = await this.$axios.post(
+    //     'http://maims.cmtc.ac.th:3000/api/customer/payment',
+    //     {
+    //       token: token,
+    //       totalPrice: this.cartTotalWithShipping,
+    //       cart: this.cart,
+    //       email: this.$auth.user.email,
+    //       totalQuantity: this.cart.length,
+    //       estimatedDelivery: this.getEstimatedDelivery,
+    //       deliveryProvider: this.delivery,
+    //       deliveryAddress: this.getSelectedAddress[0].id
+    //     }
+    //   )
+    //   if (response.data.success) {
+    //     //do something
+    //     this.$store.commit('clearCart')
+    //     this.$router.push({ path: '/' })
+    //   }
+    // } catch (err) {
+    //   console.log(err)
+    // }
     // },
     async onChooseShipping() {
-      await Axios.post(
-        'http://maims.cmtc.ac.th:3000/api/customer/shipment',
-        {
-          shipment: this.delivery,
-        }
-      )
+      await Axios.post('http://maims.cmtc.ac.th:3000/api/customer/shipment', {
+        shipment: this.delivery,
+      })
         .then((response) => {
           this.Loaded = true
           console.log('datafrom fetch', response.data)
@@ -78,8 +77,8 @@ export default {
             price: response.data.shipment.price,
             estimatedDelivery: response.data.shipment.estimated,
           })
-            ; (this.shippingPrice = response.data.shipment.price),
-              (this.estimatedDelivery = response.data.shipment.estimated)
+          ;(this.shippingPrice = response.data.shipment.price),
+            (this.estimatedDelivery = response.data.shipment.estimated)
           this.Loaded = false
         })
         .catch((err) => {

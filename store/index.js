@@ -12,6 +12,7 @@ const userService = new productProvider()
 // })
 
 export const state = () => ({
+  customerOrderID: '',
   CustomerAddresses: [],
   cartUIStatus: 'idle',
   products: [],
@@ -61,12 +62,12 @@ export const getters = {
       //return state.cart.find(i=> i.nameseller === name)
       return {
         seller: item.nameseller,
-        items:[{id: item.id, quantity: item.quantity}]
+        items: [{ id: item.id, quantity: item.quantity }],
       }
     })
   },
-  getCartItems: (state)=> (name) =>{
-    return getters.cartItems.find(cartItem => cartItem.seller === name)
+  getCartItems: (state) => (name) => {
+    return getters.cartItems.find((cartItem) => cartItem.seller === name)
   },
   getEstimatedDelivery(state) {
     return state.shippingEstimatedDelivery
@@ -78,12 +79,34 @@ export const getters = {
 }
 
 export const mutations = {
+  setCustomerOrderID(state, { OrderID }) {
+    state.customerOrderID = OrderID
+  },
   setShipping(state, { price, estimatedDelivery }) {
-    ; (state.shippingPrice = price),
+    ;(state.shippingPrice = price),
       (state.shippingEstimatedDelivery = estimatedDelivery)
   },
-  setDeliveryAddress(state, { fullName, streetAddress, district, province, zipCode, phoneNumber, noteToDelivery }) {
-    state.deliveryAddress = { fullName, streetAddress, district, province, zipCode, phoneNumber, noteToDelivery }
+  setDeliveryAddress(
+    state,
+    {
+      fullName,
+      streetAddress,
+      district,
+      province,
+      zipCode,
+      phoneNumber,
+      noteToDelivery,
+    }
+  ) {
+    state.deliveryAddress = {
+      fullName,
+      streetAddress,
+      district,
+      province,
+      zipCode,
+      phoneNumber,
+      noteToDelivery,
+    }
   },
   setSaveDatabase(state, { addToDatabase }) {
     state.saveToDatabase = addToDatabase
@@ -105,10 +128,14 @@ export const mutations = {
   },
   clearCart: (state) => {
     //this clears the cart
-    ; (state.cart = []),
+    ;(state.cart = []),
       (state.cartUIStatus = 'idle'),
       (state.shippingPrice = 0),
       (state.shippingEstimatedDelivery = '')
+  },
+  clearCustomerDetail: (state) => {
+      (state.customerOrderID = ''),
+      (state.CustomerAddresses = [])
   },
   addToCart: (state, payload) => {
     let itemfound = state.cart.find((el) => el.id === payload.id)
@@ -125,14 +152,13 @@ export const mutations = {
   },
   removeOneFromCart: (state, payload) => {
     let index = state.cart.findIndex((el) => el.id === payload.id)
-    if(state.cart[index].quantity===1){
+    if (state.cart[index].quantity === 1) {
       state.cart = state.cart.filter((el) => el.id !== payload.id)
     } else {
       state.cart[index].quantity
-      ? state.cart[index].quantity--
-      : state.cart.splice(index, 1)
+        ? state.cart[index].quantity--
+        : state.cart.splice(index, 1)
     }
-
   },
   removeAllFromCart: (state, payload) => {
     state.cart = state.cart.filter((el) => el.id !== payload.id)
@@ -158,6 +184,7 @@ export const actions = {
         commit('SET_PRODUCTS', products)
       })
   },
+
   // async getProduct({ commit }) {
   //   const products = await userService.getProduct()
   //   commit('SET_PRODUCT', products)
