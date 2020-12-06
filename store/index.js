@@ -58,11 +58,10 @@ export const getters = {
   cartItems: (state) => (name) => {
     if (!state.cart.length) return []
     return state.cart.map((item) => {
-     const sellerfound = state.cart.find(i=> i.nameseller === name)
-     console.log(sellerfound)
+      //return state.cart.find(i=> i.nameseller === name)
       return {
-        seller: sellerfound.nameseller,
-        items:[{id: item.id, quantity: item.quantity}].push({id:item.id})
+        seller: item.nameseller,
+        items:[{id: item.id, quantity: item.quantity}]
       }
     })
   },
@@ -126,9 +125,14 @@ export const mutations = {
   },
   removeOneFromCart: (state, payload) => {
     let index = state.cart.findIndex((el) => el.id === payload.id)
-    state.cart[index].quantity
+    if(state.cart[index].quantity===1){
+      state.cart = state.cart.filter((el) => el.id !== payload.id)
+    } else {
+      state.cart[index].quantity
       ? state.cart[index].quantity--
       : state.cart.splice(index, 1)
+    }
+
   },
   removeAllFromCart: (state, payload) => {
     state.cart = state.cart.filter((el) => el.id !== payload.id)

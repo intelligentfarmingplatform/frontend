@@ -5,58 +5,50 @@
         <v-row no-gutters>
           <v-col>
             <div class="haderpeng">
-            
-              <v-card v-for="(card, index) in cardData" :key="card.id">
-             
+              <v-card v-for="(card, index) in detailsWithSubTotal" :key="card.id">
                 <p>
-                  ตะกร้า {{ index + 1 }}/{{ cardData.length }}
+                  ตะกร้า {{ index + 1 }}/{{ detailsWithSubTotal.length }}
                   จากร้าน
-                  {{ card.nameseller }} {{card.length}} ชิ้น
-                  
+                  {{ card.nameseller }} {{ card.quantity }} ชิ้น ราคา {{card.productprice*card.quantity}}
                 </p>
-                 {{cardData[index].nameseller}} vs {{cartItems(cardData[index].nameseller)}}
                 <div>
-                 <!-- <v-row v-for="item in card.item" :key="item.id">
+                  <!-- <v-row v-for="item in card.item" :key="item.id">
                     <v-col>
                       {{ item.itemname }}
                     </v-col>
                   </v-row> -->
-                 
-                  <div>
-                   <v-row v-for="item in cardData" :key="item.id">
-                   {{item.seller}}
-                  <v-col cols="12" md="4">
-                    <img
-                      class=""
-                      :src="`http://maims.cmtc.ac.th:3000/product/${card.productimg}`"
-                      alt="John"
-                      height="155rem"
-                    /><br />
-                    {{ item.productname }}<br />
-                    {{ item.nameseller }}<br />
-                    ราคา {{ card.productprice }} บาท
-                  </v-col>
-                  <v-col cols="12" md="4" class="label1">
-                    <label class="">
-                      <button
-                        @click="removeOneFromCart(card)"
-                        class="quantity-adjust"
+                  <v-row>
+                    <v-col cols="12" md="4">
+                      <img
+                        class=""
+                        :src="`http://maims.cmtc.ac.th:3000/product/${card.productimg}`"
+                        alt="John"
+                        height="155rem"
+                      /><br />
+                      {{ card.productname }}<br />
+                      {{ card.nameseller }}<br />
+                      ราคา {{ card.productprice }} บาท
+                    </v-col>
+                    <v-col cols="12" md="4" class="label1">
+                      <label class="">
+                        <button
+                          @click="removeOneFromCart(card),$nuxt.refresh()"
+                          class="quantity-adjust"
+                        >
+                          -
+                        </button>
+                        {{ card.quantity }}
+                        <button @click="addToCart(card),$nuxt.refresh()" class="quantity-adjust">
+                          +
+                        </button>
+                      </label>
+                    </v-col>
+                    <v-col cols="12" md="4" class="label1">
+                      <v-icon @click="removeAllFromCart(card),$nuxt.refresh()" color="#FF6347"
+                        >mdi-delete</v-icon
                       >
-                        -
-                      </button>
-                      {{ card.quantity }}
-                      <button @click="addToCart(i)" class="quantity-adjust">
-                        +
-                      </button>
-                    </label>
-                  </v-col>
-                  <v-col cols="12" md="4" class="label1">
-                    <v-icon @click="removeAllFromCart(card)" color="#FF6347"
-                      >mdi-delete</v-icon
-                    >
-                  </v-col>
-                </v-row> 
-                  </div>
+                    </v-col>
+                  </v-row>
                 </div>
               </v-card>
 
@@ -146,7 +138,14 @@ export default {
     cardData: [],
     sellerData: [],
     cardOrder: [
-      { id: 1, name: 'ขนมไทย', item: [{ id: 1, itemname: 'ขนม555' },{ id: 2, itemname: 'ขนม666' }  ]},
+      {
+        id: 1,
+        name: 'ขนมไทย',
+        item: [
+          { id: 1, itemname: 'ขนม555' },
+          { id: 2, itemname: 'ขนม666' },
+        ],
+      },
       { id: 2, name: 'อาหารไทย', item: [{ id: 1, itemname: 'อาหาร555' }] },
       { id: 3, name: 'ผักสด', item: [{ id: 1, itemname: 'ผัก555' }] },
       { id: 4, name: 'ผักสด', item: [{ id: 1, itemname: 'ผัก666' }] },
@@ -156,22 +155,12 @@ export default {
   computed: {
     ...mapGetters(['cartItems']),
     ...mapState(['cart']),
-    seller(index) {
-      const pseller = this.cardData.forEach((i) => {
-        i.nameseller
-        this.pseller = i.nameseller
-        console.log(this.pseller)
-      })
-      const sseller = this.cart.filter((i) => i.nameseller === pseller)
-      console.log(sseller)
-      return sseller
-    },
   },
   mounted() {
-    console.log('getter',this.cartItems('eiei'))
+    //console.log('getter', this.cartItems('eiei'))
     this.cardItem.push({ id: 5, name: 'ขนม' }, { id: 5, name: 'ขนม' })
-    ;(this.cardData = this.$store.state.cart)
-     
+    this.cardData = this.$store.state.cart
+
     //console.log('getter', this.test)
   },
   // async asyncData({Axios,state}) {
