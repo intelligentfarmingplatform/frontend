@@ -4,48 +4,67 @@
       <section>
         <v-row no-gutters>
           <v-col>
-            <div
-              class="haderpeng"
-              v-for="item in detailsWithSubTotal"
-              :key="item.id"
-            >
-              <v-card class="">
-                <v-row >
+            <div class="haderpeng">
+            
+              <v-card v-for="(card, index) in cardData" :key="card.id">
+             
+                <p>
+                  ตะกร้า {{ index + 1 }}/{{ cardData.length }}
+                  จากร้าน
+                  {{ card.nameseller }} {{card.length}} ชิ้น
+                  
+                </p>
+                 {{cardData[index].nameseller}} vs {{cartItems(cardData[index].nameseller)}}
+                <div>
+                 <!-- <v-row v-for="item in card.item" :key="item.id">
+                    <v-col>
+                      {{ item.itemname }}
+                    </v-col>
+                  </v-row> -->
+                 
+                  <div>
+                   <v-row v-for="item in cardData" :key="item.id">
+                   {{item.seller}}
                   <v-col cols="12" md="4">
                     <img
                       class=""
-                      :src="`http://maims.cmtc.ac.th:3000/product/${item.productimg}`"
+                      :src="`http://maims.cmtc.ac.th:3000/product/${card.productimg}`"
                       alt="John"
                       height="155rem"
-                    /><br>
-                    {{ item.productname }}<br>
-                    จากร้าน {{ item.nameseller }}<br>
-                     ราคา {{ item.productprice }} บาท
+                    /><br />
+                    {{ item.productname }}<br />
+                    {{ item.nameseller }}<br />
+                    ราคา {{ card.productprice }} บาท
                   </v-col>
                   <v-col cols="12" md="4" class="label1">
                     <label class="">
-
                       <button
-                        @click="removeOneFromCart(item)"
+                        @click="removeOneFromCart(card)"
                         class="quantity-adjust"
                       >
                         -
                       </button>
-                      {{ item.quantity }}
-                      <button @click="addToCart(item)" class="quantity-adjust">
+                      {{ card.quantity }}
+                      <button @click="addToCart(i)" class="quantity-adjust">
                         +
                       </button>
                     </label>
                   </v-col>
-                  <v-col cols="12" md="4" class="label1" >
-                    <v-icon @click="removeAllFromCart(item)" color="#FF6347"
+                  <v-col cols="12" md="4" class="label1">
+                    <v-icon @click="removeAllFromCart(card)" color="#FF6347"
                       >mdi-delete</v-icon
                     >
                   </v-col>
-                </v-row>
+                </v-row> 
+                  </div>
+                </div>
               </v-card>
+
+              <div v-show="cartTotal">
+                ทั้งหมด {{ cartTotal }} บาท (ยังไม่รวมค่าจัดส่ง)
+              </div>
             </div>
-            ทั้งหมด {{cartTotal}} บาท (ยังไม่รวมค่าจัดส่ง)
+
             <!-- <v-simple-table fixed-header>
               <template v-slot:default>
                 <thead>
@@ -119,10 +138,42 @@
 
 <script>
 import orderMixin from '~/mixins/order'
-
+import { mapState, mapGetters } from 'vuex'
 export default {
   mixins: [orderMixin],
-  data: () => ({}),
+  data: () => ({
+    test: [],
+    cardData: [],
+    sellerData: [],
+    cardOrder: [
+      { id: 1, name: 'ขนมไทย', item: [{ id: 1, itemname: 'ขนม555' },{ id: 2, itemname: 'ขนม666' }  ]},
+      { id: 2, name: 'อาหารไทย', item: [{ id: 1, itemname: 'อาหาร555' }] },
+      { id: 3, name: 'ผักสด', item: [{ id: 1, itemname: 'ผัก555' }] },
+      { id: 4, name: 'ผักสด', item: [{ id: 1, itemname: 'ผัก666' }] },
+    ],
+    cardItem: [],
+  }),
+  computed: {
+    ...mapGetters(['cartItems']),
+    ...mapState(['cart']),
+    seller(index) {
+      const pseller = this.cardData.forEach((i) => {
+        i.nameseller
+        this.pseller = i.nameseller
+        console.log(this.pseller)
+      })
+      const sseller = this.cart.filter((i) => i.nameseller === pseller)
+      console.log(sseller)
+      return sseller
+    },
+  },
+  mounted() {
+    console.log('getter',this.cartItems('eiei'))
+    this.cardItem.push({ id: 5, name: 'ขนม' }, { id: 5, name: 'ขนม' })
+    ;(this.cardData = this.$store.state.cart)
+     
+    //console.log('getter', this.test)
+  },
   // async asyncData({Axios,state}) {
   //   try {
   //     let response = await Axios.post('http://127.0.0.1:4000/api/shipment', {
@@ -139,7 +190,6 @@ export default {
   //     }
   //   } catch (err) {}
   // },
-  components: {},
 }
 </script>
 
@@ -158,7 +208,6 @@ export default {
   .subtitle {
     font-size: 1rem;
   }
-
 }
 .addressDetail {
   display: flex;

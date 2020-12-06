@@ -18,21 +18,20 @@ import AppFeaturedProducts from '~/components/AppFeaturedProducts.vue'
 import orderMixin from '~/mixins/order'
 import { mapState } from 'vuex'
 export default {
+
   components: {
     AppCartDisplay,
     AppCartSteps,
     AppFeaturedProducts,
   },
-  mounted() {
-    return { testdata: this.dataFromAsyncdata }
-  },
+
   async asyncData({ $axios, store, $auth }) {
     await $auth.fetchUser()
-    console.log('asyncedata')
+    console.log('asyncdata')
     try {
       if ($auth.loggedIn === true) {
         await store.commit('setCustomerAddress', {
-          CustomerAddress: $auth.state.user.CustomerAddresses,
+          CustomerAddress: $auth.$state.user.CustomerAddresses,
         })
         const config = {
           headers: {
@@ -46,7 +45,7 @@ export default {
       }
 
       let response = await $axios.post(
-        'http://maims.cmtc.ac.th:3000/api/shipment',
+        'http://maims.cmtc.ac.th:3000/api/customer/shipment',
         {
           shipment: 'normal',
         }

@@ -104,7 +104,7 @@ export default {
         console.log(response.data.success)
         if (response.data.success) {
           await this.$store.commit('setCustomerAddress',{
-            CustomerAddress: this.$auth.state.user.CustomerAddresses
+            CustomerAddress: this.$auth.$state.user.CustomerAddresses
           })
           this.loginActive = false
           const noti = this.$vs.notification({

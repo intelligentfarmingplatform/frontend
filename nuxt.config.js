@@ -7,7 +7,9 @@ export default {
    */
   head: {
     title: 'Intelligent Farming Platform',
-    script: [{ src: 'https://js.stripe.com/v3' }],
+    script: [{ src: 'https://js.stripe.com/v3' },{
+      src: 'https://cdn.omise.co/omise.js'
+    }],
     htmlAttrs: {
       lang: 'en',
     },

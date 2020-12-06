@@ -50,7 +50,7 @@
                     <v-container>
                       <v-row>
                         <v-col cols="12" sm="6" md="12">
-                          {{ testdata }}
+                         
                           <v-select
                             v-model="select"
                             label="ข้อมูลเดิม"
@@ -310,14 +310,30 @@
 
         <div>รวมทั้งหมด {{ cartTotalWithShipping }} บาท</div>
 
-        <div ref="card"></div>
-        <v-btn
-          color="primary"
-          elevation="2"
-          :disabled="!$auth.loggedIn"
-          @click="onPurchase"
-          >ยืนยันการสั่งซื้อ</v-btn
-        >
+        <!-- <div ref="card"></div> -->
+        <v-form>
+          <v-btn
+            color="primary"
+            elevation="2"
+            :disabled="!$auth.loggedIn"
+            @click="payWithCredit"
+            >ชำระด้วยบัตรเครดิต</v-btn
+          >
+          <v-btn
+            color="primary"
+            elevation="2"
+            :disabled="!$auth.loggedIn"
+            @click="payWithIbanking"
+            >ชำระด้วย Ibanking
+          </v-btn>
+          <v-btn
+            color="primary"
+            elevation="2"
+            :disabled="!$auth.loggedIn"
+            @click="payWithTruemoney"
+            >ชำระด้วย True Money
+          </v-btn>
+        </v-form>
       </tab-content>
       <template slot="footer" slot-scope="props">
         <div class="wizard-footer-left">
@@ -369,16 +385,16 @@
   </section>
 </template>
 
-
-
 <script>
 import { mapState, mapGetters } from 'vuex'
 import AppCartDisplay from '~/components/AppCartDisplay.vue'
+import payment from '~/components/payment.vue'
 import orderMixin from '~/mixins/order'
 export default {
   mixins: [orderMixin],
   components: {
     AppCartDisplay,
+    payment,
   },
   data() {
     return {
@@ -421,14 +437,19 @@ export default {
     }
   },
   mounted() {
-    this.stripe = Stripe(
-      'pk_test_51Hg9lmAFMKlS8CSVt1AbCsoCYIz3CFIrcV0tddZirj0H7rnBHxqwv8eOIYDBoygBUTlCdg4axOMnZsLSD6tmXlro009D4jrTF4'
-    )
-    let elements = this.stripe.elements()
-    this.card = elements.create('card')
-    // Add an instance of the card Element into the `card-element` <div>
-    this.card.mount(this.$refs.card)
-    //console.log(this.$auth.getToken('local'))
+    OmiseCard.configure({
+      publicKey: 'pkey_test_5m1f223eyg5wo0sxhb8',
+      currency: 'THB',
+    })
+
+    // this.stripe = Stripe(
+    //   'pk_test_51Hg9lmAFMKlS8CSVt1AbCsoCYIz3CFIrcV0tddZirj0H7rnBHxqwv8eOIYDBoygBUTlCdg4axOMnZsLSD6tmXlro009D4jrTF4'
+    // )
+    // let elements = this.stripe.elements()
+    // this.card = elements.create('card')
+    // // Add an instance of the card Element into the `card-element` <div>
+    // this.card.mount(this.$refs.card)
+    // //console.log(this.$auth.getToken('local'))
     if (this.$store.state.shippingPrice) {
       this.Loaded = false
     }
@@ -441,6 +462,105 @@ export default {
     },
   },
   methods: {
+    async payWithCredit() {
+      try {
+        OmiseCard.open({
+          frameDescription: 'Invoice #8888',
+          defaultPaymentMethod: 'credit_card',
+          amount: this.cartTotalWithShipping * 100,
+          // submitFormTarget: '#checkout-form',
+          onCreateTokenSuccess: async (token) => {
+            this.$axios.setHeader('Authorization', this.$auth.getToken('local'))
+            let response = await this.$axios.post(
+              'http://127.0.0.1:3000/api/customer/payment',
+              {
+                token: token,
+                totalPrice: this.cartTotalWithShipping,
+                cart: this.cart,
+                email: this.$auth.user.email,
+                totalQuantity: this.cart.length,
+                estimatedDelivery: this.getEstimatedDelivery,
+                deliveryProvider: this.delivery,
+                deliveryAddress: this.getSelectedAddress[0].id,
+              }
+            )
+            if (response.data.success) {
+              //do something
+              await this.$store.commit('clearCart')
+              const noti = await this.$vs.notification({
+                position: 'top-center',
+                icon: `<i class='bx bx-bell' ></i>`,
+                color: 'success',
+                width: '100%',
+                title: '<center>ชำระเงินด้วยบัตรเครดิตสำเร็จ</center>',
+                text: `<center>กำลังนำท่านไปสู่หน้าหลัก...</center>`,
+              })
+              this.$router.push({ path: '/' })
+            }
+
+            console.log(token)
+          },
+          // onFormClosed: async () => {
+
+          // },
+        })
+      } catch (err) {}
+    },
+    async payWithIbanking() {
+      try {
+        OmiseCard.open({
+          frameDescription: 'Invoice #8888',
+          defaultPaymentMethod: 'internet_banking',
+          amount: this.cartTotalWithShipping * 100,
+          // submitFormTarget: '#checkout-form',
+          onCreateTokenSuccess: (token) => {
+            console.log(token)
+          },
+        })
+      } catch (err) {}
+    },
+    async payWithTruemoney() {
+      try {
+        OmiseCard.open({
+          frameDescription: 'Invoice #8888',
+          defaultPaymentMethod: 'truemoney',
+          amount: this.cartTotalWithShipping * 100,
+          // submitFormTarget: '#checkout-form',
+          onCreateTokenSuccess: async (token) => {
+            this.$axios.setHeader('Authorization', this.$auth.getToken('local'))
+            let response = await this.$axios.post(
+              'http://127.0.0.1:3000/api/customer/truepayment',
+              {
+                token: token,
+                totalPrice: this.cartTotalWithShipping,
+                cart: this.cart,
+                email: this.$auth.user.email,
+                totalQuantity: this.cart.length,
+                estimatedDelivery: this.getEstimatedDelivery,
+                deliveryProvider: this.delivery,
+                deliveryAddress: this.getSelectedAddress[0].id,
+              }
+            )
+            if (response.data.success) {
+              //do something
+              await this.$store.commit('clearCart')
+               const noti = await this.$vs.notification({
+                    position: 'top-center',
+                    icon: `<i class='bx bx-bell' ></i>`,
+                    color: 'success',
+                    width: '100%',
+                    title: '<center>ชำระเงินด้วย True Wallet สำเร็จ</center>',
+                    text: `<center>กำลังนำท่านไปสู่หน้าหลัก...</center>`,
+                  })
+
+              location.replace(`${response.data.authorize_uri}`)
+            }
+
+            console.log(token)
+          },
+        })
+      } catch (err) {}
+    },
     async onChooseAddress() {
       console.log('testdata', this.selectAddress)
       await (this.addressForm.fullName = this.selectAddress[0].fullName),
@@ -452,101 +572,101 @@ export default {
     },
     async save() {
       // if (this.$refs.formAddress.validate()) {
-        // if(this.$store.state.deliveryAddress){
-        //   this.disableForm = true
-        // }
-        this.addressConfirm = false
-        this.saveAddressTrigger = true
-        this.payBtn = false
-        await (this.defaultForm.fullName = this.addressForm.fullName),
-          (this.defaultForm.district = this.addressForm.district),
-          (this.defaultForm.province = this.addressForm.province),
-          (this.defaultForm.streetAddress = this.addressForm.streetAddress),
-          (this.defaultForm.zipCode = this.addressForm.zipCode),
-          (this.defaultForm.phoneNumber = this.addressForm.phoneNumber),
-          (this.defaultForm.noteToDelivery = this.addressForm.noteToDelivery)
-        if (
-          this.addressForm.addToDatabase === true &&
-          this.$auth.loggedIn === true
-        ) {
-          const config = {
-            headers: {
-              Authorization: this.$auth.getToken('local'),
-            },
-          }
-          console.log('save database true')
-          await this.$store.commit('setSaveDatabase', {
-            addToDatabase: true,
-          })
-          try {
-            let response = await this.$axios.post(
-              'http://maims.cmtc.ac.th:3000/api/customer/address',
-              {
-                fullName: this.defaultForm.fullName,
-                streetAddress: this.defaultForm.streetAddress,
-                district: this.defaultForm.district,
-                province: this.defaultForm.province,
-                zipCode: this.defaultForm.zipCode,
-                phoneNumber: this.defaultForm.phoneNumber,
-              },
-              config
-            )
-            console.log('datafrom add address', response.data.success)
-            if (response.data.success) {
-              await this.$auth.fetchUser()
-              ;(await this.defaultForm.setDefault) === false,
-                (await this.defaultForm.addToDatabase) === false,
-                (await this.disableForm) === true
-              ;(await this.payBtn) === false
-              //this.$refs.formAddress.reset()
-              const noti = this.$vs.notification({
-                position: 'top-center',
-                icon: `<i class='bx bx-bell' ></i>`,
-                color: 'success',
-                width: '100%',
-                title: '<center>เพิ่มที่อยู่สำเร็จ</center>',
-                text: `<center>กรุณารอสักครู่...</center>`,
-              })
-            }
-          } catch (err) {
-            if ((this.error = err.response.data.success === false)) {
-              const noti = this.$vs.notification({
-                position: 'top-center',
-                color: 'danger',
-                width: '100%',
-                title: '<center>เกิดข้อผิดพลาด</center>',
-                text: '<center>' + err.response.data.message + '</center>',
-              })
-            }
-          }
-          if (this.addressForm.setDefault === true) {
-            console.log('setDefault true')
-            await this.$store.commit('setSetDefault', {
-              setDefault: true,
-            })
-          } else {
-            await this.$store.commit('setSetDefault', {
-              setDefault: false,
-            })
-            console.log('setDefault false')
-          }
-        } else {
-          await this.$store.commit('setSaveDatabase', {
-            addToDatabase: false,
-          }),
-            await this.$store.commit('setSetDefault', {
-              setDefault: false,
-            })
+      // if(this.$store.state.deliveryAddress){
+      //   this.disableForm = true
+      // }
+      this.addressConfirm = false
+      this.saveAddressTrigger = true
+      this.payBtn = false
+      await (this.defaultForm.fullName = this.addressForm.fullName),
+        (this.defaultForm.district = this.addressForm.district),
+        (this.defaultForm.province = this.addressForm.province),
+        (this.defaultForm.streetAddress = this.addressForm.streetAddress),
+        (this.defaultForm.zipCode = this.addressForm.zipCode),
+        (this.defaultForm.phoneNumber = this.addressForm.phoneNumber),
+        (this.defaultForm.noteToDelivery = this.addressForm.noteToDelivery)
+      if (
+        this.addressForm.addToDatabase === true &&
+        this.$auth.loggedIn === true
+      ) {
+        const config = {
+          headers: {
+            Authorization: this.$auth.getToken('local'),
+          },
         }
-        await this.$store.commit('setDeliveryAddress', {
-          fullName: this.defaultForm.fullName,
-          district: this.defaultForm.district,
-          province: this.defaultForm.province,
-          streetAddress: this.defaultForm.streetAddress,
-          zipCode: this.defaultForm.zipCode,
-          phoneNumber: this.defaultForm.phoneNumber,
-          noteToDelivery: this.defaultForm.noteToDelivery,
+        console.log('save database true')
+        await this.$store.commit('setSaveDatabase', {
+          addToDatabase: true,
         })
+        try {
+          let response = await this.$axios.post(
+            'http://maims.cmtc.ac.th:3000/api/customer/address',
+            {
+              fullName: this.defaultForm.fullName,
+              streetAddress: this.defaultForm.streetAddress,
+              district: this.defaultForm.district,
+              province: this.defaultForm.province,
+              zipCode: this.defaultForm.zipCode,
+              phoneNumber: this.defaultForm.phoneNumber,
+            },
+            config
+          )
+          console.log('datafrom add address', response.data.success)
+          if (response.data.success) {
+            await this.$auth.fetchUser()
+            ;(await this.defaultForm.setDefault) === false,
+              (await this.defaultForm.addToDatabase) === false,
+              (await this.disableForm) === true
+            ;(await this.payBtn) === false
+            //this.$refs.formAddress.reset()
+            const noti = this.$vs.notification({
+              position: 'top-center',
+              icon: `<i class='bx bx-bell' ></i>`,
+              color: 'success',
+              width: '100%',
+              title: '<center>เพิ่มที่อยู่สำเร็จ</center>',
+              text: `<center>กรุณารอสักครู่...</center>`,
+            })
+          }
+        } catch (err) {
+          if ((this.error = err.response.data.success === false)) {
+            const noti = this.$vs.notification({
+              position: 'top-center',
+              color: 'danger',
+              width: '100%',
+              title: '<center>เกิดข้อผิดพลาด</center>',
+              text: '<center>' + err.response.data.message + '</center>',
+            })
+          }
+        }
+        if (this.addressForm.setDefault === true) {
+          console.log('setDefault true')
+          await this.$store.commit('setSetDefault', {
+            setDefault: true,
+          })
+        } else {
+          await this.$store.commit('setSetDefault', {
+            setDefault: false,
+          })
+          console.log('setDefault false')
+        }
+      } else {
+        await this.$store.commit('setSaveDatabase', {
+          addToDatabase: false,
+        }),
+          await this.$store.commit('setSetDefault', {
+            setDefault: false,
+          })
+      }
+      await this.$store.commit('setDeliveryAddress', {
+        fullName: this.defaultForm.fullName,
+        district: this.defaultForm.district,
+        province: this.defaultForm.province,
+        streetAddress: this.defaultForm.streetAddress,
+        zipCode: this.defaultForm.zipCode,
+        phoneNumber: this.defaultForm.phoneNumber,
+        noteToDelivery: this.defaultForm.noteToDelivery,
+      })
       // } else {
       //   console.log('fail')
       //   this.addressConfirm = false}

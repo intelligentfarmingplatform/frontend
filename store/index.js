@@ -55,14 +55,19 @@ export const getters = {
       ) + state.shippingPrice
     )
   },
-  cartItems: (state) => {
+  cartItems: (state) => (name) => {
     if (!state.cart.length) return []
     return state.cart.map((item) => {
+     const sellerfound = state.cart.find(i=> i.nameseller === name)
+     console.log(sellerfound)
       return {
-        id: item._id,
-        quantity: item.quantity,
+        seller: sellerfound.nameseller,
+        items:[{id: item.id, quantity: item.quantity}].push({id:item.id})
       }
     })
+  },
+  getCartItems: (state)=> (name) =>{
+    return getters.cartItems.find(cartItem => cartItem.seller === name)
   },
   getEstimatedDelivery(state) {
     return state.shippingEstimatedDelivery

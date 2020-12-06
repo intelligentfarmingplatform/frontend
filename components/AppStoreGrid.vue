@@ -62,7 +62,6 @@ export default {
       search: '',
     }
   },
-
   computed: {
     ...mapState(['products']),
   },
