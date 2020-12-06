@@ -1,10 +1,10 @@
 <template>
   <div class="main-app">
     <div class="flex justify-center">
-      <div class="max-w-screen-lg flex flex-col min-h-screen w-full">
+      <div class="back">
         <AppNav />
         <Nuxt />
-        <MiniCartFab />
+        <!-- <MiniCartFab /> -->
         <AppSpeedDial />
       </div>
       <AppFooter />
@@ -38,5 +38,8 @@ export default {
 html,body {
   height: 100%;
   font-family: 'prompt';
+}
+.back {
+  background-color:#f4f7f8;
 }
 </style>

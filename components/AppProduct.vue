@@ -89,3 +89,9 @@ export default {
   width: 100%;
 }
 </style>
+
+<style scoped>
+h3 {
+  word-wrap: break-word;
+}
+</style>

@@ -70,12 +70,15 @@ export default {
 
 <style scoped>
 .product-item {
-  padding: 20px;
+  padding: 10px;
 }
 .storegrid {
   margin: 10px;
   justify-self: center;
   align-self: center;
   text-align: center;
+}
+h3 {
+  word-wrap: break-word;
 }
 </style>

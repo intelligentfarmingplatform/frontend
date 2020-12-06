@@ -1,7 +1,7 @@
 <template>
   <div class="Nav">
     <vs-navbar
-      color="#32CD32"
+      color="#00B3CA"
       text-white
       shadow
       shadowScroll
@@ -12,7 +12,7 @@
       v-model="active"
     >
       <template #left>
-        <h3>Intelligent Farming</h3>
+        <h3>Modern Agricultural Industry</h3>
       </template>
       <template>
         <vs-navbar-item :active="active == 'primary'" id="primary" to="/">

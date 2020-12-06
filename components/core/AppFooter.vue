@@ -20,7 +20,7 @@
       {{ (new Date()).getFullYear() }}
       <a
         href="#"
-        target="_blank">Intelligent Farming Platform</a>
+        target="_blank">Modern Agricultural Industry</a>
     </span>
   </v-footer>
 </template>

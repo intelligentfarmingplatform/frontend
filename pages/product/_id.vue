@@ -1,59 +1,61 @@
 <template>
-  <div>
-    <section class="item-contain">
-      <section class="img">
-        <img
-          :src="`http://maims.cmtc.ac.th:3000/product/${product.productimg}`"
-          height="300"
-        />
-      </section>
-      <section class="product-info">
-        <h1>{{ product.productname }}</h1>
-        <h4 class="price">{{ product.productprice }} บาท</h4>
-        <p>{{ product.productdetail }}</p>
-        <p>ทดสอบๆ</p>
-        <div class="product-options">
-          <div class="quantity">
-            <vs-button
-              size="mini"
-              class="update-num"
-              @click="quantity > 0 ? quantity-- : (quantity = 0)"
-              ><i class='bx bx-minus' ></i></vs-button
-            >
-            <input type="number" v-model="quantity" />
-            <vs-button size="mini" class="update-num" @click="quantity++"
-              ><i class='bx bx-plus'></i></vs-button
-            >
+  <div class="container">
+    <div class="inner">
+      <section class="item-contain">
+        <section class="img">
+          <img
+            :src="`http://maims.cmtc.ac.th:3000/product/${product.productimg}`"
+            height="400"
+          />
+        </section>
+        <section class="product-info">
+          <h3>{{ product.productname }}</h3>
+          <h4 class="price">{{ product.productprice }} บาท</h4>
+          <p>{{ product.productdetail }}</p>
+          <p>ทดสอบๆ</p>
+          <div class="product-options">
+            <div class="quantity">
+              <vs-button
+                size="mini"
+                class="update-num"
+                @click="quantity > 0 ? quantity-- : (quantity = 0)"
+                ><i class="bx bx-minus"></i
+              ></vs-button>
+              <input type="number" v-model="quantity" />
+              <vs-button size="mini" class="update-num" @click="quantity++"
+                ><i class="bx bx-plus"></i
+              ></vs-button>
+            </div>
           </div>
-        </div>
-        <p>เหลือ : {{ product.productnumber }} ชิ้น</p>
-        <p>
-          <vs-button
-            v-if="$auth.loggedIn"
-            border
-            class="button purchase"
-            @click="cartAdd"
-            >หยิบใส่ตะกร้า</vs-button
-          >
-          <vs-button
-            border
-            class="button purchase"
-            @click="loginActive = !loginActive"
-            v-if="!$auth.loggedIn"
-            >กรุณาล็อคอินเพื่อเลือกสินค้า</vs-button
-          >
-        </p>
+          <p>เหลือ : {{ product.productnumber }} ชิ้น</p>
+          <p>
+            <vs-button
+              v-if="$auth.loggedIn"
+              border
+              class="button purchase"
+              @click="cartAdd"
+              >หยิบใส่ตะกร้า</vs-button
+            >
+            <vs-button
+              border
+              class="button purchase"
+              @click="loginActive = !loginActive"
+              v-if="!$auth.loggedIn"
+              >กรุณาล็อคอินเพื่อเลือกสินค้า</vs-button
+            >
+          </p>
+        </section>
       </section>
-    </section>
-
-    <hr />
-    <div class="review">
-      <h2>Reviews</h2>
-      <!-- maybe an image of a person? -->
-
-      <p>ทดสอบๆ</p>
     </div>
 
+    <div class="inner">
+      <div class="review">
+        <h2>Reviews</h2>
+        <!-- maybe an image of a person? -->
+
+        <p>ทดสอบๆ</p>
+      </div>
+    </div>
     <AppFeaturedProducts />
     <vs-dialog prevent-close blur v-model="loginActive">
       <template #header>
@@ -250,8 +252,17 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.inner {
+  padding-top: 10px;
+  background-color: white;
+}
+
 .product-options {
   display: grid;
+}
+
+.product-info {
+  padding-left: 15px;
 }
 
 input,
@@ -274,16 +285,6 @@ select {
   margin-left: 10px;
 }
 
-.size-picker {
-  width: 130px;
-  font-size: 20px;
-  height: 100%;
-  border: 0;
-  background-color: white;
-  outline: 1px solid #ccc;
-  outline-offset: -1px;
-}
-
 .size-required-message {
   color: red;
 }
@@ -292,7 +293,7 @@ select {
   //PC
   .item-contain {
     margin-top: 75px;
-    margin-left: 8%;
+    margin-left: 15%;
     margin-bottom: 25px;
     width: 80%;
     display: grid;
@@ -347,4 +348,10 @@ select {
 //     margin-left: 4%;
 //   }
 // }
+</style>
+
+<style scoped>
+h3 {
+  word-wrap: break-word;
+}
 </style>

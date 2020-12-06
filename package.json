@@ -23,7 +23,7 @@
     "@vue/cli": "^4.5.9",
     "aedes": "^0.43.0",
     "cache-manager-redis": "^0.6.0",
-    "core-js": "^3.8.0",
+    "core-js": "^3.8.1",
     "http": "0.0.1-security",
     "nuxt": "^2.14.9",
     "nuxt-compress": "^4.1.0",
@@ -44,7 +44,7 @@
   "devDependencies": {
     "deepmerge": "^4.2.2",
     "prettier": "^2.2.1",
-    "sass": "^1.29.0",
+    "sass": "^1.30.0",
     "sass-loader": "^10.1.0",
     "stylus": "^0.54.8",
     "stylus-loader": "^3.0.2"

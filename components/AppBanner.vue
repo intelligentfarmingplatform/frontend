@@ -2,22 +2,7 @@
   <div class="banner">
     <vs-row>
       <vs-col w="7">
-        <v-carousel
-          class="banner1"
-          height="300"
-          cycle
-          hide-delimiter-background
-          show-arrows-on-hover
-        >
-          <v-carousel-item
-            v-for="(item, i) in item"
-            :key="i"
-            :src="item.src"
-            reverse-transition="fade-transition"
-            transition="fade-transition"
-          >
-          </v-carousel-item>
-        </v-carousel>
+        <img class="banner1" src="/web-bg.jpg" height="300"/>
       </vs-col>
 
       <vs-col w="5">
@@ -38,20 +23,7 @@ export default {
   },
   data() {
     return {
-      item: [
-        {
-          src: '/web-bg.jpg',
-        },
-        {
-          src: '/web-bg.jpg',
-        },
-        {
-          src: '/web-bg.jpg',
-        },
-        {
-          src: '/web-bg.jpg',
-        },
-      ],
+
     }
   },
 }
@@ -61,7 +33,7 @@ export default {
 .banner {
   .banner1 {
     margin: 10px;
-    max-width: 97.5%;
+    max-width: 100%;
     font-size: 3.5vmin;
     color: #efefef;
   }

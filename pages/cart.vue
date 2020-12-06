@@ -1,13 +1,15 @@
 <template>
   <div class="cartMain">
-    <v-container>
+    <v-container class="main">
       <vs-row class="cartStep">
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" w="12">
           <AppCartSteps />
         </vs-col>
       </vs-row>
     </v-container>
-    <AppFeaturedProducts />
+    <div class="container">
+      <AppFeaturedProducts />
+    </div>
   </div>
 </template>
 
@@ -18,7 +20,6 @@ import AppFeaturedProducts from '~/components/AppFeaturedProducts.vue'
 import orderMixin from '~/mixins/order'
 import { mapState } from 'vuex'
 export default {
-
   components: {
     AppCartDisplay,
     AppCartSteps,
@@ -72,6 +73,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.main {
+  padding-top: 10px;
+  background-color: white;
+}
 .cartStep {
   margin-top: 10px;
 }

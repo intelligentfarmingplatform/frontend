@@ -8,44 +8,26 @@
       :right="right"
       :left="left"
       :direction="direction"
-      :open-on-hover="hover"
       :transition="transition"
     >
       <template v-slot:activator>
-        <vs-tooltip left>
-          <v-btn v-model="fab" color="blue darken-2" dark fab>
-            <v-icon v-if="fab"> mdi-close </v-icon>
-            <img src="/contact-us.png" v-else />
-          </v-btn>
-          <template #tooltip> ติดต่อเรา </template>
-        </vs-tooltip>
+        <v-btn v-model="fab" color="#00B3CA" dark fab>
+          <v-icon v-if="fab"> mdi-close </v-icon>
+          <img src="/contact-us.png" v-else />
+        </v-btn>
       </template>
-      <vs-tooltip left>
-        <v-btn
-          fab
-          dark
-          small
-          color="green"
-          href="https://www.facebook.com/"
-          target="_blank"
-        >
-          <img src="/facebook.png" />
-        </v-btn>
-        <template #tooltip> Facebook </template>
-      </vs-tooltip>
-      <vs-tooltip left>
-        <v-btn
-          fab
-          dark
-          small
-          color="indigo"
-          href="https://line.me/th/"
-          target="_blank"
-        >
-          <img src="/line.png" />
-        </v-btn>
-        <template #tooltip> Line </template>
-      </vs-tooltip>
+      <a fab small color="#00B3CA" href="https://line.me/th/" target="_blank">
+        <img src="/line.png" height="55px" />
+      </a>
+      <a
+        fab
+        small
+        color="#00B3CA"
+        href="https://www.facebook.com/"
+        target="_blank"
+      >
+        <img src="/facebook.png" height="55px" />
+      </a>
     </v-speed-dial>
   </v-card>
 </template>
@@ -56,7 +38,6 @@ export default {
     direction: 'top',
     fab: false,
     fling: false,
-    hover: true,
     top: false,
     right: true,
     bottom: true,

@@ -1,5 +1,5 @@
 <template>
-  <div class="productPage">
+  <div class="container">
     <AppProduct />
     <AppFeaturedProducts />
   </div>
@@ -12,7 +12,7 @@ import AppFeaturedProducts from '~/components/AppFeaturedProducts.vue'
 export default {
   components: {
     AppProduct,
-     AppFeaturedProducts,
+    AppFeaturedProducts,
   },
   async fetch({ store }) {
     await store.dispatch('loadAllProducts')
@@ -20,7 +20,8 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-.productPage{
-   height: 100%;
+.inner {
+  margin-top: 5px;
+  background-color: white;
 }
 </style>
