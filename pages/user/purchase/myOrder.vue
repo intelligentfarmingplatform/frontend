@@ -20,13 +20,23 @@
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="(item,index) in listOrders" :key="item.id">
+                <tr v-for="(item, index) in listOrders" :key="item.id">
                   <td>{{ item.CustomerTransactions[0].orderNo }}</td>
                   <td>{{ item.totalQuantity }}</td>
                   <td>{{ item.totalPrice }}</td>
-                  <td>{{ item.seller }}</td>
-                  <td>{{ item.CustomerDeliveries[0].orderStatus }} {{index+1}}</td>
-                  <td ><v-btn color="primary" v-show="item.CustomerDeliveries[0].orderStatus==='Pending'">ชำระเงิน</v-btn></td>
+                  <td>{{ listOrderItems[0].tbl_userserial.name}}</td>
+                  <td>
+                    {{ item.CustomerDeliveries[0].orderStatus }} {{ index + 1 }}
+                  </td>
+                  <td>
+                    <v-btn
+                      color="primary"
+                      v-show="
+                        item.CustomerDeliveries[0].orderStatus === 'Pending'
+                      "
+                      >ชำระเงิน</v-btn
+                    >
+                  </td>
                 </tr>
               </tbody>
             </template>
@@ -41,6 +51,7 @@
 import Axios from 'axios'
 export default {
   data: () => ({
+    listOrderItems: [],
     isHasData: false,
   }),
   methods: {},
@@ -55,13 +66,13 @@ export default {
       }
       // this.$axios.setHeader('Authorization', this.$auth.getToken('local'))
       let response = await $axios.get(
-        'http://maims.cmtc.ac.th:3000/api/customer/orders',
+        'http://localhost:3000/api/customer/orders',
         config
       )
 
       //console.log('datafrom order', response.data.order)
       if (response.data.success) {
-        return { isHasData: true, listOrders: response.data.order }
+        return { isHasData: true, listOrders: response.data.order,listOrderItems: response.data.orderItem }
       }
     } catch (err) {
       console.log(err)

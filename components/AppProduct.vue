@@ -22,7 +22,7 @@
               <template #img>
                 <nuxt-link :to="`product/${item.id}`">
                   <img
-                    :src="`http://maims.cmtc.ac.th:3000/product/${item.productimg}`"
+                    :src="`http://localhost:3000/product/${item.productimg}`"
                   />
                 </nuxt-link>
               </template>

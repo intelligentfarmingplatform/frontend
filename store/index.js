@@ -178,7 +178,7 @@ export const actions = {
 
   async loadAllProducts({ commit }) {
     await axios
-      .get('http://maims.cmtc.ac.th:3000/api/sellproducts/show')
+      .get('http://localhost:3000/api/sellproducts/show')
       .then((res) => {
         let products = res.data.data
         commit('SET_PRODUCTS', products)

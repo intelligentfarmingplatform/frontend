@@ -7,7 +7,7 @@ export default {
    */
   head: {
     title: 'Intelligent Farming Platform',
-    script: [{ src: 'https://js.stripe.com/v3' },{
+    script: [{
       src: 'https://cdn.omise.co/omise.js'
     }],
     htmlAttrs: {
@@ -141,14 +141,14 @@ export default {
         endpoints: {
           login: {
             url:
-              'http://maims.cmtc.ac.th:3000/api/customer/login',
+              'http://localhost:3000/api/customer/login',
             method: 'post',
             propertyName: 'token',
           },
           logout: false,
           user: {
             url:
-              'http://maims.cmtc.ac.th:3000/api/customer/me/profile',
+              'http://localhost:3000/api/customer/me/profile',
             method: 'get',
             propertyName: 'users',
           },

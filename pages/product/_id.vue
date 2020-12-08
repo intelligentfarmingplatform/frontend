@@ -4,7 +4,7 @@
       <section class="item-contain">
         <section class="img">
           <img
-            :src="`http://maims.cmtc.ac.th:3000/product/${product.productimg}`"
+            :src="`http://localhost:3000/product/${product.productimg}`"
             height="400"
           />
         </section>

@@ -21,7 +21,7 @@
                     <v-col cols="12" md="4">
                       <img
                         class=""
-                        :src="`http://maims.cmtc.ac.th:3000/product/${card.productimg}`"
+                        :src="`http://localhost:3000/product/${card.productimg}`"
                         alt="John"
                         height="155rem"
                       /><br />

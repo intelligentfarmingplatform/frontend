@@ -110,7 +110,7 @@ export default {
       }
       try {
         let onUpdateProfile = await Axios.put(
-          `http://maims.cmtc.ac.th:3000/api/customer/edit/profile`,
+          `http://localhost:3000/api/customer/edit/profile`,
           {
             displayName: this.displayName,
             fullName: this.fullName,

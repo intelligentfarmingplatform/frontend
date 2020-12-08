@@ -14,7 +14,7 @@
               <template #img>
                 <nuxt-link :to="`product/${item.id}`">
                   <img
-                    :src="`http://maims.cmtc.ac.th:3000/product/${item.productimg}`"
+                    :src="`http://localhost:3000/product/${item.productimg}`"
                   />
                 </nuxt-link>
               </template>
@@ -57,7 +57,7 @@ export default {
 
   async fetch() {
     await axios
-      .get('http://maims.cmtc.ac.th:3000/api/sellproducts/show')
+      .get('http://localhost:3000/api/sellproducts/show')
       .then((response) => {
         this.featuredProducts = response.data.data
         console.log(this.featuredProducts)

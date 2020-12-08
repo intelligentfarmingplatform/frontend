@@ -503,7 +503,7 @@ export default {
       try {
         this.$axios.setHeader('Authorization', this.$auth.getToken('local'))
         let response = await this.$axios.post(
-          'http://maims.cmtc.ac.th:3000/api/customer/makeorder',
+          'http://localhost:3000/api/customer/makeorder',
           {
             totalPrice: this.cartTotalWithShipping,
             cart: this.cart,
@@ -555,7 +555,7 @@ export default {
           onCreateTokenSuccess: async (token) => {
             this.$axios.setHeader('Authorization', this.$auth.getToken('local'))
             let response = await this.$axios.post(
-              'http://maims.cmtc.ac.th:3000/api/customer/payment',
+              'http://localhost:3000/api/customer/payment',
               {
                 token: token,
                 totalPrice: this.cartTotalWithShipping,
@@ -616,7 +616,7 @@ export default {
           onCreateTokenSuccess: async (token) => {
             this.$axios.setHeader('Authorization', this.$auth.getToken('local'))
             let response = await this.$axios.post(
-              'http://maims.cmtc.ac.th:3000/api/customer/truepayment',
+              'http://localhost:3000/api/customer/truepayment',
               {
                 token: token,
                 totalPrice: this.cartTotalWithShipping,
@@ -690,7 +690,7 @@ export default {
         })
         try {
           let response = await this.$axios.post(
-            'http://maims.cmtc.ac.th:3000/api/customer/address',
+            'http://localhost:3000/api/customer/address',
             {
               fullName: this.defaultForm.fullName,
               streetAddress: this.defaultForm.streetAddress,
