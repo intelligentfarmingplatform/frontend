@@ -1,108 +1,36 @@
-,<template>
-  <v-navigation-drawer
-    id="app-drawer"
-    v-model="inputValue"
-    app
-    dark
-    floating
-    persistent
-    mobile-breakpoint="991"
-    width="260"
+<template>
+  <div
   >
-    <v-img class="logo" height="100%">
-      <v-layout class="fill-height" tag="v-list" column>
-        <v-list>
-          <v-list-item>
-            <v-list-item-title class="title">
-              <v-img
-                class="logo-img"
-                :src="logo"
-                height="75"
-                max-width="80%"
-                contain
-              />
-            </v-list-item-title>
-          </v-list-item>
-        </v-list>
-        <v-divider />
-        <v-list>
-          <v-list-item v-if="responsive">
-            <v-text-field
-              class="red-input search-input"
-              label="Search..."
-              color="red"
-            />
-          </v-list-item>
-          <v-list-item to="/">
-            <v-list-item-icon>
-              <v-icon>mdi-home</v-icon>
-            </v-list-item-icon>
+  <p>
+    dsfsdfsdfsd
+  </p>
+    <v-list>
+      <v-list-group
+        v-for="item in items"
+        :key="item.title"
+        v-model="item.active"
+        :prepend-icon="item.icon"
+        no-action
+      >
+        <template v-slot:activator>
+          <v-list-item-content >
+            <v-list-item-title v-text="item.title"></v-list-item-title>
+          </v-list-item-content>
+        </template>
 
-            <v-list-item-title>Home</v-list-item-title>
-          </v-list-item>
-          <v-list-group
-            prepend-icon="mdi-account-circle"
-            :value="true"
-            no-action
-            sub-group
-          >
-            <template v-slot:activator>
-              <v-list-item-content>
-                <v-list-item-title>My Account</v-list-item-title>
-              </v-list-item-content>
-            </template>
-
-            <v-list-item
-              v-for="( title, i ) in account"
-              :key="i"
-              :to="title.to"
-            >
-              <v-list-item-title v-text="title.text"></v-list-item-title>
-
-              <v-list-item-icon>
-                <v-icon>{{ title.icon }}</v-icon>
-              </v-list-item-icon>
-            </v-list-item>
-          </v-list-group>
-          <v-list-item
-            v-for="(link, i) in purchase"
-            :key="i"
-            :to="link.to"
-            :active-class="color"
-          >
-            <v-list-item-action>
-              <v-icon>{{ link.icon }}</v-icon>
-            </v-list-item-action>
-            <v-list-item v-text="link.text" />
-          </v-list-item>
-           <v-list-group
-            prepend-icon="mdi-bell"
-            :value="true"
-            no-action
-            sub-group
-          >
-            <template v-slot:activator>
-              <v-list-item-content>
-                <v-list-item-title>Notifications</v-list-item-title>
-              </v-list-item-content>
-            </template>
-
-            <v-list-item
-              v-for="( title, i ) in notifications"
-              :key="i"
-              :to="title.to"
-            >
-              <v-list-item-title v-text="title.text"></v-list-item-title>
-
-              <v-list-item-icon>
-                <v-icon>{{ title.icon }}</v-icon>
-              </v-list-item-icon>
-            </v-list-item>
-          </v-list-group>
-        </v-list>
-      </v-layout>
-    </v-img>
-  </v-navigation-drawer>
+        <v-list-item
+          v-for="child in item.link"
+          :key="child.title"
+          link
+          :to="child.to"
+        >
+          <v-list-item-content>
+            <v-list-item-title v-text="child.title"></v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list-group>
+    </v-list>
+  </div>
 </template>
 
 <script>
@@ -113,86 +41,38 @@ export default {
   data() {
     return {
       logo: '/engine.png',
-      account: [
+ items: [
         {
-          text: 'User Profile',
-          icon: 'mdi-account-multiple-outline',
-          to: '/user/account/user-profile',
+          title: 'บัญชีของฉัน',
+          icon: 'fas fa-cogs',
+          to:'/user/account/user-profile',
+          link: [
+              {
+                icon: 'mdi-view-dashboard',
+                title: 'ข้อมูลส่วนตัว',
+                to: '/user/account/user-profile',
+              },
+              {
+                icon: 'fas fa-sliders-h',
+                title: 'บัญชีธนาคาร&บัตร',
+                to: '/user/account/bank-card',
+              },
+              {
+                icon: 'fas fa-sliders-h',
+                title: 'ที่อยู่',
+                to: '/user/account/user-address',
+              },
+              {
+                icon: 'fas fa-sliders-h',
+                title: 'เปลี่ยนรห้สผ่าน',
+                to: '/user/account/passwordSet',
+              },
+            ],
         },
         {
-          text: 'Bank/Card',
-          icon: 'mdi-credit-card',
-          to: '/user/account/bank-card',
-        },
-        {
-          text: 'Address',
-          icon: 'mdi-truck',
-          to: '/user/account/user-address',
-        },
-        {
-          text: 'Password Settings',
-          icon: 'mdi-cog-outline',
-          to: '/user/account/passwordSet',
-        },
-      ],
-      purchase: [
-        {
-          to: '/user/purchase/myOrder',
-          icon: 'mdi-clipboard-list-outline',
-          text: 'My Order',
-        },
-      ],
-      notifications: [
-        {
-          to: '/#',
-          icon: 'bx bxs-shopping-bags',
-          text: 'order',
-        },
-        {
-          to: '/#',
-          icon: 'bx bxs-discount',
-          text: 'promotion',
-        },
-        // {
-        //   to: '/user/notifications/order',
-        //   icon: 'mdi-bell',
-        //   text: 'event',
-        // },
-      ],
-
-      links: [
-        {
-          to: '/',
-          icon: 'mdi-home',
-          text: 'Home',
-        },
-      ],
-      links2: [
-        
-        // {
-        //   to: '/dashboard',
-        //   icon: 'mdi-view-dashboard',
-        //   text: 'Dashboard',
-        // },
-        // {
-        //   to: '/dashboard/user-profile',
-        //   icon: 'mdi-account',
-        //   text: 'User Profile',
-        // },
-        // {
-        //   to: '/dashboard/memberManagement',
-        //   icon: 'mdi-clipboard-outline',
-        //   text: 'Member Management',
-        // },
-        // {
-        //   to: '/dashboard/productManagement',
-        //   icon: 'mdi-clipboard-edit-outline',
-        //   text: 'Product Management',
-        // },
-        {
-          to: '/user/notifications/order',
-          icon: 'mdi-bell',
-          text: 'Notifications',
+          title: 'การซื้อของฉัน',
+          icon: 'fas fa-shopping-cart',
+          to: '/user/purchase/myOrder'
         },
       ],
       responsive: true,
@@ -234,41 +114,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-#app-drawer {
-  &.v-navigation-drawer .v-list {
-    background: rgb(0, 179, 202);
-    padding: 0;
-  }
-
-  .v-divider {
-    margin: 0;
-  }
-
-  .v-list-item {
-    border-radius: 4px;
-
-    &--buy {
-      margin-top: auto;
-      margin-bottom: 17px;
-    }
-
-    &__title {
-      color: #ffffff;
-    }
-  }
-
-  .v-image__image--contain {
-    top: 9px;
-    height: 60%;
-  }
-  .logo-img {
-    margin-left: 15px;
-  }
-
-  .search-input {
-    margin-bottom: 30px !important;
-    padding-left: 15px;
-    padding-right: 15px;
-  }
+.theme--light.v-sheet{
+  background: none;
 }
 </style>

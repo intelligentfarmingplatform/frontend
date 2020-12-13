@@ -6,7 +6,7 @@ export default {
    ** Headers of the page
    */
   head: {
-    title: 'Intelligent Farming Platform',
+    title: 'MaiMsShop Thailand | ซื้อขายเกษตร ออนไลน์',
     script: [{
       src: 'https://cdn.omise.co/omise.js'
     }],
@@ -19,7 +19,7 @@ export default {
       { hid: 'description', name: 'description', content: pkg.description },
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      { rel: 'icon', type: 'image', href: '/logotitle.png' },
       {
         rel: 'stylesheet',
         href:
@@ -42,7 +42,7 @@ export default {
    ** Plugins to load before mounting the App
    */
   plugins: [
-    '~/plugins/sync',
+   // '~/plugins/sync',
     '~/plugins/step-wizard',
     '~/plugins/vuetify',
     '~/plugins/vuesax',

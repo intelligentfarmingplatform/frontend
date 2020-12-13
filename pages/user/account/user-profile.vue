@@ -1,91 +1,59 @@
 <template>
-  <v-container fill-height fluid grid-list-xl>
-    <v-layout justify-center wrap>
-      <v-flex xs12 md8>
-        <material-card
-          color="#00B3CA"
-          title="แก้ไขโปรไฟล์"
-          text="แก้ไขข้อมูลโปรไฟล์ของคุณ"
-        >
-          <v-form>
-            <v-container py-0>
-              <v-layout wrap>
-                <!-- <v-flex xs12 md4>
-                  <v-text-field label="บริษัท (disabled)" disabled />
-                </v-flex> -->
-                <v-flex xs12 md4>
-                  <v-text-field
-                    v-model="displayName"
-                    class="purple-input"
-                    label="Display Name"
-                  />
-                </v-flex>
-                <v-flex xs12 md4>
-                  <v-text-field
-                    v-model="email"
-                    label="ที่อยู่อีเมล"
-                    class="purple-input"
-                  />
-                </v-flex>
-                <v-flex xs12 md4>
-                  <v-text-field
-                    class="purple-input"
-                    v-model="phoneNumber"
-                    label="เบอร์โทรศัพท์"
-                  />
-                </v-flex>
-                <v-flex xs12 md12>
-                  <v-text-field
-                    v-model="fullName"
-                    label="ชื่อ - นามสกุล"
-                    class="purple-input"
-                  />
-                </v-flex>
-                <v-flex xs12 md6>
-                  <v-select
-                    v-model="select"
-                    :items="genderItem"
-                    item-text="gender"
-                    item-value="value"
-                    label="เพศ"
-                    return-object
-                    single-line
-                  ></v-select>
-                </v-flex>
-                <v-flex xs12 text-xs-right>
-                  <v-btn
-                    @click="updateProfile"
-                    class="mx-0 font-weight-light"
-                    color="#00B3CA"
-                  >
-                    อัพเดตโปรไฟล์
-                  </v-btn>
-                </v-flex>
-              </v-layout>
-            </v-container>
-          </v-form>
-        </material-card>
-      </v-flex>
-      <v-flex xs12 md4>
-        <material-card class="v-card-profile">
-          <v-avatar slot="offset" class="mx-auto d-block" size="130">
-            <img
-              src="https://demos.creative-tim.com/vue-material-dashboard/img/marc.aba54d65.jpg"
-            />
-          </v-avatar>
-          <v-card-text class="text-xs-center">
-            <h6 class="category text-gray font-weight-thin mb-3">ชื่อผู้ใช้</h6>
-            <h4 class="card-title font-weight-light">{{ username }}</h4>
-            <p class="card-description font-weight-light">ชื่อผู้ใช้</p>
-            <blockquote class="blockquote">ชื่อผู้ใช้</blockquote>
-            <v-btn color="#00B3CA" rounded class="font-weight-light"
-              >แก้ไขรูปโปรไฟล์</v-btn
+      <v-card-title>
+        <div class="haderpeng">
+            <span>ข้อมูลของฉัน</span><br>
+            <span class="subtitle">จัดการข้อมูลส่วนตัวคุณเพื่อความปลอดภัยของบัญชีผู้ใช้นี้</span>
+        </div>
+        <v-row class="edit">
+            <v-col md="3" cols="12 haderlist">
+                <label for="">ชื่อผู้ช้งาน</label>
+            </v-col>
+            <v-col md="8" cols="12">
+                <label for="">{{}}</label>
+            </v-col>
+            <v-col md="3" cols="12 haderlist">
+                <label for="">ชื่อร้านค้า</label>
+            </v-col>
+            <v-col md="8" cols="12">
+                <v-text-field
+                ></v-text-field>
+            </v-col>
+            <v-col md="3" cols="12 haderlist">
+                <label for="">อีเมล์</label>
+            </v-col>
+            <v-col md="8" cols="12">
+                <label for=""></label>
+            </v-col>
+            <v-col md="3" cols="12 haderlist">
+                <label for="">ที่อยู่</label>
+            </v-col>
+            <v-col md="8" cols="12">
+                <v-textarea
+                auto-grow
+                rows="1"
+                ></v-textarea>
+            </v-col>
+            <v-col md="3" cols="12 haderlist">
+                <label for="">รายละเอียดร้าน</label>
+            </v-col>
+            <v-col md="8" cols="12">
+                <v-textarea
+                auto-grow
+                rows="1"
+                ></v-textarea>
+            </v-col>
+
+            <v-col cols="12" class="text-right">
+            <v-btn
+                color="rgb(255, 187, 41)"
+                class="mr-0"
+                @click="save()"
             >
-          </v-card-text>
-        </material-card>
-      </v-flex>
-    </v-layout>
-  </v-container>
+                บันทึก
+            </v-btn>
+            </v-col>
+        </v-row>
+        </v-card-title>
 </template>
 
 <script>
@@ -163,3 +131,45 @@ export default {
   },
 }
 </script>
+<style lang="scss" scoped>
+.haderpeng{
+      padding: 15px;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.11);
+      width: 100%;
+
+        .subtitle{
+          font-size: 1rem;
+        }
+    }
+
+    .edit{
+      margin: 20px auto;
+      font-size: 14px;
+
+      .col-12 {
+         text-align: left;
+      } 
+
+      .col-md-3{
+        text-align: right;
+      }
+      .haderlist{
+        color: #868686;
+        font-size: 14px;
+      }
+
+      .v-input{
+        height: 100%;
+        font-size: 14px;
+      }
+
+      .v-text-field {
+        padding: 0;
+        margin: 0;
+      }
+
+    .col-xl, .col-xl-auto, .col-xl-12, .col-xl-11, .col-xl-10, .col-xl-9, .col-xl-8, .col-xl-7, .col-xl-6, .col-xl-5, .col-xl-4, .col-xl-3, .col-xl-2, .col-xl-1, .col-lg, .col-lg-auto, .col-lg-12, .col-lg-11, .col-lg-10, .col-lg-9, .col-lg-8, .col-lg-7, .col-lg-6, .col-lg-5, .col-lg-4, .col-lg-3, .col-lg-2, .col-lg-1, .col-md, .col-md-auto, .col-md-12, .col-md-11, .col-md-10, .col-md-9, .col-md-8, .col-md-7, .col-md-6, .col-md-5, .col-md-4, .col-md-3, .col-md-2, .col-md-1, .col-sm, .col-sm-auto, .col-sm-12, .col-sm-11, .col-sm-10, .col-sm-9, .col-sm-8, .col-sm-7, .col-sm-6, .col-sm-5, .col-sm-4, .col-sm-3, .col-sm-2, .col-sm-1, .col, .col-auto, .col-12, .col-11, .col-10, .col-9, .col-8, .col-7, .col-6, .col-5, .col-4, .col-3, .col-2, .col-1{
+      padding: 5px 10px !important;
+        }
+    }
+</style>

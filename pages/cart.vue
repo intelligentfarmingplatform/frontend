@@ -8,7 +8,7 @@
       </vs-row>
     </v-container>
     <div class="container">
-      <AppFeaturedProducts />
+      <!-- <AppFeaturedProducts /> -->
     </div>
   </div>
 </template>

@@ -73,6 +73,7 @@ export default {
 <style lang="scss" scoped>
 .featureditems {
   margin: 20px 0 70px;
+  display: flex;
 }
 h2 {
   color: #d96528;
@@ -81,7 +82,6 @@ h2 {
 }
 h2 span {
   display: inline-block;
-  position: relative;
 }
 h2 span:after,
 h2 span:before {
@@ -89,7 +89,6 @@ h2 span:before {
   height: 1px;
   width: 1000px;
   background: #e6baa4;
-  position: absolute;
   top: 50%;
 }
 h2 span:before {

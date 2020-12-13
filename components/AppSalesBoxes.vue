@@ -1,11 +1,10 @@
 <template>
-  <section class="boxes">
-    <div v-for="(box, i) in boxes" :key="box.heading" :class="`box${i}`">
-      <img :src="box.icon" alt="service icon" />
-      <h4>{{ box.heading }}</h4>
-      <p>{{ box.details }}</p>
+  <div class="boxes">
+    <div class="-sLtLQ" v-for="items in boxes" :key="items">
+      <div class="icon"><img :src="items.icon" alt="" /></div>
+      <div class="text">{{ items.heading }}</div>
     </div>
-  </section>
+  </div>
 </template>
 
 <script>
@@ -28,6 +27,26 @@ export default {
           heading: 'Easy Online Returns',
           details: 'Send Within 30 Days',
         },
+        {
+          icon: '/icon-service.svg',
+          heading: 'Easy Online Returns',
+          details: 'Send Within 30 Days',
+        },
+        {
+          icon: '/icon-service.svg',
+          heading: 'Easy Online Returns',
+          details: 'Send Within 30 Days',
+        },
+        {
+          icon: '/icon-service.svg',
+          heading: 'Easy Online Returns',
+          details: 'Send Within 30 Days',
+        },
+        {
+          icon: '/icon-service.svg',
+          heading: 'Easy Online Returns',
+          details: 'Send Within 30 Days',
+        },
       ],
     }
   },
@@ -36,54 +55,29 @@ export default {
 
 <style lang="scss" scoped>
 .boxes {
-  padding: 5px;
-  div {
-    border: 1px solid #ddd;
-    min-height: 150px;
-    justify-self: center;
-    align-self: center;
-    text-align: center;
-  }
-  .box1 {
-    grid-area: 1 / 1 / 2 / 2;
-  }
-  .box2 {
-    grid-area: 1 / 2 / 2 / 3;
-  }
-  .box3 {
-    grid-area: 1 / 3 / 2 / 4;
-  }
-}
+  margin-top: 25px;
+  padding: 25px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  background-color: #ffffff;
+  border-radius: 5px;
+  text-align: center;
 
-h4 {
-  text-transform: uppercase;
-  letter-spacing: 0.15em;
-  margin: 0 0 10px 0;
-}
-
-@media screen and (min-width: 700px) {
-  .boxes {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: 1fr;
-    grid-column-gap: 20px;
-    grid-row-gap: 0px;
-    div {
-      padding: 40px 50px;
+  .-sLtLQ {
+    width: 10% !important;
+  }
+  .icon {
+    img {
+      height: 50px !important;
+          padding: 5px;
+    border:1px solid #00000048;
+    border-radius: 10px;
     }
   }
-}
 
-@media screen and (max-width: 699px) {
-  .boxes {
-    width: 83vw;
-        justify-self: center;
-    align-self: center;
-    text-align: center;
-    div {
-      padding: 10px 20px;
-      margin-bottom: 10px;
-    }
+  .text{
+    font-size: 12px;
   }
 }
 </style>

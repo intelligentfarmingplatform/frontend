@@ -1,25 +1,46 @@
 <template>
-  <v-app>
-    <core-toolbar />
-
-    <core-drawer />
-
-    <core-view />
-  </v-app>
+  <div class="main-app">
+    <AppNav />
+    <div class="container content">
+      <v-row>
+        <v-col cols="3">
+          <core-drawer />
+        </v-col>
+        <v-col>
+          <div class="view">
+            <nuxt />
+          </div>
+        </v-col>
+      </v-row>
+    </div>
+  </div>
 </template>
 
 <script>
-import coreToolbar from "~/components/core/AppToolbar";
-import coreDrawer from "~/components/core/AppDrawer";
-import coreView from "~/components/core/AppView";
+import AppNav from '~/components/AppNav'
+import coreDrawer from '~/components/core/AppDrawer'
 export default {
   name: 'dashboard',
-    middleware: 'auth',
+  middleware: 'auth',
   components: {
-    coreToolbar,
     coreDrawer,
-    coreView
-  }
-};
+    AppNav,
+  },
+}
 </script>
+<style lang="scss" scoped>
+.content {
+  width: 100%;
+  margin-top: 100px;
+  .view{
+    background-color: #ffffff;
+    padding: 25px;
+  }
+}
 
+@media screen and (min-width: 1400px) {
+  .container {
+    width: 60%;
+  }
+}
+</style>

@@ -1,19 +1,10 @@
 <template>
-  <v-container fluid fill-height>
-    <v-layout justify-left align-left>
-      <v-form>
-        <v-container py-0>
-          <v-layout wrap>
-            <v-flex xs12 md12>
-              <h3>ตั้งค่ารหัสผ่าน</h3>
-            </v-flex>
-            <v-flex xs12 md12>
-              <h4>
-                *อย่าเปิดเผยรหัสผ่านแก่ผู้อื่น
-                เพื่อความปลอดภัยของบัญชีผู้ใช้งานของคุณ
-              </h4>
-            </v-flex>
-            <v-flex xs12 md6>
+<v-card-title>
+        <div class="haderpeng">
+            <span>เปลี่ยนรห้สผ่าน</span><br>
+            <span class="subtitle">กรุณาอย่าเปิดเผยรหัสผ่านแก่คนอื่นๆ เพื่อความปลอดภัยของบัญชีผู้ใช้คุณเอง</span>
+        </div>
+                    <v-flex xs12 md6>
               <v-text-field
                 label="รหัสผ่านใหม่"
                 class="input"
@@ -89,11 +80,8 @@
                 ยืนยัน
               </v-btn>
             </v-flex>
-          </v-layout>
-        </v-container>
-      </v-form>
-    </v-layout>
-  </v-container>
+        
+        </v-card-title>
 </template>
 
 <script>
@@ -212,3 +200,46 @@ export default {
   },
 }
 </script>
+<style lang="scss" scoped>
+    .haderpeng{
+      padding: 15px;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.11);
+      width: 100%;
+
+        .subtitle{
+          font-size: 1rem;
+        }
+    }
+
+    .edit{
+      margin: 20px auto;
+      font-size: 14px;
+
+      .col-12 {
+         text-align: left;
+      } 
+
+      .col-md-3{
+        text-align: right;
+      }
+      .haderlist{
+        color: #868686;
+        font-size: 14px;
+      }
+
+      .v-input{
+        height: 100%;
+        font-size: 14px;
+      }
+
+      .v-text-field {
+        padding: 0;
+        margin: 0;
+      }
+
+    .col-xl, .col-xl-auto, .col-xl-12, .col-xl-11, .col-xl-10, .col-xl-9, .col-xl-8, .col-xl-7, .col-xl-6, .col-xl-5, .col-xl-4, .col-xl-3, .col-xl-2, .col-xl-1, .col-lg, .col-lg-auto, .col-lg-12, .col-lg-11, .col-lg-10, .col-lg-9, .col-lg-8, .col-lg-7, .col-lg-6, .col-lg-5, .col-lg-4, .col-lg-3, .col-lg-2, .col-lg-1, .col-md, .col-md-auto, .col-md-12, .col-md-11, .col-md-10, .col-md-9, .col-md-8, .col-md-7, .col-md-6, .col-md-5, .col-md-4, .col-md-3, .col-md-2, .col-md-1, .col-sm, .col-sm-auto, .col-sm-12, .col-sm-11, .col-sm-10, .col-sm-9, .col-sm-8, .col-sm-7, .col-sm-6, .col-sm-5, .col-sm-4, .col-sm-3, .col-sm-2, .col-sm-1, .col, .col-auto, .col-12, .col-11, .col-10, .col-9, .col-8, .col-7, .col-6, .col-5, .col-4, .col-3, .col-2, .col-1{
+      padding: 5px 10px !important;
+        }
+    }
+
+</style>

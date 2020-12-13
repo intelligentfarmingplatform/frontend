@@ -1,7 +1,6 @@
 <template>
   <div class="cartDisplay">
     <v-container>
-      <section>
         <v-row no-gutters>
           <v-col>
             <div class="haderpeng">
@@ -18,7 +17,7 @@
                     </v-col>
                   </v-row> -->
                   <v-row>
-                    <v-col cols="12" md="4">
+                    <v-col cols="12" md="4" >
                       <img
                         class=""
                         :src="`http://localhost:3000/product/${card.productimg}`"
@@ -30,18 +29,13 @@
                       ราคา {{ card.productprice }} บาท
                     </v-col>
                     <v-col cols="12" md="4" class="label1">
-                      <label class="">
-                        <button
-                          @click="removeOneFromCart(card),$nuxt.refresh()"
-                          class="quantity-adjust"
-                        >
-                          -
-                        </button>
+                            <v-btn class="mx-0" x-small color="#269d25" @click="removeOneFromCart(card),$nuxt.refresh()">
+                  <v-icon> mdi-plus </v-icon>
+                </v-btn>
                         {{ card.quantity }}
-                        <button @click="addToCart(card),$nuxt.refresh()" class="quantity-adjust">
-                          +
-                        </button>
-                      </label>
+                            <v-btn class="mx-0" x-small color="#269d25" @click="addToCart(card),$nuxt.refresh()">
+                  <v-icon> mdi-plus </v-icon>
+                </v-btn>
                     </v-col>
                     <v-col cols="12" md="4" class="label1">
                       <v-icon @click="removeAllFromCart(card),$nuxt.refresh()" color="#FF6347"
@@ -121,7 +115,6 @@
 
           <!-- cart table column -->
         </v-row>
-      </section>
 
       <section></section>
     </v-container>

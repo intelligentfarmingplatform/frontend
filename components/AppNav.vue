@@ -1,92 +1,95 @@
 <template>
-  <div class="Nav">
-    <vs-navbar
-      color="#00B3CA"
-      text-white
-      shadow
-      shadowScroll
-      square
-      not-line
-      leftCollapsed
+  <div data-app>
+    <v-app-bar
+      id="app-bar"
+      elevate-on-scroll
+      app
       fixed
-      v-model="active"
+      color="#629d25"
+      height="60px"
+      scroll-target="#scrolling-techniques-5"
     >
-      <template #left>
-        <h3>Modern Agricultural Industry</h3>
-      </template>
-      <template>
-        <vs-navbar-item :active="active == 'primary'" id="primary" to="/">
-          Home
-        </vs-navbar-item>
-        <vs-navbar-item
-          :active="active == 'success'"
-          id="success"
-          to="/products"
-        >
-          Product
-        </vs-navbar-item>
-        <!-- <vs-navbar-item
-          :active="active == 'danger'"
-          id="danger"
-          to="/about"
-        >
-          About
-        </vs-navbar-item> -->
-        <!-- <vs-navbar-item @click="contactActive = !contactActive">
-          Contact Us
-        </vs-navbar-item> -->
-      </template>
+      <div class="container navshop">
+        <div class="l">
+          <NuxtLink to="/">
+            <img src="~/assets/img/logo.png" />
+          </NuxtLink>
+        </div>
+        <div class="r">
+          <vs-avatar
+            badge
+            @click="!$auth.loggedIn ? (loginActive = !loginActive) : buy()"
+            v-if="$auth.loggedIn"
+          >
+            <v-icon size="30">mdi-cart</v-icon>
+            <template #badge>
+              {{ cartCount }}
+            </template>
+          </vs-avatar>
 
-      <template #right>
-        <!-- <vs-navbar-group> -->
-        <vs-avatar badge>
-          <nuxt-link to="/cart"><img src="/cart.png" alt="#" /></nuxt-link>
-          <template #badge>
-            {{ cartCount }}
-          </template>
-        </vs-avatar>
-        <!-- <template #items>
+          <!-- <template #items>
             <MiniCart />
           </template>
         </vs-navbar-group> -->
-        <vs-button @click="loginActive = !loginActive" v-if="!$auth.loggedIn"
-          >Login / Register</vs-button
+          <v-btn
+            elevation="2"
+            color="#ffffff"
+            rounded
+            @click="loginActive = !loginActive"
+            v-if="!$auth.loggedIn"
+            >เข้าสู่ระบบ</v-btn
+          >
+          <v-btn
+            elevation="2"
+            color="#ffffff"
+            rounded
+            @click="registerActive = !registerActive"
+            v-if="!$auth.loggedIn"
+            >สมัครสมาชิก</v-btn
+          >
+          <!-- <vs-navbar-group v-if="$auth.loggedIn">
+            <vs-avatar v-if="$auth.loggedIn" style="margin-right: 70px">
+              <v-icon size="30">mdi-cart</v-icon>
+            </vs-avatar>
+            <template #items>
+              <vs-navbar-item id="MyAccount" to="/user/account/user-profile">
+                บัญชีของฉัน
+              </vs-navbar-item>
+              <vs-navbar-item id="MyOrder" to="/user/purchase/myOrder">
+                การสั่งซื้อของฉัน
+              </vs-navbar-item>
+              <vs-navbar-item
+                id="Logout"
+                @click="logoutHandle"
+                v-if="$auth.loggedIn"
+              >
+                ออกจากระบบ
+              </vs-navbar-item>
+            </template>
+          </vs-navbar-group> -->
+         <v-menu offset-y>
+      <template v-slot:activator="{ on, attrs }">
+        <v-btn
+          color="#ffffff"
+          dark
+          v-bind="attrs"
+          v-on="on"
         >
-        <vs-navbar-group>
-          <vs-avatar v-if="$auth.loggedIn" style="margin-right: 70px">
-            <img src="/avatar.png" alt="" />
-          </vs-avatar>
-          <template #items>
-            <vs-navbar-item
-              :active="active == 'MyAccount'"
-              id="MyAccount"
-              to="/user/account/user-profile"
-            >
-              บัญชีของฉัน
-            </vs-navbar-item>
-            <vs-navbar-item
-              :active="active == 'MyOrder'"
-              id="MyOrder"
-              to="/user/purchase/myOrder"
-            >
-              การสั่งซื้อของฉัน
-            </vs-navbar-item>
-            <vs-navbar-item
-              :active="active == 'Logout'"
-              id="Logout"
-              @click="logoutHandle"
-              v-if="$auth.loggedIn"
-            >
-              ออกจากระบบ
-            </vs-navbar-item>
-          </template>
-        </vs-navbar-group>
-        <!-- <vs-button @click="logoutHandle" v-if="$auth.loggedIn"
-          >Logout</vs-button
-        > -->
-        <!-- <vs-button v-if="$auth.loggedIn">Welcome {{$auth.$state.user.email}}</vs-button> -->
+          Dropdown
+        </v-btn>
       </template>
-    </vs-navbar>
+      <v-list>
+        <v-list-item
+          v-for="(item, index) in btnmenu"
+          :key="index"
+        >
+          <v-list-item-title>{{ item.title }}</v-list-item-title>
+        </v-list-item>
+      </v-list>
+    </v-menu>
+        </div>
+      </div>
+    </v-app-bar>
 
     <vs-dialog prevent-close blur v-model="loginActive">
       <template #header>
@@ -129,9 +132,9 @@
           <vs-button ref="login" block @click="handleLoginClicked">
             Log in
           </vs-button>
-          <vs-button ref="login" block @click="handleFacebookLogin">
+          <!-- <vs-button ref="login" block @click="handleFacebookLogin">
             Facebook Login
-          </vs-button>
+          </vs-button> -->
 
           <div class="new">
             ยังไม่มีบัญชีผู้ใช้งาน?
@@ -244,10 +247,24 @@ import Notification from '~/components/Notification'
 export default {
   mixins: [loginMixin],
   components: { materialCard, Notification },
+  data: () => ({
+
+    btnmenu: [
+      { title: 'Click Me' },
+      { title: 'Click Me' },
+      { title: 'Click Me' },
+      { title: 'Click Me 2' },
+    ],
+  }),
+  methods: {
+    buy() {
+      this.$router.push({ name: 'cart' })
+    },
+  },
 }
 </script>
 
-<style lang="stylus">
+<style lang="stylus" scope>
 getColor(vsColor, alpha = 1) {
   unquote('rgba(var(--vs-' + vsColor + '), ' + alpha + ')');
 }
@@ -256,9 +273,65 @@ getVar(var) {
   unquote('var(--vs-' + var + ')');
 }
 
-.Nav {
-  margin: auto;
+.v-toolbar{
+   min-height: 0px !important ;
+
+  .v-toolbar__content{
+    margin: auto  !important;
+    min-height: 0px !important ;
 }
+}
+
+.container{
+  padding: 0px;
+  display : flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+
+.navshop{
+  height: 100%;
+
+    .l{
+    height: 100%;
+
+    img{
+      height:100%;
+    }
+  }
+}
+
+.vs-avatar-content{
+  margin-right: 20px;
+
+}
+
+
+.r{
+  float: right;
+  display: flex;
+  align-items: center;
+
+.v-btn{
+ border-radius: 25px;
+ margin-left 10px;
+
+ .v-btn__content{
+   color:#629d25;
+ }
+}
+}
+
+  .theme--light.v-list-item:not(.v-list-item--active):not(.v-list-item--disabled){
+    color: #629d25;
+  }
+
+.vs-navbar__group__items{
+  background-color: #629d25;
+  color: #fff
+}
+
 
 .not-margin {
   margin: 0px;

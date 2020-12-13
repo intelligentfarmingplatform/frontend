@@ -1,13 +1,15 @@
 <template>
   <div class="main-app">
     <div class="flex justify-center">
-      <div class="back">
+    <div class="container">
         <AppNav />
-        <Nuxt />
+        <div class="content">
+          <Nuxt />
+        </div>
         <!-- <MiniCartFab /> -->
         <AppSpeedDial />
       </div>
-      <AppFooter />
+      <!-- <AppFooter /> -->
     </div>
   </div>
 </template>
@@ -29,7 +31,8 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss" scope> 
+
 .main-app {
   display: flex;
   flex-direction: column;
@@ -38,8 +41,23 @@ export default {
 html,body {
   height: 100%;
   font-family: 'prompt';
+  background-color:#f5f5f5;
 }
-.back {
-  background-color:#f4f7f8;
+
+.content{
+  margin-top: 125px;
+  width: 100%;
+}
+
+@media screen and (min-width:1400px){
+  .container{
+  width: 60%;
+
+  .content{
+    .container{
+      width: 100%;
+    }
+  }
+}
 }
 </style>

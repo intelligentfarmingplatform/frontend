@@ -42,6 +42,8 @@
     "websocket-stream": "^5.5.2"
   },
   "devDependencies": {
+    "@iconify-icons/heroicons-solid": "^1.1.0",
+    "@iconify/react": "^1.1.3",
     "deepmerge": "^4.2.2",
     "prettier": "^2.2.1",
     "sass": "^1.30.0",

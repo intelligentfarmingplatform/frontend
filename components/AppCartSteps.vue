@@ -786,11 +786,6 @@ h4 {
   color: #555;
 }
 
-@media screen and (max-width: 600px) {
-  section {
-    grid-column-gap: 30px !important;
-  }
-}
 </style>
 
 <style lang="stylus">

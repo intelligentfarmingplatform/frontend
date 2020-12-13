@@ -2,26 +2,13 @@
   <v-main>
     <div id="core-view">
       <v-fade-transition mode="out-in">
-        <nuxt />
+
       </v-fade-transition>
     </div>
-    <core-footer v-if="$route.name !== 'Maps'" />
   </v-main>
 </template>
 
 <script>
-  import coreFooter from '~/components/core/AppFooter'
-
-  export default {
-    metaInfo () {
-      return {
-        title: 'Vuetify Material Dashboard by CreativeTim'
-      }
-    },
-    components: {
-      coreFooter
-    }
-  }
 </script>
 
 <style>

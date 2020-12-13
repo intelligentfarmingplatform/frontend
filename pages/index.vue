@@ -1,16 +1,10 @@
 <template>
   <div>
-    <div class="container">
-      <div class="banner">
-        <AppBanner />
-      </div>
-      <div class="inner" style="padding-bottom: 5px">
-        <AppSalesBoxes />
-      </div>
+      <AppBanner />
+      <AppSalesBoxes />
       <AppStoreGrid />
-      <AppFeaturedProducts />
+      <!-- <AppFeaturedProducts /> -->
     </div>
-  </div>
 </template>
 
 <script>
@@ -37,10 +31,6 @@ export default {
 
 <style scoped>
 .inner {
-  padding-top: 10px;
   background-color: white;
-}
-.banner {
-  margin-top: 60px;
 }
 </style>

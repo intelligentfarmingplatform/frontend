@@ -1,62 +1,81 @@
 <template>
   <div class="container">
     <div class="inner">
-      <section class="item-contain">
-        <section class="img">
-          <img
+      <v-row class="item-contain">
+        <v-col cols="12" md="5" class="img">
+          <v-img
             :src="`http://localhost:3000/product/${product.productimg}`"
-            height="400"
+            height="300"
           />
-        </section>
-        <section class="product-info">
+        </v-col>
+        <v-col class="product-info">
           <h3>{{ product.productname }}</h3>
-          <h4 class="price">{{ product.productprice }} บาท</h4>
-          <p>{{ product.productdetail }}</p>
-          <p>ทดสอบๆ</p>
-          <div class="product-options">
-            <div class="quantity">
-              <vs-button
-                size="mini"
-                class="update-num"
-                @click="quantity > 0 ? quantity-- : (quantity = 0)"
-                ><i class="bx bx-minus"></i
-              ></vs-button>
-              <input type="number" v-model="quantity" />
-              <vs-button size="mini" class="update-num" @click="quantity++"
-                ><i class="bx bx-plus"></i
-              ></vs-button>
+          <div class="price">฿{{ product.productprice }}</div>
+          <div class="dlvl">
+            <v-row>
+              <v-col cols="2">
+                <p class="color">จากร้าน</p>
+              </v-col>
+              <v-col>
+                <p>{{product.tbl_userdetail.name}}</p>
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col cols="2">
+                <p class="color">การจัดส่ง</p>
+              </v-col>
+              <v-col> ddsfdsfdsfsdfsdfsdf </v-col>
+            </v-row>
+            <v-row class="product-options">
+              <v-col cols="2">
+                <p class="color">จำนวน</p>
+              </v-col>
+              <v-col>
+                <v-btn class="mx-0" x-small color="#269d25" @click="quantity--">
+                  <v-icon> mdi-plus </v-icon>
+                </v-btn>
+                <input type="number" :max="product.productnumber" v-model="quantity" />
+                <v-btn class="mx-0" x-small color="#269d25" @click="quantity++">
+                  <v-icon> mdi-plus </v-icon>
+                </v-btn>
+                <span class="color"
+                  >มีสินค้าทั้งหมด : {{ product.productnumber }} ชิ้น</span
+                >
+              </v-col>
+            </v-row>
+            <div class="at_button">
+              <v-btn
+                tile
+                class="add"
+                @click="!$auth.loggedIn ? (loginActive = !loginActive) : cartAdd()"
+                >เพิ่มไปยังรถเข็น</v-btn
+              >
+              <v-btn
+                tile
+                class="buy"
+                @click="!$auth.loggedIn ? (loginActive = !loginActive) : buy()"
+              >
+                ซื้อสินค้า
+              </v-btn>
             </div>
           </div>
-          <p>เหลือ : {{ product.productnumber }} ชิ้น</p>
-          <p>
-            <vs-button
-              v-if="$auth.loggedIn"
-              border
-              class="button purchase"
-              @click="cartAdd"
-              >หยิบใส่ตะกร้า</vs-button
-            >
-            <vs-button
-              border
-              class="button purchase"
-              @click="loginActive = !loginActive"
-              v-if="!$auth.loggedIn"
-              >กรุณาล็อคอินเพื่อเลือกสินค้า</vs-button
-            >
-          </p>
-        </section>
-      </section>
+        </v-col>
+      </v-row>
     </div>
 
-    <div class="inner">
-      <div class="review">
-        <h2>Reviews</h2>
-        <!-- maybe an image of a person? -->
+    <div class="inner1">
+      <h3 class="details">Details</h3>
+      <span class="product-detail">{{ product.productdetail }}</span>
+      <p>ทดสอบๆ</p>
+    </div>
+
+    <!-- <div class="inner2">
+        <h3 class="reviews">Reviews</h3>
 
         <p>ทดสอบๆ</p>
-      </div>
-    </div>
-    <AppFeaturedProducts />
+    </div> -->
+
+    <!-- <AppFeaturedProducts /> -->
     <vs-dialog prevent-close blur v-model="loginActive">
       <template #header>
         <h4 class="not-margin">
@@ -214,10 +233,12 @@ export default {
   data() {
     return {
       id: this.$route.params.id,
-
       quantity: 1,
       showSizeRequiredMessage: false,
       tempcart: [], // this object should be the same as the json store object, with additional params, quantity and size
+      rules: {
+        min: (v) => v.length >= 8 || 'รห้สอย่างน้อย 8 ตัวอักษร',
+      },
     }
   },
   async fetch({ store, params }) {
@@ -237,6 +258,17 @@ export default {
     //   getProduct: 'getProduct',
 
     // }),
+    buy() {
+      let item = this.product
+      item = {
+        ...item,
+        quantity: this.quantity,
+        size: this.size,
+      }
+      this.tempcart.push(item)
+      this.$store.commit('addToCart', { ...item })
+      this.$router.push({ name: 'cart' })
+    },
     cartAdd() {
       let item = this.product
       item = {
@@ -247,111 +279,110 @@ export default {
       this.tempcart.push(item)
       this.$store.commit('addToCart', { ...item })
     },
+    // onlyNumber($event) {
+    //   console.log(event.key);
+    //   if (!/\d/.test(event.key)) 
+    //   return event.preventDefault()
+    // },
   },
 }
 </script>
 
 <style lang="scss" scoped>
-.inner {
-  padding-top: 10px;
-  background-color: white;
+.v-image__image {
+  background-size: contain !important;
 }
-
-.product-options {
-  display: grid;
-}
-
-.product-info {
-  padding-left: 15px;
-}
-
-input,
-select {
-  width: 60px;
-  font-size: 25px;
-  margin: 0 5px;
-  padding: 5px 10px;
-}
-
-.update-num {
-  background: black;
-  border-color: black;
-  color: white;
-  font-size: 20px;
-  width: 45px;
-}
-
-.size {
-  margin-left: 10px;
-}
-
-.size-required-message {
-  color: red;
-}
-
-@media screen and (min-width: 700px) {
-  //PC
+.container {
+  margin-top: 25px;
+  display: contents;
+  .inner {
+    background-color: #fff;
+    padding: 15px;
+  }
   .item-contain {
-    margin-top: 75px;
-    margin-left: 15%;
-    margin-bottom: 25px;
-    width: 80%;
-    display: grid;
-    justify-content: space-around;
-    grid-template-columns: 1fr 2fr;
-  }
-  .quantity {
-    margin: 10px 0px;
     display: flex;
-  }
-  .img img {
-    width: 300;
-    height: 300;
-  }
-  .review {
-    width: 90%;
-    margin-left: 4%;
-  }
-}
 
-@media screen and (max-width: 699px) {
-  //Mobile
-  .item-contain {
-    margin-top: 75px;
-    margin-left: 8%;
-    width: 75%;
-  }
-  .quantity {
-    display: flex;
-  }
-  .img img {
-    height: 150px;
-  }
-  .review {
-    width: 90%;
-    margin-left: 4%;
-  }
-}
+    .img {
+      .v-image__image {
+        background-size: contain !important;
+      }
+    }
 
-// @media screen and (max-width: 650px) {
-//   .img img {
-//     width: 100%;
-//   }
+    .product-info {
+      margin-left: 25px;
+      width: 100%;
+      .price {
+        background-color: #75757510;
+        padding: 15px 15px;
+        font-size: 30px;
+        color: #629d25;
+      }
+      .dlvl {
+        margin: 25px;
+      }
+      .color {
+        color: #757575;
+      }
+      .product-options {
+        p {
+          margin: 0px;
+          padding: 0px;
+        }
+        display: flex;
+        align-content: center;
+        align-items: center;
 
-//   .item-contain {
-//     margin-left: 0 !important;
-//     width: 95% !important;
-//   }
+        input {
+          margin: 0px 5px;
+          width: 75px;
+          padding: 5px;
+          border: 1px solid#757575;
+        }
+      }
+      .at_button {
+        display: flex;
 
-//   .review {
-//     width: 90%;
-//     margin-left: 4%;
-//   }
-// }
-</style>
+        .add {
+          background-color: #c3e6a0;
+          border: 1px solid #629d25;
+          color: #629d25 !important;
+          box-shadow: none;
+        }
 
-<style scoped>
-h3 {
-  word-wrap: break-word;
+        .buy {
+          margin-left: 10px;
+          background-color: #629d25;
+          box-shadow: none;
+        }
+      }
+    }
+  }
+  .inner1 {
+    background-color: #fff;
+    margin-top: 25px;
+    padding: 15px;
+    .details {
+      background-color: #fafafa;
+      padding: 5px;
+    }
+      .product-detail {
+      white-space: pre-wrap;
+      color: rgba(0,0,0,.8);
+      font-size: .875rem;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      line-height: 1.875rem;
+    }
+      
+  }
+  .inner2 {
+    background-color: #fff;
+    padding: 15px;
+    margin-top: 25px;
+  }
+  .reviews {
+    background-color: #fafafa;
+    padding: 5px;
+  }
 }
 </style>
