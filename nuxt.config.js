@@ -147,14 +147,14 @@ export default {
         endpoints: {
           login: {
             url:
-              'http://maims.cmtc.ac.th/api/customer/login',
+              'http://maims.cmtc.ac.th:3000/api/customer/login',
             method: 'post',
             propertyName: 'token',
           },
           logout: false,
           user: {
             url:
-              'http://maims.cmtc.ac.th/api/customer/me/profile',
+              'http://maims.cmtc.ac.th:3000/api/customer/me/profile',
             method: 'get',
             propertyName: 'users',
           },
