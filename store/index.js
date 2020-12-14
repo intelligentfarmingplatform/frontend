@@ -12,6 +12,7 @@ const userService = new productProvider()
 // })
 
 export const state = () => ({
+  OnceTimeFetchCustomerAddress: '',
   customerOrderID: '',
   CustomerAddresses: [],
   cartUIStatus: 'idle',
@@ -82,6 +83,9 @@ export const mutations = {
   setCustomerOrderID(state, { OrderID }) {
     state.customerOrderID = OrderID
   },
+  setOnceTimeFetchCustomerAddress(state, { AddressId }) {
+    state.OnceTimeFetchCustomerAddress = AddressId
+  },
   setShipping(state, { price, estimatedDelivery }) {
     ;(state.shippingPrice = price),
       (state.shippingEstimatedDelivery = estimatedDelivery)
@@ -131,11 +135,13 @@ export const mutations = {
     ;(state.cart = []),
       (state.cartUIStatus = 'idle'),
       (state.shippingPrice = 0),
-      (state.shippingEstimatedDelivery = '')
+      (state.shippingEstimatedDelivery = ''),
+      (state.OnceTimeFetchCustomerAddress = '')
   },
   clearCustomerDetail: (state) => {
-      (state.customerOrderID = ''),
-      (state.CustomerAddresses = [])
+    ;(state.customerOrderID = ''),
+      (state.CustomerAddresses = []),
+      (state.OnceTimeFetchCustomerAddress = '')
   },
   addToCart: (state, payload) => {
     let itemfound = state.cart.find((el) => el.id === payload.id)
@@ -178,7 +184,7 @@ export const actions = {
 
   async loadAllProducts({ commit }) {
     await axios
-      .get('http://localhost:3000/api/sellproducts/show')
+      .get('http://maims.cmtc.ac.th/api/sellproducts/show')
       .then((res) => {
         let products = res.data.data
         commit('SET_PRODUCTS', products)

@@ -2,7 +2,6 @@
 <v-card-title class="box">
         <div class="haderpeng">
             <span>บัญชีธนาคารของฉัน</span><br>
-            <span class="subtitle">จัดการบัญชีธนาคารเพื่อเป็นบัญชีในการถอนเงินจากระบบ</span>
         </div>
         <v-row class="edit">
             <v-col
@@ -131,6 +130,30 @@ export default {
   layout: 'dashboard',
   data: () => ({
     dialog: false,
+          rules: {
+        required: (value) => !!value || "Required.",
+        min: (v) => v.length >= 8 || "Min 8 characters",
+        emailMatch: () => `The email and password you entered don't match`,
+      },
+      accountbank:{
+          namebank:'',
+          nameaccountTH:'',
+          nameaccountEN:'',
+          numberaccount:''
+      },
+      namebank:[
+        'กรุงเทพ',
+        'กรุงไทย',
+        'กรุงศรีอยุธยา',
+        'กสิกรไทย',
+        'ไทยพาณิชย์',
+        'เกียรตินาคินภัทร',
+        'ทหารไทย',
+        'ซีไอเอ็มบี',
+        'ยูโอบี',
+        'พร้อมเพย์',
+      ],
+
   }),
 }
 </script>

@@ -24,7 +24,7 @@
                   <td>
                     <div width="500" class="modal-img">
                       <v-avatar>
-                        <img :src="`http://localhost:3000/product/${item.productimg}`" alt="John" />
+                        <img :src="`http://maims.cmtc.ac.th:3000/product/${item.productimg}`" alt="John" />
                       </v-avatar>
                     </div>
                     <div class="productname">{{ item.productname }}</div>

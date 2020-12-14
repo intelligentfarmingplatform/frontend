@@ -27,7 +27,7 @@
             </div>
             <div class="product-image">
               <v-img
-                :src="`http://localhost:3000/product/${item.productimg}`"
+                :src="`http://maims.cmtc.ac.th:3000/product/${item.productimg}`"
               ></v-img>
             </div>
             <div class="productdetail">
@@ -61,7 +61,7 @@
               <template #img>
                 <nuxt-link :to="`product/${item.id}`">
                 <img
-                  :src="`http://localhost:3000/product/${item.productimg}`"
+                  :src="`http://maims.cmtc.ac.th/product/${item.productimg}`"
                 />
                 </nuxt-link>
               </template>

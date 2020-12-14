@@ -23,8 +23,8 @@ export default {
   data() {
     return {}
   },
-  async fetch({ store }) {
-    await store.dispatch('loadAllProducts')
+   created() {
+     this.$store.dispatch('loadAllProducts')
   },
 }
 </script>

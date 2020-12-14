@@ -32,7 +32,7 @@ export default {
     async handleRegisterClicked() {
       try {
         const response = await this.$axios.post(
-          'http://localhost:3000/api/customer',
+          'http://maims.cmtc.ac.th/api/customer',
           {
             userName: this.usernameRegister,
             email: this.emailRegister,

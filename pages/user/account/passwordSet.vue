@@ -1,166 +1,148 @@
 <template>
-<v-card-title>
-        <div class="haderpeng">
-            <span>เปลี่ยนรห้สผ่าน</span><br>
-            <span class="subtitle">กรุณาอย่าเปิดเผยรหัสผ่านแก่คนอื่นๆ เพื่อความปลอดภัยของบัญชีผู้ใช้คุณเอง</span>
-        </div>
-                    <v-flex xs12 md6>
-              <v-text-field
-                label="รหัสผ่านใหม่"
-                class="input"
-                color="#00B3CA"
-                type="password"
-                v-model="passwordSet"
-                :visiblePassword="hasVisiblePasswordSet"
-                icon-after
-                @click-icon="hasVisiblePasswordSet = !hasVisiblePasswordSet"
-              >
-                <template #icon>
-                  <i v-if="!hasVisiblePasswordSet" class="bx bx-show-alt"></i>
-                  <i v-else class="bx bx-hide"></i>
-                </template>
-              </v-text-field>
-              <template v-if="getProgress <= 0"></template>
-              <template v-else-if="getProgress <= 20">
-                <h6 class="red--text">รหัสผ่านมีความปลอดภัยต่ำ</h6>
-              </template>
-              <template v-else-if="getProgress <= 40">
-                <h6 class="orange--text">รหัสผ่านมีความปลอดภัยปานกลาง</h6>
-              </template>
-              <template v-else-if="getProgress <= 60">
-                <h6 class="orange--text">รหัสผ่านมีความปลอดภัยปานกลาง</h6>
-              </template>
-              <template v-else-if="getProgress <= 80">
-                <h6 class="green--text">รหัสผ่านมีความปลอดภัยสูง</h6>
-              </template>
-              <template v-else-if="getProgress <= 100">
-                <h6 class="green--text">รหัสผ่านมีความปลอดภัยสูงสุด</h6>
-              </template>
-              <template v-else></template>
-            </v-flex>
-            <v-flex xs12 md6 />
-            <v-flex xs12 md6>
-              <v-text-field
-                label="ยืนยันรหัสผ่าน"
-                color="#00B3CA"
-                type="password"
-                v-model="passwordSetConfirm"
-                :visiblePassword="hasVisiblePasswordSetConfirm"
-                :rules="confirmPasswordRules.concat(passwordConfirmationRule())"
-                icon-after
-                @click-icon="
-                  hasVisiblePasswordSetConfirm = !hasVisiblePasswordSetConfirm
-                "
-                ><template #icon>
-                  <i v-if="!hasVisiblePasswordSet" class="bx bx-show-alt"></i>
-                  <i v-else class="bx bx-hide"></i>
-                </template>
-              </v-text-field>
-              <template v-if="passwordSet == passwordSetConfirm && passwordSet">
-                <h6 class="green--text">รหัสผ่านตรงกัน</h6>
-              </template>
+  <v-card-title>
+    <div class="haderpeng">
+      <span>เปลี่ยนรห้สผ่าน</span><br />
+      <span class="subtitle"
+        >กรุณาอย่าเปิดเผยรหัสผ่านแก่คนอื่นๆ
+        เพื่อความปลอดภัยของบัญชีผู้ใช้คุณเอง</span
+      >
+    </div>
+    <v-form ref="form" width="100%" @submit.prevent="changePassword">
+      <v-row class="edit">
+        <v-col md="3" cols="12 haderlist">
+          <label for="">รห้สผ่านเดิม</label>
+        </v-col>
+        <v-col md="8" cols="12">
+          <v-text-field
+            v-model="changepassword.password"
+            :rules="[rules.password]"
+            required
+          ></v-text-field>
+        </v-col>
+        <v-col md="3" cols="12 haderlist">
+          <label for="">รห้สผ่านใหม่</label>
+        </v-col>
+        <v-col md="8" cols="12">
+          <v-text-field
+            v-model="changepassword.newpassword"
+            :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+            :rules="[rules.required, rules.min]"
+            :type="show1 ? 'text' : 'password'"
+            @click:append="show1 = !show1"
+            counter
+            required
+          ></v-text-field>
+        </v-col>
+        <v-col md="3" cols="12 haderlist">
+          <label for="">ยืนยันรห้สผ่าน</label>
+        </v-col>
+        <v-col md="8" cols="12">
+          <v-text-field
+            v-model="changepassword.confirmpassword"
+            :append-icon="show2 ? 'mdi-eye' : 'mdi-eye-off'"
+            :rules="[rules.required1, rules.min, rules.confirm]"
+            :type="show2 ? 'text' : 'password'"
+            @click:append="show2 = !show2"
+            counter
+            required
+          ></v-text-field>
+        </v-col>
 
-              <template v-else-if="passwordSetConfirm != passwordSet">
-                <h6 class="red--text">รหัสผ่านไม่ตรงกัน</h6>
-              </template>
-            </v-flex>
-            <v-flex xs12 md6 />
-            <v-flex xs12 md6>
-              <v-text-field
-                label="รหัสการตรวจสอบ"
-                class="input"
-                color="#00B3CA"
-              />
-            </v-flex>
-            <v-flex xs12 md6>
-              <v-btn depressed color="#00B3CA"> รับรหัส OTP </v-btn>
-            </v-flex>
-            <v-flex xs12 md6>
-              <v-btn depressed color="#00B3CA" @click="changePassword">
-                ยืนยัน
-              </v-btn>
-            </v-flex>
-        
-        </v-card-title>
+        <v-col cols="12" class="text-right">
+          <v-btn color="rgb(255, 187, 41)" class="mr-0" type="submit">
+            บันทึก
+          </v-btn>
+        </v-col>
+      </v-row>
+    </v-form>
+  </v-card-title>
 </template>
 
 <script>
 export default {
   layout: 'dashboard',
-  data: () => ({
-    confirmPasswordRules: [(v) => !!v || 'Password is required'],
-    passwordSet: '',
-    passwordSetConfirm: '',
-    hasVisiblePasswordSet: false,
-    hasVisiblePasswordSetConfirm: false,
-    isMatchPassword: false,
-  }),
+  data() {
+    return {
+      show1: '',
+      show2: '',
+      changepassword: {
+        password: '',
+        newpassword: '',
+        confirmpassword: '',
+      },
+      rules: {
+        password: (value) => !!value || 'กรุณากรอกรห้สผ่านเดิม',
+        required: (value) => !!value || 'กรุณากรอกรห้สผ่านใหม่',
+        required1: (value) => !!value || 'กรุณากรอกยืนยันรห้สผ่านใหม่',
+        min: (v) => v.length >= 8 || 'รห้สต้องมีความยาวเกิน 8 ตัว',
+        confirm: (value) =>
+          value === this.changepassword.newpassword ||
+          'กรุณากรอกรห้สผ่านให้ตรงกัน',
+      },
+    }
+  },
   methods: {
     async changePassword() {
-      if (!this.isMatchPassword) {
-        const noti = this.$vs.notification({
-          position: 'top-center',
-          color: 'danger',
-          width: '100%',
-          title: '<center>เกิดข้อผิดพลาด</center>',
-          text: '<center>' + 'รหัสผ่านไม่ตรงกัน' + '</center>',
-        })
-      } else {
-        try {
-          const config = {
-            headers: {
-              Authorization: this.$auth.getToken('local'),
-            },
-          }
-          // this.$axios.setHeader('Authorization', this.$auth.getToken('local'))
-          let response = await this.$axios.put(
-            'http://localhost:3000/api/customer',
-            { password: this.passwordSetConfirm },
-            config
-          )
-          if (response.data.success) {
-            const noti = this.$vs.notification({
-              position: 'top-center',
-              icon: `<i class='bx bx-bell' ></i>`,
-              color: 'success',
-              width: '100%',
-              title: '<center>เปลี่ยนรหัสผ่านสำเร็จ</center>',
-              text: `<center>กรุณาเข้าสู่ระบบใหม่อีกครั้ง...</center>`,
-            })
-            ;(this.passwordSet = ''), (this.passwordSetConfirm = '')
-            await this.$auth.logout()
-            if (process.client) {
-              localStorage.removeItem('refresh')
-              localStorage.removeItem('auth-token')
-              localStorage.removeItem('tokenExpiration')
-              localStorage.removeItem('userData')
-              if (!localStorage.getItem('auth-token')) {
-                $nuxt.$router.push('/')
-              }
+      try {
+        const config = {
+          headers: {
+            Authorization: this.$auth.getToken('local'),
+          },
+        }
+        // this.$axios.setHeader('Authorization', this.$auth.getToken('local'))
+        let response = await this.$axios.put(
+          'http://maims.cmtc.ac.th/api/customer',
+          { password: this.changepassword.confirmpassword },
+          config
+        )
+        if (response.data.success) {
+          const noti = this.$vs.notification({
+            position: 'top-center',
+            icon: `<i class='bx bx-bell' ></i>`,
+            color: 'success',
+            width: '100%',
+            title: '<center>เปลี่ยนรหัสผ่านสำเร็จ</center>',
+            text: `<center>กรุณาเข้าสู่ระบบใหม่อีกครั้ง...</center>`,
+          })
+          ;(this.passwordSet = ''), (this.passwordSetConfirm = '')
+          await this.$auth.logout()
+          if (process.client) {
+            localStorage.removeItem('refresh')
+            localStorage.removeItem('auth-token')
+            localStorage.removeItem('tokenExpiration')
+            localStorage.removeItem('userData')
+            if (!localStorage.getItem('auth-token')) {
+              $nuxt.$router.push('/')
             }
           }
-        } catch (err) {
-          if ((this.error = err.response.data.success === false)) {
-            const noti = this.$vs.notification({
-              position: 'top-center',
-              color: 'danger',
-              width: '100%',
-              title: '<center>เกิดข้อผิดพลาด</center>',
-              text: '<center>' + err.response.data.message + '</center>',
-            })
-          }
+        }
+      } catch (err) {
+        if ((this.error = err.response.data.success === false)) {
+          const noti = this.$vs.notification({
+            position: 'top-center',
+            color: 'danger',
+            width: '100%',
+            title: '<center>เกิดข้อผิดพลาด</center>',
+            text: '<center>' + err.response.data.message + '</center>',
+          })
         }
       }
     },
   },
   computed: {
     passwordConfirmationRule() {
-      if (this.passwordSet === this.passwordSetConfirm && this.passwordSet) {
+      if (
+        this.changepassword.newpassword ===
+          this.changepassword.confirmpassword &&
+        this.changepassword.newpassword
+      ) {
         this.isMatchPassword = true
       } else {
         this.isMatchPassword = false
       }
-      return () => this.passwordSet === this.passwordSetConfirm || ''
+      return () =>
+        this.changepassword.newpassword ===
+          this.changepassword.confirmpassword || ''
     },
     getProgress() {
       let progress = 0
@@ -201,45 +183,113 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-    .haderpeng{
-      padding: 15px;
-      border-bottom: 1px solid rgba(0, 0, 0, 0.11);
-      width: 100%;
+.haderpeng {
+  padding: 15px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.11);
+  width: 100%;
 
-        .subtitle{
-          font-size: 1rem;
-        }
-    }
+  .subtitle {
+    font-size: 1rem;
+  }
+}
 
-    .edit{
-      margin: 20px auto;
-      font-size: 14px;
+.edit {
+  margin: 20px auto;
+  font-size: 14px;
 
-      .col-12 {
-         text-align: left;
-      } 
+  .col-12 {
+    text-align: left;
+  }
 
-      .col-md-3{
-        text-align: right;
-      }
-      .haderlist{
-        color: #868686;
-        font-size: 14px;
-      }
+  .col-md-3 {
+    text-align: right;
+  }
+  .haderlist {
+    color: #868686;
+    font-size: 14px;
+  }
 
-      .v-input{
-        height: 100%;
-        font-size: 14px;
-      }
+  .v-input {
+    height: 100%;
+    font-size: 14px;
+  }
 
-      .v-text-field {
-        padding: 0;
-        margin: 0;
-      }
+  .v-text-field {
+    padding: 0;
+    margin: 0;
+  }
 
-    .col-xl, .col-xl-auto, .col-xl-12, .col-xl-11, .col-xl-10, .col-xl-9, .col-xl-8, .col-xl-7, .col-xl-6, .col-xl-5, .col-xl-4, .col-xl-3, .col-xl-2, .col-xl-1, .col-lg, .col-lg-auto, .col-lg-12, .col-lg-11, .col-lg-10, .col-lg-9, .col-lg-8, .col-lg-7, .col-lg-6, .col-lg-5, .col-lg-4, .col-lg-3, .col-lg-2, .col-lg-1, .col-md, .col-md-auto, .col-md-12, .col-md-11, .col-md-10, .col-md-9, .col-md-8, .col-md-7, .col-md-6, .col-md-5, .col-md-4, .col-md-3, .col-md-2, .col-md-1, .col-sm, .col-sm-auto, .col-sm-12, .col-sm-11, .col-sm-10, .col-sm-9, .col-sm-8, .col-sm-7, .col-sm-6, .col-sm-5, .col-sm-4, .col-sm-3, .col-sm-2, .col-sm-1, .col, .col-auto, .col-12, .col-11, .col-10, .col-9, .col-8, .col-7, .col-6, .col-5, .col-4, .col-3, .col-2, .col-1{
-      padding: 5px 10px !important;
-        }
-    }
-
+  .col-xl,
+  .col-xl-auto,
+  .col-xl-12,
+  .col-xl-11,
+  .col-xl-10,
+  .col-xl-9,
+  .col-xl-8,
+  .col-xl-7,
+  .col-xl-6,
+  .col-xl-5,
+  .col-xl-4,
+  .col-xl-3,
+  .col-xl-2,
+  .col-xl-1,
+  .col-lg,
+  .col-lg-auto,
+  .col-lg-12,
+  .col-lg-11,
+  .col-lg-10,
+  .col-lg-9,
+  .col-lg-8,
+  .col-lg-7,
+  .col-lg-6,
+  .col-lg-5,
+  .col-lg-4,
+  .col-lg-3,
+  .col-lg-2,
+  .col-lg-1,
+  .col-md,
+  .col-md-auto,
+  .col-md-12,
+  .col-md-11,
+  .col-md-10,
+  .col-md-9,
+  .col-md-8,
+  .col-md-7,
+  .col-md-6,
+  .col-md-5,
+  .col-md-4,
+  .col-md-3,
+  .col-md-2,
+  .col-md-1,
+  .col-sm,
+  .col-sm-auto,
+  .col-sm-12,
+  .col-sm-11,
+  .col-sm-10,
+  .col-sm-9,
+  .col-sm-8,
+  .col-sm-7,
+  .col-sm-6,
+  .col-sm-5,
+  .col-sm-4,
+  .col-sm-3,
+  .col-sm-2,
+  .col-sm-1,
+  .col,
+  .col-auto,
+  .col-12,
+  .col-11,
+  .col-10,
+  .col-9,
+  .col-8,
+  .col-7,
+  .col-6,
+  .col-5,
+  .col-4,
+  .col-3,
+  .col-2,
+  .col-1 {
+    padding: 5px 10px !important;
+  }
+}
 </style>

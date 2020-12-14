@@ -4,7 +4,7 @@
       <v-row class="item-contain">
         <v-col cols="12" md="5" class="img">
           <v-img
-            :src="`http://localhost:3000/product/${product.productimg}`"
+            :src="`http://maims.cmtc.ac.th/product/${product.productimg}`"
             height="300"
           />
         </v-col>
@@ -359,7 +359,7 @@ export default {
   }
   .inner1 {
     background-color: #fff;
-    margin-top: 25px;
+    margin: 25px 0px;
     padding: 15px;
     .details {
       background-color: #fafafa;

@@ -1,101 +1,104 @@
 <template>
- <v-card-title>
-        <div class="haderpeng">
-            <span>รห้สซีเรียล</span><br>
-            <span class="subtitle">จัดการรห้สซีเรียลเพื่อไม่ให้สบสนในการจำรห้สซีเรียล</span>
-        </div>
-        <v-row class="edit">
-            <v-col
-            cols="12"
-            class="addbank"
+  <v-card-title>
+    <div class="haderpeng">
+      <span>ที่อยู่ของฉัน </span><br />
+    </div>
+    <v-row class="edit">
+      <v-col cols="12" class="addbank">
+        <v-btn medium color="primary" @click="dialog = true">
+          <v-icon size="18px" color="#ffffff"> mdi-plus </v-icon>
+          เพิ่มที่อยู่
+        </v-btn>
+      </v-col>
+      <div class="haderpeng" v-for="serial in address" :key="serial.id">
+        <v-card class="my-5 pa-3 showserial">
+          <v-col cols="12" md="9">
+            <div class="data">
+              <label for="">ชื่อ: {{serial.fullName}}</label><br />
+              <label for="">ที่อยู่: {{serial.streetAddress}}</label> <br/>
+              <label for="">จังหวัด {{serial.province}}</label> <br/>
+              <label for="">อำเภอ {{serial.district}} </label> <br/>
+              <label for="">รหัสไปรษณีย์ {{serial.zipCode}}</label>
+            </div>
+          </v-col>
+          <v-col cols="12" md="3" class="active">
+            <v-icon @click="editItem(serial)" color="#FFBB29"
+              >mdi-pencil</v-icon
             >
-                <v-btn
-                medium
-                color="primary"
-                @click="dialog = true"
-                >
-                <v-icon
-                    size="18px"
-                    color="#ffffff"
-                >
-                    mdi-plus
-                </v-icon>
-                เพิ่มรห้สซีเรียล
-                </v-btn>
-            </v-col>
-            <div class="haderpeng" v-for="serial in dd" :key="serial.id" >
-            <v-card class="my-5  pa-3 showserial ">
-                <v-col cols="12" md="9">
-                    <div class="data">
-                        <label for="">ชื่อ: {{}}</label><br>
-                        <label for="">รห้สเครื่อง: {{}}</label>
-                    </div>
-                </v-col>
-                <v-col cols="12" md="3" class="active">
-                    <v-icon @click="editItem(serial)" color="#FFBB29" >mdi-pencil</v-icon>
-                    <v-icon @click="del(serial)" color="#FF6347" >mdi-delete</v-icon>
-                </v-col>
-            </v-card>
-          </div>
-            <v-dialog
-                v-model="dialog"
-                max-width="450"
-            >
-            <v-card>
-                <div class="add">
-                    <v-card-title class="headline">
-                        <span>{{ formTitle }}</span>
-                    </v-card-title>
-                    <v-card-text>
-                            <v-container>
-                            <v-form
-                                ref="form"
-                                @submit.prevent="save"
-                            >       
-                                <v-text-field
-          
-                                    label="ชื่่อเครื่่อง"
-                                    :rules="[rules.name]"
-                                    required
-                                    prepend-icon="mdi-tree"
-                                ></v-text-field>
-                                <v-text-field
-                                
-                                    label="รห้สซีเรียล"
-                                    type="text"
-                                    :rules="[rules.serial]"
-                                    required
-                                    prepend-icon="mdi-cash"
-                                    :disabled="this.editedIndex > -1 ? true : false "
-                                ></v-text-field>
-                                    <v-col
-                                        cols="12"
-                                        align="center"
-                                    >
-                                    <v-btn
-                                        depressed
-                                        color="success"
-                                        type="submit"
-                                    >
-                                        บันทึกข้อมูล
-                                    </v-btn>
+            <v-icon @click="del(serial)" color="#FF6347">mdi-delete</v-icon>
+          </v-col>
+        </v-card>
+      </div>
+      <v-dialog v-model="dialog" max-width="450">
+        <v-card>
+          <div class="add">
+            <v-card-title class="headline">
+              <span>{{ formTitle }}</span>
+            </v-card-title>
+            <v-card-text>
+              <v-container>
+                <v-form ref="form" @submit.prevent="save">
+                  <v-text-field
+                    label="ชื่อ-นามสกุล"
+                    :rules="[rules.name]"
+                    required
+                    prepend-icon="mdi-tree"
+                    v-model="addressForm.fullName"
+                  ></v-text-field>
+                  <v-text-field
+                    label="หมายเลขโทรศัพท์"
+                    type="text"
+                    :rules="[rules.serial]"
+                    required
+                    prepend-icon="mdi-cash"
+                    v-model="addressForm.phoneNumber"
+                    :disabled="this.editedIndex > -1 ? true : false"
+                  ></v-text-field>
+                  <v-text-field
+                    label="จังหวัด"
+                    :rules="[rules.name]"
+                    required
+                    prepend-icon="mdi-tree"
+                    v-model="addressForm.province"
+                  ></v-text-field>
+                  <v-text-field
+                    label="เขต/อำเภอ"
+                    :rules="[rules.name]"
+                    required
+                    prepend-icon="mdi-tree"
+                    v-model="addressForm.district"
+                  ></v-text-field>
+                  <v-text-field
+                    label="รห้สไปรษณีย์"
+                    :rules="[rules.name]"
+                    required
+                    prepend-icon="mdi-tree"
+                    v-model="addressForm.zipCode"
+                  ></v-text-field>
+                  <v-text-field
+                    label="อาคาร, ถนน และอื่นๆ"
+                    :rules="[rules.name]"
+                    required
+                    prepend-icon="mdi-tree"
+                    v-model="addressForm.streetAddress"
+                  ></v-text-field>
+                  <v-col cols="12" align="center">
+                    <v-btn depressed color="success" type="submit">
+                      บันทึกข้อมูล
+                    </v-btn>
 
-                                    <v-btn
-                                        depressed
-                                        color="error"
-                                        @click="close"
-                                    >
-                                        ย้อนกลับ
-                                    </v-btn>
-                                    </v-col>
-                            </v-form>
-                            </v-container>
-                    </v-card-text>
-                </div>
-            </v-card>
-            </v-dialog>
-        </v-row>
-        </v-card-title>
+                    <v-btn depressed color="#cb6259" @click="closeDelete()">
+                      ย้อนกลับ
+                    </v-btn>
+                  </v-col>
+                </v-form>
+              </v-container>
+            </v-card-text>
+          </div>
+        </v-card>
+      </v-dialog>
+    </v-row>
+  </v-card-title>
 </template>
 
 <script>
@@ -105,9 +108,9 @@ export default {
   data: () => ({
     dialogDelete: false,
     rules: {
-          name: v => !!v || 'กรุณาใส่ชื่อเครื่่อง',
-          serial: v => !!v || 'กรุณาใส่รห้สซีเรียล'
-      },
+      name: (v) => !!v || 'กรุณาใส่ชื่อเครื่่อง',
+      serial: (v) => !!v || 'กรุณาใส่รห้สซีเรียล',
+    },
     AddEdit: '',
     addressForm: {
       fullName: '',
@@ -154,16 +157,13 @@ export default {
       }
       // this.$axios.setHeader('Authorization', this.$auth.getToken('local'))
       let response = await $axios.get(
-        'http://localhost:3000/api/customer/address',
+        'http://maims.cmtc.ac.th/api/customer/address',
         config
       )
       const [addressResponse] = await Promise.all([response])
       console.log('datafrom order', addressResponse.data)
-      if (!addressResponse.data.success) {
-        return { loading: false }
-      }
       if (addressResponse.data.success) {
-        return { address: addressResponse.data.address, loading: false }
+        return { address: addressResponse.data.address }
       }
     } catch (err) {
       console.log(err)
@@ -192,7 +192,8 @@ export default {
       }
       try {
         let onSetDefault = await Axios.put(
-          `http://localhost:3000/api/customer/address/set/${item.id}/default`,'',
+          `http://maims.cmtc.ac.th/api/customer/address/set/${item.id}/default`,
+          '',
           config
         )
         if (onSetDefault.data.success) {
@@ -217,7 +218,7 @@ export default {
       }
       try {
         let deleteAddress = await Axios.delete(
-          `http://localhost:3000/api/customer/address/${this.addressForm.id}`,
+          `http://maims.cmtc.ac.th/api/customer/address/${this.addressForm.id}`,
           config
         )
         if (deleteAddress.data.success) {
@@ -261,7 +262,7 @@ export default {
       if (this.editedIndex > -1) {
         try {
           let response = await Axios.put(
-            `http://localhost:3000/api/customer/address/${this.addressForm.id}`,
+            `http://maims.cmtc.ac.th/api/customer/address/${this.addressForm.id}`,
             {
               fullName: this.addressForm.fullName,
               district: this.addressForm.district,
@@ -299,7 +300,7 @@ export default {
       } else {
         try {
           let response = await Axios.post(
-            'http://localhost:3000/api/customer/address',
+            'http://maims.cmtc.ac.th/api/customer/address',
             this.addressForm,
             config
           )
@@ -340,76 +341,147 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-    .haderpeng{
-      padding: 15px;
-      border-bottom: 1px solid rgba(0, 0, 0, 0.11);
-      width: 100%;
+.haderpeng {
+  padding: 15px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.11);
+  width: 100%;
 
-        .subtitle{
-          font-size: 1rem;
-        }
-        .showserial{
-            display: flex;
-            justify-content: space-between;
-            flex-wrap: wrap;
+  .subtitle {
+    font-size: 1rem;
+  }
+  .showserial {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
 
-            .active{
-                display: flex;
-                align-content: center;
-                justify-content: center;
+    .active {
+      display: flex;
+      align-content: center;
+      justify-content: center;
 
-                button{
-                    margin-left: 30px;
-                    font-size: 22px;
-                    opacity: 0.8;
-                }
-                button:hover{
-                    opacity: 1;
-                    margin-left: 30px;
-                    font-size: 22px;
-                }
-            }
-        }
+      button {
+        margin-left: 30px;
+        font-size: 22px;
+        opacity: 0.8;
+      }
+      button:hover {
+        opacity: 1;
+        margin-left: 30px;
+        font-size: 22px;
+      }
     }
+  }
+}
 
-    .edit{
-      margin: 20px auto;
-      font-size: 14px;
+.edit {
+  margin: 20px auto;
+  font-size: 14px;
 
-      .addbank{
-            display: flex;
-            justify-content: flex-end;
+  .addbank {
+    display: flex;
+    justify-content: flex-end;
 
-            button{
-                margin: 0px !important;
-            }
-        }
-
-      .col-12 {
-         text-align: left;
-      } 
-
-      .col-md-3{
-        text-align: right;
-      }
-      .haderlist{
-        color: #868686;
-        font-size: 14px;
-      }
-
-      .v-input{
-        height: 100%;
-        font-size: 14px;
-      }
-
-      .v-text-field {
-        padding: 0;
-        margin: 0;
-      }
-
-    .col-xl, .col-xl-auto, .col-xl-12, .col-xl-11, .col-xl-10, .col-xl-9, .col-xl-8, .col-xl-7, .col-xl-6, .col-xl-5, .col-xl-4, .col-xl-3, .col-xl-2, .col-xl-1, .col-lg, .col-lg-auto, .col-lg-12, .col-lg-11, .col-lg-10, .col-lg-9, .col-lg-8, .col-lg-7, .col-lg-6, .col-lg-5, .col-lg-4, .col-lg-3, .col-lg-2, .col-lg-1, .col-md, .col-md-auto, .col-md-12, .col-md-11, .col-md-10, .col-md-9, .col-md-8, .col-md-7, .col-md-6, .col-md-5, .col-md-4, .col-md-3, .col-md-2, .col-md-1, .col-sm, .col-sm-auto, .col-sm-12, .col-sm-11, .col-sm-10, .col-sm-9, .col-sm-8, .col-sm-7, .col-sm-6, .col-sm-5, .col-sm-4, .col-sm-3, .col-sm-2, .col-sm-1, .col, .col-auto, .col-12, .col-11, .col-10, .col-9, .col-8, .col-7, .col-6, .col-5, .col-4, .col-3, .col-2, .col-1{
-      padding: 0px !important;
-        }
+    button {
+      margin: 0px !important;
     }
+  }
 
-</style> 
+  .col-12 {
+    text-align: left;
+  }
+
+  .col-md-3 {
+    text-align: right;
+  }
+  .haderlist {
+    color: #868686;
+    font-size: 14px;
+  }
+
+  .v-input {
+    height: 100%;
+    font-size: 14px;
+  }
+
+  .v-text-field {
+    padding: 0;
+    margin: 0;
+  }
+
+  .col-xl,
+  .col-xl-auto,
+  .col-xl-12,
+  .col-xl-11,
+  .col-xl-10,
+  .col-xl-9,
+  .col-xl-8,
+  .col-xl-7,
+  .col-xl-6,
+  .col-xl-5,
+  .col-xl-4,
+  .col-xl-3,
+  .col-xl-2,
+  .col-xl-1,
+  .col-lg,
+  .col-lg-auto,
+  .col-lg-12,
+  .col-lg-11,
+  .col-lg-10,
+  .col-lg-9,
+  .col-lg-8,
+  .col-lg-7,
+  .col-lg-6,
+  .col-lg-5,
+  .col-lg-4,
+  .col-lg-3,
+  .col-lg-2,
+  .col-lg-1,
+  .col-md,
+  .col-md-auto,
+  .col-md-12,
+  .col-md-11,
+  .col-md-10,
+  .col-md-9,
+  .col-md-8,
+  .col-md-7,
+  .col-md-6,
+  .col-md-5,
+  .col-md-4,
+  .col-md-3,
+  .col-md-2,
+  .col-md-1,
+  .col-sm,
+  .col-sm-auto,
+  .col-sm-12,
+  .col-sm-11,
+  .col-sm-10,
+  .col-sm-9,
+  .col-sm-8,
+  .col-sm-7,
+  .col-sm-6,
+  .col-sm-5,
+  .col-sm-4,
+  .col-sm-3,
+  .col-sm-2,
+  .col-sm-1,
+  .col,
+  .col-auto,
+  .col-12,
+  .col-11,
+  .col-10,
+  .col-9,
+  .col-8,
+  .col-7,
+  .col-6,
+  .col-5,
+  .col-4,
+  .col-3,
+  .col-2,
+  .col-1 {
+    padding: 0px !important;
+  }
+}
+  .v-form{
+    width: 100% !important;
+  }
+</style>

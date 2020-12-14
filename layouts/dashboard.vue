@@ -3,7 +3,7 @@
     <AppNav />
     <div class="container content">
       <v-row>
-        <v-col cols="3">
+        <v-col cols="12" md="2" >
           <core-drawer />
         </v-col>
         <v-col>

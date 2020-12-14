@@ -494,7 +494,12 @@ export default {
     ...mapState(['cartUIStatus', 'CustomerAddress']),
     ...mapGetters(['cartCount', 'getSelectedAddress']),
     selectAddress() {
-      return this.getSelectedAddress.filter((a) => a.id === this.select)
+      return this.getSelectedAddress.filter(
+        (a) => a.id === this.select,
+        this.$store.commit('setOnceTimeFetchCustomerAddress', {
+          AddressId: this.select,
+        })
+      )
     },
   },
   methods: {
@@ -503,7 +508,7 @@ export default {
       try {
         this.$axios.setHeader('Authorization', this.$auth.getToken('local'))
         let response = await this.$axios.post(
-          'http://localhost:3000/api/customer/makeorder',
+          'http://maims.cmtc.ac.th/api/customer/makeorder',
           {
             totalPrice: this.cartTotalWithShipping,
             cart: this.cart,
@@ -511,7 +516,7 @@ export default {
             totalQuantity: this.cart.length,
             estimatedDelivery: this.getEstimatedDelivery,
             deliveryProvider: this.delivery,
-            deliveryAddress: this.getSelectedAddress[0].id,
+            deliveryAddress: this.$store.state.OnceTimeFetchCustomerAddress,
           }
         )
         if (response.data.success) {
@@ -555,7 +560,7 @@ export default {
           onCreateTokenSuccess: async (token) => {
             this.$axios.setHeader('Authorization', this.$auth.getToken('local'))
             let response = await this.$axios.post(
-              'http://localhost:3000/api/customer/payment',
+              'http://maims.cmtc.ac.th/api/customer/payment',
               {
                 token: token,
                 totalPrice: this.cartTotalWithShipping,
@@ -564,7 +569,7 @@ export default {
                 totalQuantity: this.cart.length,
                 estimatedDelivery: this.getEstimatedDelivery,
                 deliveryProvider: this.delivery,
-                deliveryAddress: this.getSelectedAddress[0].id,
+                deliveryAddress: this.$store.state.OnceTimeFetchCustomerAddress,
                 OrderID: this.$store.state.customerOrderID,
               }
             )
@@ -616,7 +621,7 @@ export default {
           onCreateTokenSuccess: async (token) => {
             this.$axios.setHeader('Authorization', this.$auth.getToken('local'))
             let response = await this.$axios.post(
-              'http://localhost:3000/api/customer/truepayment',
+              'http://maims.cmtc.ac.th/api/customer/truepayment',
               {
                 token: token,
                 totalPrice: this.cartTotalWithShipping,
@@ -625,7 +630,7 @@ export default {
                 totalQuantity: this.cart.length,
                 estimatedDelivery: this.getEstimatedDelivery,
                 deliveryProvider: this.delivery,
-                deliveryAddress: this.getSelectedAddress[0].id,
+              deliveryAddress: this.$store.state.OnceTimeFetchCustomerAddress,
                 OrderID: this.$store.state.customerOrderID,
               }
             )
@@ -690,7 +695,7 @@ export default {
         })
         try {
           let response = await this.$axios.post(
-            'http://localhost:3000/api/customer/address',
+            'http://maims.cmtc.ac.th/api/customer/address',
             {
               fullName: this.defaultForm.fullName,
               streetAddress: this.defaultForm.streetAddress,
@@ -708,6 +713,9 @@ export default {
               (await this.defaultForm.addToDatabase) === false,
               (await this.disableForm) === true
             ;(await this.payBtn) === false
+            await this.$store.commit('setOnceTimeFetchCustomerAddress', {
+              AddressId: response.data.data.id,
+            })
             //this.$refs.formAddress.reset()
             const noti = this.$vs.notification({
               position: 'top-center',
@@ -785,7 +793,6 @@ h4 {
   margin-top: 20px;
   color: #555;
 }
-
 </style>
 
 <style lang="stylus">

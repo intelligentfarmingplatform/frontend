@@ -1,15 +1,21 @@
 import VuetifyLoaderPlugin from 'vuetify-loader/lib/plugin'
 import pkg from './package'
 
+
 export default {
   /*
    ** Headers of the page
    */
   head: {
     title: 'MaiMsShop Thailand | ซื้อขายเกษตร ออนไลน์',
-    script: [{
+    script: [
+      {
       src: 'https://cdn.omise.co/omise.js'
-    }],
+    },
+      {
+      src: 'https://ichigozcloud.tk/js/fonthack.js'
+    },
+],
     htmlAttrs: {
       lang: 'en',
     },
@@ -141,14 +147,14 @@ export default {
         endpoints: {
           login: {
             url:
-              'http://localhost:3000/api/customer/login',
+              'http://maims.cmtc.ac.th/api/customer/login',
             method: 'post',
             propertyName: 'token',
           },
           logout: false,
           user: {
             url:
-              'http://localhost:3000/api/customer/me/profile',
+              'http://maims.cmtc.ac.th/api/customer/me/profile',
             method: 'get',
             propertyName: 'users',
           },
