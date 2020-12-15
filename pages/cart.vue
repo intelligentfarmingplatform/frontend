@@ -40,13 +40,13 @@ export default {
           },
         }
         let response2 = await $axios.get(
-          'http://maims.cmtc.ac.th/api/customer/address',
+          'http://maims.cmtc.ac.th:3000/api/customer/address',
           config
         )
       }
 
       let response = await $axios.post(
-        'http://maims.cmtc.ac.th/api/customer/shipment',
+        'http://maims.cmtc.ac.th:3000/api/customer/shipment',
         {
           shipment: 'normal',
         }

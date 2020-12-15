@@ -57,7 +57,7 @@ export default {
 
   async fetch() {
     await axios
-      .get('http://maims.cmtc.ac.th/api/sellproducts/show')
+      .get('http://maims.cmtc.ac.th:3000/api/sellproducts/show')
       .then((response) => {
         this.featuredProducts = response.data.data
         console.log(this.featuredProducts)

@@ -61,7 +61,7 @@
               <template #img>
                 <nuxt-link :to="`product/${item.id}`">
                 <img
-                  :src="`http://maims.cmtc.ac.th/product/${item.productimg}`"
+                  :src="`http://maims.cmtc.ac.th:3000/product/${item.productimg}`"
                 />
                 </nuxt-link>
               </template>

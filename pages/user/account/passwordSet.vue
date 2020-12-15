@@ -91,7 +91,7 @@ export default {
         }
         // this.$axios.setHeader('Authorization', this.$auth.getToken('local'))
         let response = await this.$axios.put(
-          'http://maims.cmtc.ac.th/api/customer',
+          'http://maims.cmtc.ac.th:3000/api/customer',
           { password: this.changepassword.confirmpassword },
           config
         )

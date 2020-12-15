@@ -4,7 +4,7 @@
       <v-row class="item-contain">
         <v-col cols="12" md="5" class="img">
           <v-img
-            :src="`http://maims.cmtc.ac.th/product/${product.productimg}`"
+            :src="`http://maims.cmtc.ac.th:3000/product/${product.productimg}`"
             height="300"
           />
         </v-col>

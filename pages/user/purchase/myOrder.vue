@@ -86,7 +86,7 @@ export default {
       }
       // this.$axios.setHeader('Authorization', this.$auth.getToken('local'))
       let response = await $axios.get(
-        'http://maims.cmtc.ac.th/api/customer/orders',
+        'http://maims.cmtc.ac.th:3000/api/customer/orders',
         config
       )
 

@@ -45,7 +45,7 @@ export default {
     //   this.$axios.setHeader('Authorization', this.$auth.getToken('local'))
     //   let token = await this.stripe.createToken(this.card)
     //   let response = await this.$axios.post(
-    //     'http://maims.cmtc.ac.th/api/customer/payment',
+    //     'http://maims.cmtc.ac.th:3000/api/customer/payment',
     //     {
     //       token: token,
     //       totalPrice: this.cartTotalWithShipping,
@@ -67,7 +67,7 @@ export default {
     // }
     // },
     async onChooseShipping() {
-      await Axios.post('http://maims.cmtc.ac.th/api/customer/shipment', {
+      await Axios.post('http://maims.cmtc.ac.th:3000/api/customer/shipment', {
         shipment: this.delivery,
       })
         .then((response) => {
